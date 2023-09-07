@@ -1,3 +1,18 @@
+<script>
+
+function handleAlternativeSend(correct){
+  var selectedOption = document.querySelector('input[name="alternative"]:checked');
+  var c = correct.getAttribute('data-correct-alternative');
+  if (selectedOption.value != c) {
+    console.log("Incorrecta")
+  }
+  else{
+    console.log("Correcta")
+  }
+}
+
+</script>
+
 <div style="display: flex; flex-direction: column; margin-top: 50px; margin-left: 200px;">
   <div>
     <div style= "display: flex;"> 
@@ -35,8 +50,9 @@
           </label>
         </div>
         <div style="margin-top: 20px; margin-left: 20px;">
-          <button style="margin-left: 450px; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit">Enviar</button>
+          <button style="margin-left: 450px; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" data-correct-alternative="<%= @alternative_question.correct_alternative %>" onclick={handleAlternativeSend(this)} >Enviar</button>
         </div>
     </div>
   </div>
 </div>
+
