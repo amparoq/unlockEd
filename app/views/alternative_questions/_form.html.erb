@@ -1,0 +1,17 @@
+<%= form_with(model: alternative_question) do |form| %>
+  <% if alternative_question.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(alternative_question.errors.count, "error") %> prohibited this alternative_question from being saved:</h2>
+
+      <ul>
+        <% alternative_question.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

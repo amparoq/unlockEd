@@ -1,0 +1,42 @@
+<div style="display: flex; flex-direction: column; margin-top: 50px; margin-left: 200px;">
+  <div>
+    <div style= "display: flex;"> 
+      <h3 style="margin-right: 15px;">Tarea</h3> 
+      <h3><%= @task.number %></h3> 
+      <h5 style= "margin-top: 5px; margin-left: 20px;">Simple</h5> 
+    </div>
+    <div style="background-color: white; width: 1050px; height: 400px; border: 2px solid #dbdbdb">
+        <div style="background-color: #dbdbdb; height: 30px;">
+          <span style="margin-left: 18px; font-size: 20px;">Pregunta <%= @alternative_question.join_user_alternative_questions.first.order_number %></span>
+          <span style="font-size: 16px; margin-left: 895px;">(<%= @alternative_question.join_user_alternative_questions.first.order_number %>/<%= @total_questions %>)</span>        </div>
+        <div style= "margin-top: 20px; margin-left: 20px; margin-right: 20px;">
+          <span style="font-size: 21px;"><%= @alternative_question.question %></span>
+        </div>
+        <hr style="margin: 0; border: 1.5px solid #dbdbdb; margin-top: 10px; margin-left: 30px; margin-right: 40px;">
+        <div style="margin-top: 20px; margin-left: 20px;">
+          <label for="alternative_a">
+            <input type="radio" id="alternative_a" name="alternative" value="A">
+            A)
+            <%= @alternative_question.alternative_a %>
+          </label>
+        </div>
+        <div style="margin-top: 20px; margin-left: 20px;">
+          <label for="alternative_b">
+            <input type="radio" id="alternative_b" name="alternative" value="B">
+            B)
+            <%= @alternative_question.alternative_b %>
+          </label>
+        </div>
+        <div style="margin-top: 20px; margin-left: 20px;">
+          <label for="alternative_c">
+            <input type="radio" id="alternative_c" name="alternative" value="C">
+            C)
+            <%= @alternative_question.alternative_c %>
+          </label>
+        </div>
+        <div style="margin-top: 20px; margin-left: 20px;">
+          <button style="margin-left: 450px; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit">Enviar</button>
+        </div>
+    </div>
+  </div>
+</div>
