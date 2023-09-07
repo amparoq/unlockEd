@@ -75,3 +75,6 @@ gem "cssbundling-rails", "~> 1.2"
 
 
 gem 'devise'
+
+gem 'rails-ujs'
+
