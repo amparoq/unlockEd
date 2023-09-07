@@ -10,6 +10,7 @@ class AlternativeQuestionsController < ApplicationController
   def show
     @task= Task.find(@alternative_question.join_user_alternative_questions.first.task_id)
     @total_questions = @task.join_user_alternative_questions.count + 1
+    @next_question= @alternative_question.join_user_alternative_questions.first.order_number + 1
   end
 
   # GET /alternative_questions/new
