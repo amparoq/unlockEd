@@ -35,3 +35,10 @@ alternative_c_answer: "", correct_alternative: "B")
 j1= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 1, user_id: u1.id, task_id: task1.id, alternative_question_id: aq1.id)
 j2= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 2, user_id: u1.id, task_id: task1.id, alternative_question_id: aq2.id)
 j3= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 3, user_id: u1.id, task_id: task1.id, alternative_question_id: aq3.id)
+
+p1 = Template.create(difficulty: 2, module: "PVT", question: "Un calorímetro de cobre con masa de {{masa_calorimetro}} contiene {{masa_hielo}} de hielo. El sistema está inicialmente a {{temp_hielo}} Si al calorímetro se le agregan {{masa_vapor}} de vapor a {{temp_vapor}}: Calcule la temperatura final de equilibrio del calorímetro
+CCu = 0.390[kJ/kg · K]; Cagua = 4.18[kJ/kg · K]; Lv = 2260[kJ/kg]; Lfhielo = 334[kJ/kg]")
+
+
+ge = Template.generate_question(p1.question)
+puts ge

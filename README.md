@@ -102,3 +102,8 @@ rails generate devise:install
 
 rails generate devise User
 
+
+
+IDEAS:
+
+Poner una nota que diga que asuma la temp de equilibrio como 0C si no todo el hielo se derrite, como 100C si no todo el vapor se condensa, etc.
