@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_021635) do
     t.string "alternative_b_answer"
     t.string "alternative_c_answer"
     t.string "correct_alternative"
+    t.integer "error_counter", default: -1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -67,6 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_021635) do
   create_table "tasks", force: :cascade do |t|
     t.integer "number"
     t.integer "status"
+    t.integer "correct_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false

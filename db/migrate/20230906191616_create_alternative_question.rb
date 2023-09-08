@@ -11,6 +11,7 @@ class CreateAlternativeQuestion < ActiveRecord::Migration[7.0]
       t.string :alternative_b_answer
       t.string :alternative_c_answer
       t.string :correct_alternative
+      t.integer :error_counter, default: -1
 
       t.timestamps
     end

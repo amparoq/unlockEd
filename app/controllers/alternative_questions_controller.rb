@@ -8,27 +8,23 @@ class AlternativeQuestionsController < ApplicationController
 
   # GET /alternative_questions/1 or /alternative_questions/1.json
   def show
-    puts "ACAAAA"
-    if params[:error_counter]
-      new_error_counter = params[:error_counter].to_i
-      @errorCounter = new_error_counter
-    end
     @task= Task.find(@alternative_question.join_user_alternative_questions.first.task_id)
     @total_questions = @task.join_user_alternative_questions.count + 1
     @next_question= @alternative_question.join_user_alternative_questions.first.order_number + 1
-    @errorCounter = -1
   end
 
   def update_error_counter
 
-    puts params
     new_error_counter = params[:error_counter].to_i
 
-    @errorCounter = new_error_counter
+    task = Task.find(params[:task_id])
+    alternative = AlternativeQuestion.find(params[:id])
 
-    puts @errorCounter
+    alternative.error_counter = new_error_counter
+    alternative.save
+    
     respond_to do |format|
-      format.json { render json: { success: true } }
+      format.js {render inline: "location.reload();" }
     end
   end
 

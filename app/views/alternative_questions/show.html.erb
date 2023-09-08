@@ -1,11 +1,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 
-  var errorCounter = -1;
-
-  function handleAlternativeSend(correct){
+  function handleSend(correct) {
     var selectedOption = document.querySelector('input[name="alternative"]:checked');
     var c = correct.getAttribute('data-correct-alternative');
+    var errorCounter = <%= @alternative_question.error_counter %>
     if (selectedOption.value != c) {
       if (errorCounter === -1){
         errorCounter = 1;
@@ -19,9 +19,9 @@
     }
     var csrfToken = document.querySelector("meta[name=csrf-token]").content;
     $.ajax({
-      type: "GET",
-      url: url: "/alternative_questions/<%= @alternative_question.id %>",
-      data: { error_counter: errorCounter },
+      type: "POST",
+      url: "/update_error_counter",
+      data: { id: <%= @alternative_question.id %>, error_counter: errorCounter, task_id: <%= @task.id %> },
       headers: {
         "X-CSRF-Token": csrfToken
       }
@@ -66,19 +66,18 @@
             C)
             <%= @alternative_question.alternative_c %>
           </label>
+        </div>
         <meta name="csrf-token" content="<%= form_authenticity_token %>" />
-        </div>
+        <%= @alternative_question.error_counter %>
         <div style="margin-top: 20px; margin-left: 20px;">
-          <button style="margin-left: 450px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" data-correct-alternative="<%= @alternative_question.correct_alternative %>" onclick={handleAlternativeSend(this)} >Enviar</button>
+          <button type="submit" data-correct-alternative="<%= @alternative_question.correct_alternative %>" data-alternative-id="<%= @alternative_question.id %>" onclick= "handleSend(this)" >Enviar </button>
         </div>
-        <%= @errorCounter %>
-        <% if @errorCounter == 0 || @errorCounter == 2 %>
-          <a href="<%= task_alternative_question_path(@task, @next_question) %>" style= "margin-left: 450px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" data-correct-alternative="<%= @alternative_question.correct_alternative %>" >Continuar</a>
+        <% if @alternative_question.error_counter == 0 || @alternative_question.error_counter == 2 %>
+          <a href="<%= task_alternative_question_path(@task, @next_question) %>" style= "margin-left: 450px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" >Continuar</a>
         <% end %>
-        <% if @errorCounter == 1 %>
+        <% if @alternative_question.error_counter == 1 %>
           <span style="margin-left: 450px; color: #888;">No puedes continuar debido a errores previos.</span>
         <% end %>
     </div>
   </div>
 </div>
-
