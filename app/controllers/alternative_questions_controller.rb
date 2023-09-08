@@ -20,6 +20,10 @@ class AlternativeQuestionsController < ApplicationController
     task = Task.find(params[:task_id])
     alternative = AlternativeQuestion.find(params[:id])
 
+    if new_error_counter == 0
+      task.correct_count = task.correct_count + 1
+    end
+
     alternative.error_counter = new_error_counter
 
     if params[:wrong_one] == "A"

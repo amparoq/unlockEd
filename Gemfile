@@ -78,3 +78,6 @@ gem 'devise'
 
 gem 'rails-ujs'
 
+gem 'mechanize'
+
+gem 'chartkick', '~> 5.0', '>= 5.0.4'

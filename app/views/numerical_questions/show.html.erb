@@ -1,0 +1,14 @@
+<% require 'chartkick' %>
+
+<p style="color: green"><%= notice %></p>
+
+<%= render @numerical_question %>
+
+<%= @enunciado %>
+
+<div>
+  <%= link_to "Edit this numerical question", edit_numerical_question_path(@numerical_question) %> |
+  <%= link_to "Back to numerical questions", numerical_questions_path %>
+
+  <%= button_to "Destroy this numerical question", @numerical_question, method: :delete %>
+</div>

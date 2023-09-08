@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Numerical questions</h1>
+
+<div id="numerical_questions">
+  <% @numerical_questions.each do |numerical_question| %>
+    <%= render numerical_question %>
+    <p>
+      <%= link_to "Show this numerical question", numerical_question %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New numerical question", new_numerical_question_path %>

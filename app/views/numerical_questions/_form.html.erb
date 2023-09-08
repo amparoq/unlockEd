@@ -1,0 +1,17 @@
+<%= form_with(model: numerical_question) do |form| %>
+  <% if numerical_question.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(numerical_question.errors.count, "error") %> prohibited this numerical_question from being saved:</h2>
+
+      <ul>
+        <% numerical_question.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
