@@ -21,6 +21,17 @@ class AlternativeQuestionsController < ApplicationController
     alternative = AlternativeQuestion.find(params[:id])
 
     alternative.error_counter = new_error_counter
+
+    if params[:wrong_one] == "A"
+      alternative.answer_a_show = true
+    end
+    if params[:wrong_one] == "B"
+      alternative.answer_b_show = true
+    end
+    if params[:wrong_one] == "C"
+      alternative.answer_c_show = true
+    end
+
     alternative.save
     
     respond_to do |format|

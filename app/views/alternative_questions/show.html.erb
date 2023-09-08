@@ -13,22 +13,38 @@
       else{
         errorCounter = 2;
       }
+      var wrong_one = selectedOption.value
     }
     else{
       errorCounter = 0;
+      var wrong_one = "none"
     }
     var csrfToken = document.querySelector("meta[name=csrf-token]").content;
     $.ajax({
       type: "POST",
       url: "/update_error_counter",
-      data: { id: <%= @alternative_question.id %>, error_counter: errorCounter, task_id: <%= @task.id %> },
+      data: { id: <%= @alternative_question.id %>, error_counter: errorCounter, task_id: <%= @task.id %>, wrong_one: wrong_one },
       headers: {
         "X-CSRF-Token": csrfToken
       }
     });
   }
-
 </script>
+
+<style>
+
+  .send-button {
+    position: relative;
+    bottom: 20px;
+    right: 20px; 
+  }
+
+  .continue-button {
+    position: relative;
+    bottom: 20px; 
+    right: 150px; 
+  }
+</style>
 
 <div style="display: flex; flex-direction: column; margin-top: 50px; margin-left: 200px;">
   <div>
@@ -37,8 +53,8 @@
       <h3><%= @task.number %></h3> 
       <h5 style= "margin-top: 5px; margin-left: 20px;">Simple</h5> 
     </div>
-    <div style="background-color: white; width: 1050px; height: 400px; border: 2px solid #dbdbdb">
-        <div style="background-color: #dbdbdb; height: 30px;">
+    <div style="background-color: white; width: 1050px; border: 2px solid #dbdbdb">
+        <div style="background-color: #dbdbdb; height: 30px; display: flex">
           <span style="margin-left: 18px; font-size: 20px;">Pregunta <%= @alternative_question.join_user_alternative_questions.first.order_number %></span>
           <span style="font-size: 16px; margin-left: 895px;">(<%= @alternative_question.join_user_alternative_questions.first.order_number %>/<%= @total_questions %>)</span>        
         </div>
@@ -48,35 +64,69 @@
         <hr style="margin: 0; border: 1.5px solid #dbdbdb; margin-top: 10px; margin-left: 30px; margin-right: 40px;">
         <div style="margin-top: 20px; margin-left: 20px;">
           <label for="alternative_a">
-            <input type="radio" id="alternative_a" name="alternative" value="A">
-            A)
-            <%= @alternative_question.alternative_a %>
+          <% if @alternative_question.answer_a_show %>
+          <input type="radio" id="alternative_a" name="alternative" value="A" disabled>
+          A)
+          <%= @alternative_question.alternative_a %>
+        <% else %>
+          <input type="radio" id="alternative_a" name="alternative" value="A">
+          A)
+          <%= @alternative_question.alternative_a %>
+        <% end %>
           </label>
+          <% if @alternative_question.error_counter == 0 && @alternative_question.correct_alternative == "A" %>
+            <div class="alert alert-success" role="alert">¡Correcto, bien hecho!</div> 
+          <% end %>
+          <% if @alternative_question.answer_a_show %>
+            <div class="alert alert-danger" style = "margin-top: 5px; margin-bottom: 5px" role="alert"><b>¡Incorrecta!</b><br><%=@alternative_question.alternative_a_answer%></div>
+          <% end %>
         </div>
         <div style="margin-top: 20px; margin-left: 20px;">
           <label for="alternative_b">
-            <input type="radio" id="alternative_b" name="alternative" value="B">
-            B)
-            <%= @alternative_question.alternative_b %>
+          <% if @alternative_question.answer_b_show %>
+          <input type="radio" id="alternative_b" name="alternative" value="B" disabled>
+          B)
+          <%= @alternative_question.alternative_b %>
+        <% else %>
+          <input type="radio" id="alternative_b" name="alternative" value="B">
+          B)
+          <%= @alternative_question.alternative_b %>
+        <% end %>
           </label>
+          <% if @alternative_question.error_counter == 0 && @alternative_question.correct_alternative == "B" %>
+            <div class="alert alert-success" role="alert">¡Correcto, bien hecho!</div> 
+          <% end %>
+          <% if @alternative_question.answer_b_show %>
+            <div class="alert alert-danger" style = "margin-top: 5px; margin-bottom: 5px" role="alert"><b>¡Incorrecta!</b><br><%=@alternative_question.alternative_b_answer%></div>
+          <% end %>
         </div>
         <div style="margin-top: 20px; margin-left: 20px;">
           <label for="alternative_c">
-            <input type="radio" id="alternative_c" name="alternative" value="C">
-            C)
-            <%= @alternative_question.alternative_c %>
+            <% if @alternative_question.answer_c_show %>
+              <input type="radio" id="alternative_c" name="alternative" value="C" disabled>
+              C)
+              <%= @alternative_question.alternative_c %>
+            <% else %>
+              <input type="radio" id="alternative_c" name="alternative" value="C">
+              C)
+              <%= @alternative_question.alternative_c %>
+            <% end %>
           </label>
+          <% if @alternative_question.error_counter == 0 && @alternative_question.correct_alternative == "C" %>
+            <div class="alert alert-success" role="alert">¡Correcto, bien hecho!</div> 
+          <% end %>
+          <% if @alternative_question.answer_c_show %>
+            <div class="alert alert-danger" style = "margin-top: 5px; margin-bottom: 5px" role="alert"><b>¡Incorrecta!</b><br><%=@alternative_question.alternative_c_answer%></div>
+          <% end %>
         </div>
         <meta name="csrf-token" content="<%= form_authenticity_token %>" />
-        <%= @alternative_question.error_counter %>
-        <div style="margin-top: 20px; margin-left: 20px;">
-          <button type="submit" data-correct-alternative="<%= @alternative_question.correct_alternative %>" data-alternative-id="<%= @alternative_question.id %>" onclick= "handleSend(this)" >Enviar </button>
-        </div>
-        <% if @alternative_question.error_counter == 0 || @alternative_question.error_counter == 2 %>
-          <a href="<%= task_alternative_question_path(@task, @next_question) %>" style= "margin-left: 450px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" >Continuar</a>
+        <% if @alternative_question.error_counter == 1 || @alternative_question.error_counter == -1 %>
+          <div style="margin-top: 20px; margin-left: 20px;">
+            <button style="margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" data-correct-alternative="<%= @alternative_question.correct_alternative %>" data-alternative-id="<%= @alternative_question.id %>" onclick= "handleSend(this)" >Enviar</button>
+          </div>
         <% end %>
-        <% if @alternative_question.error_counter == 1 %>
-          <span style="margin-left: 450px; color: #888;">No puedes continuar debido a errores previos.</span>
+        <% if @alternative_question.error_counter == 0 || @alternative_question.error_counter == 2 %>
+          <a href="<%= task_alternative_question_path(@task, @next_question) %>" style= "margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" >Continuar</a>
         <% end %>
     </div>
   </div>
