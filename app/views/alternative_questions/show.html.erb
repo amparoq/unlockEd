@@ -75,7 +75,7 @@
         <% end %>
           </label>
           <% if @alternative_question.error_counter == 0 && @alternative_question.correct_alternative == "A" %>
-            <div class="alert alert-success" role="alert">¡Correcto, bien hecho!</div> 
+            <div class="alert alert-success" style = "margin-top: 5px; margin-bottom: 5px" role="alert">¡Correcto, bien hecho!</div> 
           <% end %>
           <% if @alternative_question.answer_a_show %>
             <div class="alert alert-danger" style = "margin-top: 5px; margin-bottom: 5px" role="alert"><b>¡Incorrecta!</b><br><%=@alternative_question.alternative_a_answer%></div>
@@ -94,7 +94,7 @@
         <% end %>
           </label>
           <% if @alternative_question.error_counter == 0 && @alternative_question.correct_alternative == "B" %>
-            <div class="alert alert-success" role="alert">¡Correcto, bien hecho!</div> 
+            <div class="alert alert-success" style = "margin-top: 5px; margin-bottom: 5px" role="alert">¡Correcto, bien hecho!</div> 
           <% end %>
           <% if @alternative_question.answer_b_show %>
             <div class="alert alert-danger" style = "margin-top: 5px; margin-bottom: 5px" role="alert"><b>¡Incorrecta!</b><br><%=@alternative_question.alternative_b_answer%></div>
@@ -113,7 +113,7 @@
             <% end %>
           </label>
           <% if @alternative_question.error_counter == 0 && @alternative_question.correct_alternative == "C" %>
-            <div class="alert alert-success" role="alert">¡Correcto, bien hecho!</div> 
+            <div class="alert alert-success" style = "margin-top: 5px; margin-bottom: 5px" role="alert">¡Correcto, bien hecho!</div> 
           <% end %>
           <% if @alternative_question.answer_c_show %>
             <div class="alert alert-danger" style = "margin-top: 5px; margin-bottom: 5px" role="alert"><b>¡Incorrecta!</b><br><%=@alternative_question.alternative_c_answer%></div>
