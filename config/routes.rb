@@ -3,13 +3,14 @@ Rails.application.routes.draw do
     resources :alternative_questions
     resources :numerical_questions
   end
-  devise_for :users
 
+  devise_for :users
+  
   resources :numerical_questions
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-   root "home#index"
-   post "/update_error_counter", to: 'alternative_questions#update_error_counter'
+  root "home#index"
+  post "/update_error_counter", to: 'alternative_questions#update_error_counter'
 end

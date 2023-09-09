@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :join_user_alternative_questions
   has_many :join_user_numerical_questions
+  has_many :user_questions
+  has_many :user_question_values
 end

@@ -7,7 +7,8 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 
-# u1= User.create(name: "David", last_name: "Diepold", user_level: 0, streak: 0, module: 0, email: "daviddiepold@gmail.com", password: "123456")
+u1= User.create(name: "David", last_name: "Diepold", user_level: 0, streak: 0, module: 0, email: "daviddiepold@gmail.com", password: "123456")
+u2= User.create(name: "Hola", last_name: "Chao", user_level: 0, streak: 0, module: 0, email: "hc@gmail.com", password: "123456")
 
 # task1= Task.create(number: 1, status: 0, user_id: u1.id)
 

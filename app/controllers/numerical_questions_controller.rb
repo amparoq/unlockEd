@@ -8,8 +8,19 @@ class NumericalQuestionsController < ApplicationController
 
   # GET /numerical_questions/1 or /numerical_questions/1.json
   def show
-    @enunciado = NumericalQuestion.generate_question(@numerical_question.question)
+    if !UserQuestionValue.find_by(user_id: current_user.id, numerical_question_id: @numerical_question.id).present?
+      information_question = NumericalQuestion.generate_question(@numerical_question.question)
+      @enunciado = information_question["pregunta"]
+      information_question.each do |key, value|
+        if key != "pregunta"
+          entry = UserQuestionValue.create(user_id: current_user.id, numerical_question_id: @numerical_question.id, value_name: key, value: value, statement: @enunciado)
+        end
+      end
+    else
+      @enunciado = UserQuestionValue.find_by(user_id: current_user.id, numerical_question_id: @numerical_question.id).statement
+    end
   end
+  
 
   # GET /numerical_questions/new
   def new

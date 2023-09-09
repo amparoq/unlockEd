@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_06_200344) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
   create_table "alternative_questions", force: :cascade do |t|
     t.integer "difficulty"
     t.integer "module"
@@ -78,6 +78,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_06_200344) do
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
+  create_table "user_question_values", force: :cascade do |t|
+    t.string "value_name"
+    t.float "value"
+    t.string "statement"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "numerical_question_id", null: false
+    t.integer "user_id", null: false
+    t.index ["numerical_question_id"], name: "index_user_question_values_on_numerical_question_id"
+    t.index ["user_id"], name: "index_user_question_values_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "last_name"
@@ -102,4 +114,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_06_200344) do
   add_foreign_key "join_user_numerical_questions", "tasks"
   add_foreign_key "join_user_numerical_questions", "users"
   add_foreign_key "tasks", "users"
+  add_foreign_key "user_question_values", "numerical_questions"
+  add_foreign_key "user_question_values", "users"
 end

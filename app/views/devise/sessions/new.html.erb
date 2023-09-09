@@ -1,0 +1,38 @@
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'card mx-auto mt-auto mb-0 d-flex align-items-center', style: 'width: 150vh; align-items: center;' }) do |f| %>
+  <div>
+    <div class="row g-0 d-flex align-items-center">
+      <div class="col-lg-4 d-none d-lg-flex">
+        <%= image_tag('Edlogo.png', alt: 'Trendy Pants and Shoes', class: 'w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5') %>
+      </div>
+      <div class="col-lg-8">
+        <div class="card-body py-5 px-md-5">
+
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <%= f.label :email, class: 'form-label', for: 'form2Example1' %>
+            <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', id: 'form2Example1' %>
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <%= f.label :password, class: 'form-label', for: 'form2Example2' %>
+            <%= f.password_field :password, autocomplete: 'current-password', class: 'form-control', id: 'form2Example2' %>
+          </div>
+
+          <!-- Remember me checkbox -->
+          <% if devise_mapping.rememberable? %>
+            <div class="form-check mb-4">
+              <%= f.check_box :remember_me, class: 'form-check-input', id: 'form2Example31' %>
+              <%= f.label :remember_me, class: 'form-check-label', for: 'form2Example31' do %>
+                Remember me
+              <% end %>
+            </div>
+          <% end %>
+
+          <!-- Submit button -->
+          <%= f.submit 'Sign in', class: 'btn btn-primary btn-block mb-4' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
