@@ -104,11 +104,8 @@ rails generate devise User
 
 
 
-IDEAS:
+TO DO sabado 9 de sept:
 
-Poner una nota que diga que asuma la temp de equilibrio como 0C si no todo el hielo se derrite, como 100C si no todo el vapor se condensa, etc.
+-Hacer un modelo template para poder calcular respuestas de las numerical questions segun el template (if numerical_question.id que sea if template id)
 
-
-TO DO 7 de sept:
-
-Que vea si la respuesta es correcta, que solo lo deje pasar a la sig luego de enviar si es que hay resp seleccionada y es correcta. Que lo deje intentar solo una vez más luego de equivocarse. 
+-Realizar la primera tarea numerica (casi igual que lo de alternativas)

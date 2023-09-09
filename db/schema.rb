@@ -45,13 +45,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
 
   create_table "join_user_numerical_questions", force: :cascade do |t|
     t.integer "attempts"
-    t.integer "order_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.integer "task_id", null: false
-    t.integer "alternative_question_id", null: false
-    t.index ["alternative_question_id"], name: "index_join_user_numerical_questions_on_alternative_question_id"
+    t.integer "numerical_question_id", null: false
+    t.index ["numerical_question_id"], name: "index_join_user_numerical_questions_on_numerical_question_id"
     t.index ["task_id"], name: "index_join_user_numerical_questions_on_task_id"
     t.index ["user_id"], name: "index_join_user_numerical_questions_on_user_id"
   end
@@ -60,7 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
     t.integer "difficulty"
     t.integer "module"
     t.string "question"
-    t.string "answer"
+    t.integer "template"
     t.string "hint"
     t.string "domain"
     t.boolean "alter_domain"
@@ -74,8 +73,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
     t.integer "correct_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
   create_table "user_question_values", force: :cascade do |t|
@@ -110,10 +107,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
   add_foreign_key "join_user_alternative_questions", "alternative_questions"
   add_foreign_key "join_user_alternative_questions", "tasks"
   add_foreign_key "join_user_alternative_questions", "users"
-  add_foreign_key "join_user_numerical_questions", "alternative_questions"
+  add_foreign_key "join_user_numerical_questions", "numerical_questions"
   add_foreign_key "join_user_numerical_questions", "tasks"
   add_foreign_key "join_user_numerical_questions", "users"
-  add_foreign_key "tasks", "users"
   add_foreign_key "user_question_values", "numerical_questions"
   add_foreign_key "user_question_values", "users"
 end

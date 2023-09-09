@@ -9,7 +9,7 @@ class AlternativeQuestionsController < ApplicationController
   # GET /alternative_questions/1 or /alternative_questions/1.json
   def show
     @task= Task.find(@alternative_question.join_user_alternative_questions.first.task_id)
-    @total_questions = @task.join_user_alternative_questions.count + 1
+    @total_questions = @task.join_user_alternative_questions.count
     @next_question= @alternative_question.join_user_alternative_questions.first.order_number + 1
   end
 

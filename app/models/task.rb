@@ -1,5 +1,4 @@
 class Task < ApplicationRecord
-    belongs_to :user
     has_many :join_user_alternative_questions
 
     enum status: {
