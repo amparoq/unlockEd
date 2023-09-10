@@ -1,7 +1,6 @@
 class NumericalQuestion < ApplicationRecord
     has_many :join_user_numerical_questions
     has_many :user_question_values
-    has_many :user_questions
 
     enum difficulty: {
         high: 2,

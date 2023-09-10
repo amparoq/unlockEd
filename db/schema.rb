@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_10_015448) do
   create_table "alternative_questions", force: :cascade do |t|
     t.integer "difficulty"
     t.integer "module"
@@ -21,13 +21,34 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
     t.string "alternative_a_answer"
     t.string "alternative_b_answer"
     t.string "alternative_c_answer"
-    t.boolean "answer_a_show", default: false
-    t.boolean "answer_b_show", default: false
-    t.boolean "answer_c_show", default: false
     t.string "correct_alternative"
     t.integer "error_counter", default: -1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "error_count_alternatives", force: :cascade do |t|
+    t.integer "error_count", default: -1
+    t.boolean "answer_a_show", default: false
+    t.boolean "answer_b_show", default: false
+    t.boolean "answer_c_show", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.integer "alternative_question_id", null: false
+    t.index ["alternative_question_id"], name: "index_error_count_alternatives_on_alternative_question_id"
+    t.index ["user_id"], name: "index_error_count_alternatives_on_user_id"
+  end
+
+  create_table "error_count_numericals", force: :cascade do |t|
+    t.integer "error_count", default: -1
+    t.boolean "hint_show", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.integer "numerical_question_id", null: false
+    t.index ["numerical_question_id"], name: "index_error_count_numericals_on_numerical_question_id"
+    t.index ["user_id"], name: "index_error_count_numericals_on_user_id"
   end
 
   create_table "join_user_alternative_questions", force: :cascade do |t|
@@ -35,24 +56,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
     t.integer "order_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
     t.integer "task_id", null: false
     t.integer "alternative_question_id", null: false
     t.index ["alternative_question_id"], name: "index_join_user_alternative_questions_on_alternative_question_id"
     t.index ["task_id"], name: "index_join_user_alternative_questions_on_task_id"
-    t.index ["user_id"], name: "index_join_user_alternative_questions_on_user_id"
   end
 
   create_table "join_user_numerical_questions", force: :cascade do |t|
     t.integer "attempts"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
     t.integer "task_id", null: false
     t.integer "numerical_question_id", null: false
     t.index ["numerical_question_id"], name: "index_join_user_numerical_questions_on_numerical_question_id"
     t.index ["task_id"], name: "index_join_user_numerical_questions_on_task_id"
-    t.index ["user_id"], name: "index_join_user_numerical_questions_on_user_id"
   end
 
   create_table "numerical_questions", force: :cascade do |t|
@@ -60,6 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
     t.integer "module"
     t.string "question"
     t.integer "template"
+    t.integer "error_count"
     t.string "hint"
     t.string "domain"
     t.boolean "alter_domain"
@@ -70,7 +88,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
   create_table "tasks", force: :cascade do |t|
     t.integer "number"
     t.integer "status"
-    t.integer "correct_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -104,12 +121,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_040620) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "error_count_alternatives", "alternative_questions"
+  add_foreign_key "error_count_alternatives", "users"
+  add_foreign_key "error_count_numericals", "numerical_questions"
+  add_foreign_key "error_count_numericals", "users"
   add_foreign_key "join_user_alternative_questions", "alternative_questions"
   add_foreign_key "join_user_alternative_questions", "tasks"
-  add_foreign_key "join_user_alternative_questions", "users"
   add_foreign_key "join_user_numerical_questions", "numerical_questions"
   add_foreign_key "join_user_numerical_questions", "tasks"
-  add_foreign_key "join_user_numerical_questions", "users"
   add_foreign_key "user_question_values", "numerical_questions"
   add_foreign_key "user_question_values", "users"
 end

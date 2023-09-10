@@ -1,5 +1,6 @@
 class Task < ApplicationRecord
     has_many :join_user_alternative_questions
+    has_many :join_user_numerical_questions
 
     enum status: {
         completed: 2,

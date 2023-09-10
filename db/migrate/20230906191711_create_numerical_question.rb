@@ -5,6 +5,7 @@ class CreateNumericalQuestion < ActiveRecord::Migration[7.0]
       t.integer :module
       t.string :question
       t.integer :template
+      t.integer :error_count
       t.string :hint
       t.string :domain
       t.boolean :alter_domain

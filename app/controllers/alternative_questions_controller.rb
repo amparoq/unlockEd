@@ -10,33 +10,39 @@ class AlternativeQuestionsController < ApplicationController
   def show
     @task= Task.find(@alternative_question.join_user_alternative_questions.first.task_id)
     @total_questions = @task.join_user_alternative_questions.count
-    @next_question= @alternative_question.join_user_alternative_questions.first.order_number + 1
+    @next_question = @alternative_question.join_user_alternative_questions.first.order_number + 1
+    error_counter_table = ErrorCountAlternative.find_by(alternative_question_id: @alternative_question.id, user_id: current_user.id)
+    @error_counter = error_counter_table.error_count
+    @answer_a_show = error_counter_table.answer_a_show
+    @answer_b_show = error_counter_table.answer_b_show
+    @answer_c_show = error_counter_table.answer_c_show
+
   end
 
   def update_error_counter
 
     new_error_counter = params[:error_counter].to_i
 
-    task = Task.find(params[:task_id])
     alternative = AlternativeQuestion.find(params[:id])
+    error_counter_table = ErrorCountAlternative.find_by(alternative_question_id: alternative.id, user_id: current_user.id)
 
-    if new_error_counter == 0
-      task.correct_count = task.correct_count + 1
-    end
+    # if new_error_counter == 0
+    #   task.correct_count = task.correct_count + 1
+    # end
 
-    alternative.error_counter = new_error_counter
+    error_counter_table.error_count = new_error_counter
 
     if params[:wrong_one] == "A"
-      alternative.answer_a_show = true
+      error_counter_table.answer_a_show = true
     end
     if params[:wrong_one] == "B"
-      alternative.answer_b_show = true
+      error_counter_table.answer_b_show = true
     end
     if params[:wrong_one] == "C"
-      alternative.answer_c_show = true
+      error_counter_table.answer_c_show = true
     end
 
-    alternative.save
+    error_counter_table.save
     
     respond_to do |format|
       format.js {render inline: "location.reload();" }

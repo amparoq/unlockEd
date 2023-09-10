@@ -1,29 +1,72 @@
-<h2>Sign up</h2>
+<style>
+  .divider:after,
+  .divider:before {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #eee;
+    }
+  .h-custom {
+    height: calc(100% - 73px);
+  }
+  @media (max-width: 450px) {
+    .h-custom {
+    height: 100%;
+    }
+  }
+</style>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'card mx-auto mt-auto mb-0 d-flex align-items-center', style: 'width: 150vh; align-items: center;' }) do |f| %>
+
   <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  <section class="vh-100">
+  <div style="margin-top: 10px; display: flex; justify-content: center; margin-bottom: -20px;">
+    <h1 style="font-style: italic; font-size: 60px;"><b>¡Registrarse!</b></h1>
   </div>
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <%= image_tag "logo_white.webp", style: "height: 100%; width: 100%;" %>
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <%= f.label :name, class: "form-label" %><br />
+            <%= f.text_field :name, autofocus: true, autocomplete: "name", class:"form-control form-control-lg" %>
+          </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+          <div class="form-outline mb-4">
+            <%= f.label :last_name, class: "form-label" %><br />
+            <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name", class:"form-control form-control-lg" %>
+          </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+          <div class="form-outline mb-4">
+            <%= f.label :email, class: "form-label" %><br />
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control form-control-lg" %>
+          </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
+          <!-- Password input -->
+          <div class="form-outline mb-3">
+            <%= f.label :password, class: "form-label" %>
+            <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %><br />
+            <%= f.password_field :password, autocomplete: "new-password", class: "form-control form-control-lg" %>
+          </div>
+
+          <div class="form-outline mb-3">
+            <%= f.label :password_confirmation, class: "form-label" %><br />
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control form-control-lg" %>
+          </div>
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+            <%= f.submit "Sign up", class:"btn btn-primary btn-lg", style: "padding-left: 2.5rem; padding-right: 2.5rem; margin-top:-10px;" %>
+            <p class="fw-bold mt-2 pt-1 mb-0">¿Ya tienes una cuenta? <a href = "/users/sign_in"
+                class="link-danger">¡Ingresa!</a></p>
+          </div>
+
+      </div>
+    </div>
   </div>
+</section>
 <% end %>
-
-<%= render "devise/shared/links" %>

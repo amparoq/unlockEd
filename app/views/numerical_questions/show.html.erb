@@ -18,11 +18,15 @@
 <script>
 
 function handleSend(information) {
-  var inputValue = document.getElementById("myAnswer").value;
-  var realAnswer = information.getAttribute('data-answer');
+  var inputValue = parseFloat(document.getElementById("myAnswer").value);
+  var realAnswer = parseFloat(information.getAttribute('data-answer'));
 
-  console.log(inputValue);
-  console.log(realAnswer);
+  if (inputValue >= realAnswer - 0.5 && inputValue <= realAnswer + 0.5) {
+    console.log("correct");
+  }
+  else {
+    console.log("wrong");
+  }
 
 }
 

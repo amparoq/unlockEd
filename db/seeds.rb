@@ -6,10 +6,6 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-
-u1= User.create(name: "David", last_name: "Diepold", user_level: 0, streak: 0, module: 0, email: "daviddiepold@gmail.com", password: "123456")
-u2= User.create(name: "Hola", last_name: "Chao", user_level: 0, streak: 0, module: 0, email: "hc@gmail.com", password: "123456")
-
 task1= Task.create(number: 1, status: 0)
 task2= Task.create(number: 2, status: 0)
 
@@ -34,14 +30,17 @@ representa el estado en el cual una sustancia coexiste en equilibrio entre su
 fase líquida y vapor?", alternative_a: "Punto crítico.", alternative_b: "Línea de saturación líquido-vapor.", alternative_c: "Isoterma.", alternative_a_answer: "El punto crítico es el límite en el cual las densidades del líquido y del vapor son iguales", alternative_b_answer:"",
 alternative_c_answer: "Una reacción isoterma es una reacción donde la temperatura es constante.", correct_alternative: "B")
 
-j1= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 1, user_id: u1.id, task_id: task1.id, alternative_question_id: aq1.id)
-j2= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 2, user_id: u1.id, task_id: task1.id, alternative_question_id: aq2.id)
-j3= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 3, user_id: u1.id, task_id: task1.id, alternative_question_id: aq3.id)
+j1= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 1, task_id: task1.id, alternative_question_id: aq1.id)
+j2= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 2, task_id: task1.id, alternative_question_id: aq2.id)
+j3= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 3, task_id: task1.id, alternative_question_id: aq3.id)
 
 numerical_1 = NumericalQuestion.create(difficulty: 1, question: "Un recipiente rígido contiene {{masa_kg}} kg de agua líquida saturada a {{temperatura_C_vap}}°C. Puesto que en el recipiente existen condiciones de saturación, la presión debe ser la presión de saturación a {{temperatura_C_vap}}°C, esta se muestra en la imagen: {{presion_saturacion}} kPa. Determine el volumen del recipiente en metros cúbicos.", template: 1, 
 hint: "¡Recuerda fijarte en las unidades de médida!", domain: "Diagramas de fase", alter_domain: false)
 
-j1_numerical = JoinUserNumericalQuestion.create(attempts: 0, user_id: u1.id, task_id: task2.id, numerical_question_id: numerical_1.id)
+j1_numerical = JoinUserNumericalQuestion.create(attempts: 0, task_id: task2.id, numerical_question_id: numerical_1.id)
+
+u1= User.create(name: "David", last_name: "Diepold", user_level: 0, streak: 0, module: 0, email: "daviddiepold@gmail.com", password: "123456")
+u2= User.create(name: "Hola", last_name: "Chao", user_level: 0, streak: 0, module: 0, email: "hc@gmail.com", password: "123456")
 
 # t.integer "attempts"
 #     t.datetime "created_at", null: false
