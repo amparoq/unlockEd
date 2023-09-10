@@ -30,8 +30,35 @@ class NumericalQuestionsController < ApplicationController
       @volumen_agua_saturada = VOLUMENES_AGUA_SATURADA[valor_temp]
       @enunciado = UserQuestionValue.find_by(user_id: current_user.id, numerical_question_id: @numerical_question.id).statement
     end
-    if @numerical_question.id == 1
+    task_number = @numerical_question.join_user_numerical_questions.first.task.number
+    if task_number == 2
       @respuesta = @volumen_agua_saturada*UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id)[:value]
+    end
+    error_counter_table = ErrorCountNumerical.find_by(numerical_question_id: @numerical_question.id, user_id: current_user.id)
+    @show_hint = error_counter_table.hint_show
+    @error_count = error_counter_table.error_count
+  end
+
+  def update_error_counter
+
+    new_error_counter = params[:error_counter].to_i
+
+    numerical = NumericalQuestion.find(params[:id])
+    error_counter_table = ErrorCountNumerical.find_by(numerical_question_id: numerical.id, user_id: current_user.id)
+
+    # if new_error_counter == 0
+    #   task.correct_count = task.correct_count + 1
+    # end
+
+    if new_error_counter != 0
+      error_counter_table.hint_show = true
+    end
+    error_counter_table.error_count = new_error_counter
+
+    error_counter_table.save
+    
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
     end
   end
   

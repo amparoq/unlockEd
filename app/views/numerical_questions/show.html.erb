@@ -20,38 +20,74 @@
 function handleSend(information) {
   var inputValue = parseFloat(document.getElementById("myAnswer").value);
   var realAnswer = parseFloat(information.getAttribute('data-answer'));
-
+  var errorCounter = <%= @error_count %>
   if (inputValue >= realAnswer - 0.5 && inputValue <= realAnswer + 0.5) {
-    console.log("correct");
+    errorCounter = 0;
   }
-  else {
-    console.log("wrong");
+  else{
+    if (errorCounter === -1){
+      errorCounter = 1;
+    }
+    else{
+      errorCounter = 2;
+    }
   }
-
+  var csrfToken = document.querySelector("meta[name=csrf-token]").content;
+  $.ajax({
+    type: "POST",
+    url: "/update_error_counter_numerical",
+    data: { id: <%= @numerical_question.id %>, error_counter: errorCounter },
+    headers: {
+      "X-CSRF-Token": csrfToken
+    }
+  });
 }
 
 </script>
 
 <div style="display: flex; flex-direction: column; margin-top: 50px; margin-left: 200px;">
   <div>
-    <div style= "display: flex;"> 
+    <div style= "display: flex; align-items: center; margin-bottom: 24px;"> 
       <h3 style="margin-right: 15px;"><b>Tarea</b></h3> 
       <h3><b><%=@task.number %></b></h3>
       <h5 style= "margin-top: 5px; margin-left: 20px;">Compleja</h5> 
+      <div style="position: absolute; right: 0; display: flex; align-items: center; margin-right: 70px;">
+        <% if @error_count == 0 %>
+          <div style="margin-right: 120px;">
+            <div class="alert alert-success" role="alert" style = "align-items: center; margin-top: 5px; margin-bottom: 5px; width: 100%;"><div style="align-items: center;"><b>¡Correcta!</b><br>Bien hecho</div></div>
+          </div>
+        <% end %>
+        <% if @error_count == 1 || @error_count == 2 %>
+          <div class="alert alert-danger" role="alert" style = "align-items: center; margin-top: 5px; margin-bottom: 5px; margin-right:100px; width: 80%; height: 30px;">
+            <div style="display: flex; align-items: center; margin-top: -11px;"><b>Respuesta incorrecta</b></div>
+          </div>
+        <% end %>
+      </div>
     </div>
     <div style="background-color: white; width: 1050px; border: 2px solid #dbdbdb">
         <div style= "margin-top: 20px; margin-left: 20px; margin-right: 20px;">
           <span style="font-size: 21px;"><%= @enunciado %></span>
         </div>
         <hr style="margin: 0; border: 1.5px solid #dbdbdb; margin-top: 10px; margin-left: 30px; margin-right: 40px;">
+        <% if @show_hint %>
+          <div style="display: flex; justify-content:center;">
+            <div class="alert alert-warning" role="alert" style = " margin-top: 5px; margin-bottom: 5px; width: 70%;"><b>Hint</b><br><%= @numerical_question.hint %></div>
+          </div>
+        <% end %>
         <div class="align-items-center">
           <div class="form-group d-flex align-items-center" style="margin-top: 20px; margin-bottom: 20px; justify-content: center;">
             <label style="margin-left: 10px; margin-right: 10px;" for="exampleFormControlInput1">Tu respuesta:</label>
             <input style="width: 50vh" type="text" class="form-control" id="myAnswer" placeholder="Redondear a 3 decimales">
           </div>
-          <div>
-            <button style="margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" data-answer= "<%= @respuesta %>" type="submit" onclick= "handleSend(this)" >Enviar</button>
-          </div>
+          <meta name="csrf-token" content="<%= form_authenticity_token %>" />
+          <% if @error_count == 1 || @error_count == -1 %>
+            <div style="margin-top: 20px; margin-left: 20px;">
+              <button style="margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" data-answer= "<%= @respuesta %>" type="submit" onclick= "handleSend(this)" >Enviar</button>
+            </div>
+          <% end %>
+          <% if @error_count == 0 || @error_count == 2 %>
+            <a href="/" style= "margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" >Continuar</a>
+          <% end %>
         </div>
     </div>
   </div>

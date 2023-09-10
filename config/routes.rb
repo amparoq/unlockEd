@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
   post "/update_error_counter", to: 'alternative_questions#update_error_counter'
+  post "/update_error_counter_numerical", to: 'numerical_questions#update_error_counter'
 end
