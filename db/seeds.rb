@@ -41,8 +41,8 @@ hint: "¡Recuerda fijarte en las unidades de médida!", domain: "Diagramas de fa
 j1_numerical = JoinUserNumericalQuestion.create(attempts: 0, task_id: task2.id, numerical_question_id: numerical_1.id)
 
 n = "Se tiene un mol de un gas ideal monoatómico que experimenta un proceso adiabático en un sistema cerrado. Inicialmente, el sistema tiene una presión de {{p1}} kPa y un volumen de {{v1}} m³. Después de la expansión adiabática, la presión cambia a {{p2}} kPa y el volumen a {{v2}} m³. Si el proceso es reversible y no hay interacción de trabajo con el entorno, determine:
-La variación de entalpía del sistema (ΔH) en kJ.
-La variación de energía interna del sistema (ΔU) en kJ."
+a) La variación de entalpía del sistema (ΔH) en kJ.
+b) La variación de energía interna del sistema (ΔU) en kJ."
 
 numerical_2 = NumericalQuestion.create(difficulty: 2, question: n, template: 2, 
 hint: "Recuerda que Cp en gases monoatómicos es (5/2)*R", domain: "Entalpía", alter_domain: false)
