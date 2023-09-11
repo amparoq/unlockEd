@@ -8,6 +8,12 @@ class TasksController < ApplicationController
 
   # GET /tasks/1 or /tasks/1.json
   def show
+    @task = Task.find(params[:id])
+    @a1 = alternative_question_ids = AlternativeQuestion.joins(:join_user_alternative_questions)
+    .where(join_user_alternative_questions: { task_id: 1 })
+    .pluck(:id)
+    @buenas = ErrorCountAlternative.where(user_id: 1, alternative_question_id: @a1, error_count: [0, 1])
+    @malas = ErrorCountAlternative.where(user_id: 1, alternative_question_id: @a1, error_count: 2)
   end
 
   # GET /tasks/new

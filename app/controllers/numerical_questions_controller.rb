@@ -31,10 +31,16 @@ class NumericalQuestionsController < ApplicationController
       if @numerical_question.template == 1
         @masa_kg_val = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id)[:value]
         @presion = UserQuestionValue.find_by(value_name: "presion_saturacion", user_id: current_user.id)[:value]
+      elsif @numerical_question.template == 2
+        @p1 = UserQuestionValue.find_by(value_name: "p1", user_id: current_user.id)[:value]
+        @v1 = UserQuestionValue.find_by(value_name: "v1", user_id: current_user.id)[:value]
+        @p2 = UserQuestionValue.find_by(value_name: "p2", user_id: current_user.id)[:value]
+        @v2 = UserQuestionValue.find_by(value_name: "v2", user_id: current_user.id)[:value]
       end
+
       if UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id).present?
-        valor_temp = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id)[:value].to_i
-        @volumen_agua_saturada = VOLUMENES_AGUA_SATURADA[valor_temp]
+        @valor_temp = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id)[:value].to_i
+        @volumen_agua_saturada = VOLUMENES_AGUA_SATURADA[@valor_temp]
       end
       @enunciado = UserQuestionValue.find_by(user_id: current_user.id, numerical_question_id: @numerical_question.id).statement
     end

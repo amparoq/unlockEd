@@ -1,3 +1,18 @@
-<%= render @task %>
+<div style="display: flex; flex-direction: column; margin-top: 50px; margin-left: 200px;">
+  <div>
+    <div style="display: flex; align-items: center; margin-bottom: 24px;">
+      <h3 style="margin-right: 15px;"><b>Tarea</b></h3>
+      <h3><b><%= @task.number %></b></h3>
+      <h5 style="margin-top: 5px; margin-left: 20px;">Resultados</h5>
+      <div style="flex-grow: 1;"></div>
+    </div>
 
+    <div style="background-color: white; width: 1050px; border: 2px solid #dbdbdb; padding: 20px; text-align: center;">
+      <div style="margin-bottom: 20px;">
+        <span style="font-size: 21px;">Usted obtuvo <%= @buenas.count %>/<%= @buenas.count + @malas.count %> buenas.</span>
+      </div>
 
+      <a href="/tasks" style="margin: 0 auto; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px; display: inline-block;">Volver a Tareas</a>
+    </div>
+  </div>
+</div>
