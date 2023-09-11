@@ -15,36 +15,6 @@
   }
 </style>
 
-<script>
-
-function handleSend(information) {
-  var inputValue = parseFloat(document.getElementById("myAnswer").value);
-  var realAnswer = parseFloat(information.getAttribute('data-answer'));
-  var errorCounter = <%= @error_count %>
-  if (inputValue >= realAnswer - 0.5 && inputValue <= realAnswer + 0.5) {
-    errorCounter = 0;
-  }
-  else{
-    if (errorCounter === -1){
-      errorCounter = 1;
-    }
-    else{
-      errorCounter = 2;
-    }
-  }
-  var csrfToken = document.querySelector("meta[name=csrf-token]").content;
-  $.ajax({
-    type: "POST",
-    url: "/update_error_counter_numerical",
-    data: { id: <%= @numerical_question.id %>, error_counter: errorCounter },
-    headers: {
-      "X-CSRF-Token": csrfToken
-    }
-  });
-}
-
-</script>
-
 <div style="display: flex; flex-direction: column; margin-top: 50px; margin-left: 200px;">
   <div>
     <div style= "display: flex; align-items: center; margin-bottom: 24px;"> 
@@ -68,12 +38,12 @@ function handleSend(information) {
         <div style="margin-top: 20px; margin-left: 20px; margin-right: 20px; text-align: center;">
           <span style="font-size: 21px;"><%= @enunciado %></span>
           <br>
-          <% if @question == "Un recipiente rígido contiene {{masa_kg}} kg de agua líquida saturada a {{temperatura_C_vap}}°C. Puesto que en el recipiente existen condiciones de saturación, la presión debe ser la presión de saturación a {{temperatura_C_vap}}°C, esta se muestra en la imagen: {{presion_saturacion}} kPa. Determine el volumen del recipiente en metros cúbicos." %>
-          <div style="position: relative; display: inline-block;">
-            <img src="https://i.pinimg.com/564x/91/d7/a5/91d7a5033e09c0548228ed8614ac65f7.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
-            <span style="font-size: 16px; font-weight: bold; position: absolute; top: 49%; left: 4px; transform: translate(0, -50%);"><%= @valor_temp %>ºC</span>
-            <span style="font-size: 16px; font-weight: bold; font-style: italic; position: absolute; top: 15%; left: 90px; transform: translate(0, -50%);">P=<%= @presion %> kPa</span>
-          </div>
+          <% if @q == 1 %>
+            <div style="position: relative; display: inline-block;">
+              <img src="https://i.pinimg.com/564x/91/d7/a5/91d7a5033e09c0548228ed8614ac65f7.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 16px; font-weight: bold; position: absolute; top: 49%; left: 4px; transform: translate(0, -50%);"><%= @valor_temp %>ºC</span>
+              <span style="font-size: 16px; font-weight: bold; font-style: italic; position: absolute; top: 15%; left: 90px; transform: translate(0, -50%);">P=<%= @presion %> kPa</span>
+            </div>
           <% end %>
         </div>
 
@@ -84,15 +54,32 @@ function handleSend(information) {
           </div>
         <% end %>
         <div class="align-items-center">
-          <div class="form-group d-flex align-items-center" style="margin-top: 20px; margin-bottom: 20px; justify-content: center;">
-            <label style="margin-left: 10px; margin-right: 10px;" for="exampleFormControlInput1">Tu respuesta:</label>
-            <input style="width: 50vh" type="text" class="form-control" id="myAnswer" placeholder="Redondear a 3 decimales">
-          </div>
+          <% if !@two_answer %>
+            <div class="form-group d-flex align-items-center" style="margin-top: 20px; margin-bottom: 20px; justify-content: center;">
+              <label style="margin-left: 10px; margin-right: 10px;" for="exampleFormControlInput1">Tu respuesta:</label>
+              <input style="width: 50vh" type="text" class="form-control" id="myAnswer" placeholder="Redondear a 3 decimales">
+            </div>
+          <% else %>
+            <div class="form-group d-flex align-items-center" style="margin-top: 20px; margin-bottom: 20px; justify-content: center;">
+              <label style="margin-left: 10px; margin-right: 10px;" for="exampleFormControlInput1">a):</label>
+              <input style="width: 50vh" type="text" class="form-control" id="myAnswerA" placeholder="Redondear a 3 decimales">
+              <label style="margin-left: 10px; margin-right: 10px;" for="exampleFormControlInput1">b):</label>
+              <input style="width: 50vh" type="text" class="form-control" id="myAnswerB" placeholder="Redondear a 3 decimales">
+            </div>
+          <% end %>
           <meta name="csrf-token" content="<%= form_authenticity_token %>" />
           <% if @error_count == 1 || @error_count == -1 %>
-            <div style="margin-top: 20px; margin-left: 20px;">
-              <button style="margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" data-answer= "<%= @respuesta %>" type="submit" onclick= "handleSend(this)" >Enviar</button>
-            </div>
+            <% if !@two_answer %>
+              <div style="margin-top: 20px; margin-left: 20px;">
+                <button style="margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;"
+                type="submit" onclick= "handleSendOne()" >Enviar</button>
+              </div>
+            <% else %>
+              <div style="margin-top: 20px; margin-left: 20px;">
+                <button style="margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;"
+                type="submit" onclick= "handleSendDouble()" >Enviar</button>
+              </div>
+            <% end %>
           <% end %>
           <% if @error_count == 0 || @error_count == 2 %>
             <a href="/tasks" style= "margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" >Continuar</a>
@@ -101,3 +88,61 @@ function handleSend(information) {
     </div>
   </div>
 </div>
+
+<script>
+
+function handleSendOne() {
+  var inputValue = parseFloat(document.getElementById("myAnswer").value);
+  var realAnswer = parseFloat("<%= @respuesta %>")
+  var errorCounter = parseInt("<%= @error_count %>")
+  if (inputValue >= realAnswer - 0.5 && inputValue <= realAnswer + 0.5) {
+    errorCounter = 0;
+  } else {
+    if (errorCounter === -1) {
+      errorCounter = 1;
+    } else {
+      errorCounter = 2;
+    }
+  }
+  var csrfToken = document.querySelector("meta[name=csrf-token]").content;
+  $.ajax({
+    type: "POST",
+    url: "/update_error_counter_numerical",
+    data: { id: <%= @numerical_question.id %>, error_counter: errorCounter },
+    headers: {
+      "X-CSRF-Token": csrfToken
+    }
+  });
+}
+
+function handleSendDouble() {
+  var inputValueA = parseFloat(document.getElementById("myAnswerA").value);
+  var inputValueB = parseFloat(document.getElementById("myAnswerB").value);
+  var realAnswerA = parseFloat("<%= @respuesta1 %>")
+  var realAnswerB = parseFloat("<%= @respuesta2 %>")
+  console.log(realAnswerA)
+  console.log(realAnswerB)
+  var errorCounterD = parseInt("<%= @error_count %>")
+  if ((inputValueA >= realAnswerA - 0.5 && inputValueA <= realAnswerA + 0.5) && (inputValueB >= realAnswerB - 0.5 && inputValueB <= realAnswerB + 0.5)) {
+    errorCounterD = 0;
+  }
+  else{
+    if (errorCounterD === -1){
+      errorCounterD = 1;
+    }
+    else{
+      errorCounterD = 2;
+    }
+  }
+  var csrfToken = document.querySelector("meta[name=csrf-token]").content;
+  $.ajax({
+    type: "POST",
+    url: "/update_error_counter_numerical",
+    data: { id: <%= @numerical_question.id %>, error_counter: errorCounterD },
+    headers: {
+      "X-CSRF-Token": csrfToken
+    }
+  });
+}
+
+</script>

@@ -32,21 +32,24 @@ class NumericalQuestion < ApplicationRecord
       "100" => 101.419
     }
 
-    SHARED_VARIABLES = {
-    temperatura_C_vap: -> { rand(80..100) },
-    masa_kg: -> { rand(40..60) },
-    volumen_tanque: -> { (rand(1.0..3.0)).round(2) },
-    temperatura_vapor: -> { rand(100..300) }
-    }
-
     def self.generate_question(question)
         temp_inicial = 0
         temp_C_vap = nil
         generated_question = {}
+        shared_variables = {
+            temperatura_C_vap: -> { rand(80..100) },
+            masa_kg: -> { rand(40..60) },
+            volumen_tanque: -> { (rand(1.0..3.0)).round(2) },
+            temperatura_vapor: -> { rand(100..300) },
+            p1:-> { rand(20..200) },
+            p2:-> { rand(10..(generated_question["p1"]-10))},
+            v1:-> { rand(0.01..0.1).round(2) },
+            v2:-> { rand((generated_question["v1"] + 0.1)..0.2).round(2) }
+        }
         
         pregunta_generada = question.gsub(/\{\{(.*?)\}\}/) do |match|
             variable = match[2..-3].strip
-            variable_valor = SHARED_VARIABLES[variable.to_sym]
+            variable_valor = shared_variables[variable.to_sym]
             
             if variable == "temperatura_C_vap" && !temp_C_vap.present?
                 temp_C_vap = variable_valor&.call
