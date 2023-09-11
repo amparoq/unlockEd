@@ -65,9 +65,18 @@ function handleSend(information) {
       </div>
     </div>
     <div style="background-color: white; width: 1050px; border: 2px solid #dbdbdb">
-        <div style= "margin-top: 20px; margin-left: 20px; margin-right: 20px;">
+        <div style="margin-top: 20px; margin-left: 20px; margin-right: 20px; text-align: center;">
           <span style="font-size: 21px;"><%= @enunciado %></span>
+          <br>
+          <% if @question == "Un recipiente rígido contiene {{masa_kg}} kg de agua líquida saturada a {{temperatura_C_vap}}°C. Puesto que en el recipiente existen condiciones de saturación, la presión debe ser la presión de saturación a {{temperatura_C_vap}}°C, esta se muestra en la imagen: {{presion_saturacion}} kPa. Determine el volumen del recipiente en metros cúbicos." %>
+          <div style="position: relative; display: inline-block;">
+            <img src="https://i.pinimg.com/564x/91/d7/a5/91d7a5033e09c0548228ed8614ac65f7.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
+            <span style="font-size: 16px; font-weight: bold; position: absolute; top: 49%; left: 4px; transform: translate(0, -50%);"><%= @valor_temp %>ºC</span>
+            <span style="font-size: 16px; font-weight: bold; font-style: italic; position: absolute; top: 15%; left: 90px; transform: translate(0, -50%);">P=<%= @presion %> kPa</span>
+          </div>
+          <% end %>
         </div>
+
         <hr style="margin: 0; border: 1.5px solid #dbdbdb; margin-top: 10px; margin-left: 30px; margin-right: 40px;">
         <% if @show_hint %>
           <div style="display: flex; justify-content:center;">

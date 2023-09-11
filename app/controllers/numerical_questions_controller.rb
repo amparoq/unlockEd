@@ -13,6 +13,10 @@ class NumericalQuestionsController < ApplicationController
 
   # GET /numerical_questions/1 or /numerical_questions/1.json
   def show
+    @masa_kg_val = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id)[:value]
+    @presion = UserQuestionValue.find_by(value_name: "presion_saturacion", user_id: current_user.id)[:value]
+    @question = NumericalQuestion.find(params[:id]).question
+
     @task= Task.find(@numerical_question.join_user_numerical_questions.first.task_id)
     if !UserQuestionValue.find_by(user_id: current_user.id, numerical_question_id: @numerical_question.id).present?
       information_question = NumericalQuestion.generate_question(@numerical_question.question)
@@ -26,8 +30,8 @@ class NumericalQuestionsController < ApplicationController
         end
       end
     else
-      valor_temp = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id)[:value].to_i
-      @volumen_agua_saturada = VOLUMENES_AGUA_SATURADA[valor_temp]
+      @valor_temp = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id)[:value].to_i
+      @volumen_agua_saturada = VOLUMENES_AGUA_SATURADA[@valor_temp]
       @enunciado = UserQuestionValue.find_by(user_id: current_user.id, numerical_question_id: @numerical_question.id).statement
     end
     task_number = @numerical_question.join_user_numerical_questions.first.task.number
