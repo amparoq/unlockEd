@@ -14,4 +14,8 @@ Rails.application.routes.draw do
   root "home#index"
   post "/update_error_counter", to: 'alternative_questions#update_error_counter'
   post "/update_error_counter_numerical", to: 'numerical_questions#update_error_counter'
+  post '/update_last_answer', to: 'numeric_questions#update_last_answer'
+
+
+
 end

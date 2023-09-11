@@ -92,6 +92,7 @@
 <script>
 
 function handleSendOne() {
+  console.log("asdasd");
   var inputValue = parseFloat(document.getElementById("myAnswer").value);
   var realAnswer = parseFloat("<%= @respuesta %>")
   var errorCounter = parseInt("<%= @error_count %>")

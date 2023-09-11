@@ -1,8 +1,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-
   function handleSend(correct) {
+    console.log("asdasd");
     var selectedOption = document.querySelector('input[name="alternative"]:checked');
     var c = correct.getAttribute('data-correct-alternative');
     var errorCounter = <%= @error_counter %>

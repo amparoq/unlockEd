@@ -10,7 +10,7 @@ class AlternativeQuestionsController < ApplicationController
   def show
     @task= Task.find(@alternative_question.join_user_alternative_questions.first.task_id)
     @total_questions = @task.join_user_alternative_questions.count
-    @next_question = @alternative_question.join_user_alternative_questions.first.order_number + 1
+    @next_question = @alternative_question.join_user_alternative_questions.first.id + 1
     error_counter_table = ErrorCountAlternative.find_by(alternative_question_id: @alternative_question.id, user_id: current_user.id)
     @error_counter = error_counter_table.error_count
     @answer_a_show = error_counter_table.answer_a_show

@@ -8,6 +8,7 @@
 
 task1= Task.create(number: 1, status: 0)
 task2= Task.create(number: 2, status: 0)
+task3= Task.create(number: 3, status: 0)
 task4 = Task.create(number: 4, status: 0)
 
 aq1= AlternativeQuestion.create(difficulty: 0, module: 0, question: "En ausencia de tablas de líquido comprimido, ¿cómo se determina el
@@ -34,6 +35,49 @@ alternative_c_answer: "Una reacción isoterma es una reacción donde la temperat
 j1= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 1, task_id: task1.id, alternative_question_id: aq1.id)
 j2= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 2, task_id: task1.id, alternative_question_id: aq2.id)
 j3= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 3, task_id: task1.id, alternative_question_id: aq3.id)
+
+aq4= AlternativeQuestion.create(difficulty: 0, module: 0, question: "¿Cuál de las siguientes afirmaciones describe mejor la entalpía (H) en
+termodinámica?", alternative_a: "La entalpía es una medida de la energía interna de un sistema
+termodinámico.", alternative_b: "La entalpía es una medida de la cantidad de calor que fluye hacia o
+desde un sistema a presión constante.", alternative_c: "La entalpía es la suma de la energía interna del sistema y el
+producto de su presión y volumen. Se utiliza para describir los cambios en
+el contenido de energía durante procesos a presión constante.", alternative_a_answer: "Esta afirmación se refiere a la definición de energía interna, no a la entalpía (H).", alternative_b_answer:"Esta afirmación describe correctamente la entalpía en términos de flujo de calor a presión constante.",
+alternative_c_answer: "", correct_alternative: "C")
+
+aq5= AlternativeQuestion.create(difficulty: 0, module: 0, question: "¿Qué representa el cambio en la entalpía (ΔH) en un proceso químico o
+físico?", alternative_a: "El cambio en la entalpía representa la variación en la cantidad de
+sustancias presentes en un sistema.", alternative_b: "El cambio en la entalpía representa la variación en la energía
+interna del sistema y la cantidad de calor transferido a presión constante
+durante un proceso químico o físico.", alternative_c: "El cambio en la entalpía representa la variación en la temperatura de un
+sistema a presión constante.", alternative_a_answer: "Esta afirmación no describe correctamente lo que representa el cambio en la entalpía (ΔH) en un proceso químico o físico.", alternative_b_answer:"",
+alternative_c_answer: "Esta afirmación se refiere a la variación de temperatura, pero no es el único factor que representa el cambio en la entalpía (ΔH).", correct_alternative: "B")
+
+aq6= AlternativeQuestion.create(difficulty: 0, module: 0, question: "¿Cuál de las siguientes afirmaciones es cierta acerca de la entalpía estándar
+de formación (ΔH∘f) de una sustancia química?", alternative_a: "La entalpía estándar de formación es la energía total absorbida o
+liberada por una sustancia durante su formación a partir de sus elementos
+constituyentes, medida a 298 K y 1 atm.", alternative_b: "La entalpía estándar de formación es la energía interna total de una
+sustancia, independiente de las condiciones en las que se forme.", alternative_c: "La entalpía estándar de formación es la cantidad de energía
+absorbida o liberada cuando una sustancia se forma a partir de sus
+elementos constituyentes en su estado estándar, a 298 K y 1 atm.", alternative_a_answer: "Esta afirmación no describe correctamente la entalpía estándar de formación (ΔH∘f).", alternative_b_answer:"Esta afirmación no describe correctamente la entalpía estándar de formación (ΔH∘f).",
+alternative_c_answer: "", correct_alternative: "C")
+
+aq7 = AlternativeQuestion.create(
+  difficulty: 0,
+  module: 0,
+  question: "¿Qué representa un cambio en la entalpía (ΔH) positivo en un proceso químico?",
+  alternative_a: "Un cambio en la entalpía positivo indica que el proceso es exotérmico y que el sistema libera energía hacia el entorno.",
+  alternative_b: "Un cambio en la entalpía positivo indica que el proceso es endotérmico y que el sistema absorbe energía del entorno.",
+  alternative_c: "Un cambio en la entalpía positivo no indica nada específico sobre el proceso químico.",
+  alternative_a_answer: "Esta afirmación no describe correctamente el significado de un cambio en la entalpía (ΔH) positivo.",
+  alternative_b_answer: "",
+  alternative_c_answer: "Esta afirmación no proporciona una interpretación precisa de un cambio en la entalpía (ΔH) positivo.",
+  correct_alternative: "B"
+)
+
+j4= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 1, task_id: task3.id, alternative_question_id: aq4.id)
+j5= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 2, task_id: task3.id, alternative_question_id: aq5.id)
+j6= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 3, task_id: task3.id, alternative_question_id: aq6.id)
+j7= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 4, task_id: task3.id, alternative_question_id: aq7.id)
 
 numerical_1 = NumericalQuestion.create(difficulty: 1, question: "Un recipiente rígido contiene {{masa_kg}} kg de agua líquida saturada a {{temperatura_C_vap}}°C. Puesto que en el recipiente existen condiciones de saturación, la presión debe ser la presión de saturación a {{temperatura_C_vap}}°C, esta se muestra en la imagen: {{presion_saturacion}} kPa. Determine el volumen del recipiente en metros cúbicos.", template: 1, 
 hint: "¡Recuerda fijarte en las unidades de médida!", domain: "Diagramas de fase", alter_domain: false)

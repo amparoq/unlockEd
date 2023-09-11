@@ -27,6 +27,16 @@ class User < ApplicationRecord
     numerical_question = task_2.join_user_numerical_questions.first.numerical_question
     entry2 = ErrorCountNumerical.create(user_id: self.id, numerical_question_id: numerical_question.id)
     entry2.save
+    task_3 = Task.find_by(number: 3)
+    alternatives_joined = task_3.join_user_alternative_questions
+    alternatives = []
+    alternatives_joined.each do |al|
+        alternatives << al.alternative_question
+    end 
+    alternatives.each do |alter|
+      entry3 = ErrorCountAlternative.create(user_id: self.id, alternative_question_id: alter.id)
+      entry3.save
+    end
     task_4 = Task.find_by(number: 4)
     numerical_question = task_4.join_user_numerical_questions.first.numerical_question
     entry4 = ErrorCountNumerical.create(user_id: self.id, numerical_question_id: numerical_question.id)

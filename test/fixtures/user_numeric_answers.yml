@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  numerical_question: one
+  last_answer: 1.5
+
+two:
+  user: two
+  numerical_question: two
+  last_answer: 1.5
