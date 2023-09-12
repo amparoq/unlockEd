@@ -1,3 +1,4 @@
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
@@ -65,14 +66,41 @@
           <% if !@two_answer %>
             <div class="form-group d-flex align-items-center" style="margin-top: 20px; margin-bottom: 20px; justify-content: center;">
               <label style="margin-left: 10px; margin-right: 10px;" for="exampleFormControlInput1">Tu respuesta:</label>
-              <input style="width: 50vh" type="text" class="form-control" id="myAnswer" placeholder="Redondear a 3 decimales">
+              <% if @error_count == 1 || @error_count == -1 %>
+                <input style="width: 50vh" type="text" class="form-control" id="myAnswer" placeholder="Redondear a 3 decimales">
+              <% else %>
+                <div class="d-flex align-items-center">
+                  <input style="width: 50vh" type="text" class="form-control" id="staticAnswer" placeholder = "<%=@final_answer%>" disabled>
+                  <% if @error_count == 2 %>
+                    <div class="alert alert-info" role="alert" style="margin-left: 10px;">Respuesta: <%= @respuesta.round(3) %></div>
+                  <% end %>
+                </div>
+              <% end %>
             </div>
           <% else %>
             <div class="form-group d-flex align-items-center" style="margin-top: 20px; margin-bottom: 20px; justify-content: center;">
               <label style="margin-left: 10px; margin-right: 10px;" for="exampleFormControlInput1">a)</label>
-              <input style="width: 50vh" type="text" class="form-control" id="myAnswerA" placeholder="Redondear a 3 decimales">
+              <% if @error_count == 1 || @error_count == -1 %>
+                <input style="width: 50vh" type="text" class="form-control" id="myAnswerA" placeholder="Redondear a 3 decimales">
+              <% else %>
+                <div>
+                  <% if @error_count == 2 %>
+                    <div class="alert alert-info" role="alert" style="margin-left: 10px; width: 200px;">Respuesta: <%= @respuesta1.round(3) %></div>
+                  <% end %>
+                  <input style="width: 50vh" type="text" class="form-control" id="staticAnswer" placeholder = "<%=@final_answer_a%>" disabled>
+                </div>
+              <% end %>
               <label style="margin-left: 10px; margin-right: 10px;" for="exampleFormControlInput1">b)</label>
-              <input style="width: 50vh" type="text" class="form-control" id="myAnswerB" placeholder="Redondear a 3 decimales">
+              <% if @error_count == 1 || @error_count == -1 %>
+                <input style="width: 50vh" type="text" class="form-control" id="myAnswerB" placeholder="Redondear a 3 decimales">
+              <% else %>
+                <div>
+                  <% if @error_count == 2 %>
+                    <div class="alert alert-info" role="alert" style="margin-left: 10px; width: 200px;">Respuesta: <%= @respuesta2.round(3) %></div>
+                  <% end %>
+                  <input style="width: 50vh" type="text" class="form-control" id="staticAnswer" placeholder = "<%=@final_answer_b%>" disabled>
+                </div>
+              <% end %>
             </div>
           <% end %>
           <meta name="csrf-token" content="<%= form_authenticity_token %>" />
@@ -100,7 +128,6 @@
 <script>
 
 function handleSendOne() {
-  console.log("asdasd");
   var inputValue = parseFloat(document.getElementById("myAnswer").value);
   var realAnswer = parseFloat("<%= @respuesta %>")
   var errorCounter = parseInt("<%= @error_count %>")
@@ -117,7 +144,7 @@ function handleSendOne() {
   $.ajax({
     type: "POST",
     url: "/update_error_counter_numerical",
-    data: { id: <%= @numerical_question.id %>, error_counter: errorCounter },
+    data: { id: <%= @numerical_question.id %>, error_counter: errorCounter, input_value: inputValue, cantidad_respuestas: "one" },
     headers: {
       "X-CSRF-Token": csrfToken
     }
@@ -147,7 +174,7 @@ function handleSendDouble() {
   $.ajax({
     type: "POST",
     url: "/update_error_counter_numerical",
-    data: { id: <%= @numerical_question.id %>, error_counter: errorCounterD },
+    data: { id: <%= @numerical_question.id %>, error_counter: errorCounterD, input_valueA: inputValueA, input_valueB: inputValueB, cantidad_respuestas: "two" },
     headers: {
       "X-CSRF-Token": csrfToken
     }

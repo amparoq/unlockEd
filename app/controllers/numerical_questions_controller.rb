@@ -65,6 +65,15 @@ class NumericalQuestionsController < ApplicationController
     error_counter_table = ErrorCountNumerical.find_by(numerical_question_id: @numerical_question.id, user_id: current_user.id)
     @show_hint = error_counter_table.hint_show
     @error_count = error_counter_table.error_count
+    if @error_count == 0 || @error_count == 2
+      if task_number == 2
+        @final_answer = UserQuestionValue.find_by(numerical_question_id: @numerical_question.id, user_id: current_user.id, value_name: "inputAnswer")[:value]
+      end
+      if task_number == 4
+        @final_answer_a = UserQuestionValue.find_by(numerical_question_id: @numerical_question.id, user_id: current_user.id, value_name: "inputAnswerA")[:value]
+        @final_answer_b = UserQuestionValue.find_by(numerical_question_id: @numerical_question.id, user_id: current_user.id, value_name: "inputAnswerB")[:value]
+      end
+    end
   end
 
   def update_error_counter
@@ -80,6 +89,18 @@ class NumericalQuestionsController < ApplicationController
 
     if new_error_counter != 0
       error_counter_table.hint_show = true
+    end
+    if (new_error_counter == 0 || new_error_counter == 2) && params[:cantidad_respuestas] == "one"
+      input_value = params[:input_value].to_f
+      entry = UserQuestionValue.create(user_id: current_user.id, value_name: "inputAnswer", value: input_value, numerical_question_id: numerical.id)
+      entry.save
+    end
+    if (new_error_counter == 0 || new_error_counter == 2) && params[:cantidad_respuestas] == "two"
+      input_valueA = params[:input_valueA].to_f
+      input_valueB = params[:input_valueB].to_f
+      entry = UserQuestionValue.create(user_id: current_user.id, value_name: "inputAnswerA", value: input_valueA, numerical_question_id: numerical.id)
+      entry = UserQuestionValue.create(user_id: current_user.id, value_name: "inputAnswerB", value: input_valueB, numerical_question_id: numerical.id)
+      entry.save
     end
     error_counter_table.error_count = new_error_counter
 
