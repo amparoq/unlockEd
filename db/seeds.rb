@@ -6,10 +6,10 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-task1= Task.create(number: 1, status: 0)
-task2= Task.create(number: 2, status: 0)
-task3= Task.create(number: 3, status: 0)
-task4 = Task.create(number: 4, status: 0)
+task1= Task.create(number: 1, status: 0, complexity: 0)
+task2= Task.create(number: 2, status: 0, complexity: 1)
+task3= Task.create(number: 3, status: 0, complexity: 0)
+task4 = Task.create(number: 4, status: 0, complexity: 1)
 
 aq1= AlternativeQuestion.create(difficulty: 0, module: 0, question: "En ausencia de tablas de líquido comprimido, ¿cómo se determina el
 volumen específico de un líquido comprimido a determinadas condiciones de

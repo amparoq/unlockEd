@@ -1,1 +1,172 @@
-<%= @alternatives %>
+<style>
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 370px); 
+    grid-gap: 70px; 
+}
+
+.grid-item {
+    width: 380px;
+    height: 270px;
+    background-color: #ccc;
+    border: 1px solid #000;
+}
+
+.task-content {
+    height: 100px;
+    width: 378px;
+    background-color: white;
+    margin-top: 168px;
+}
+
+  .vertical-line {
+    border-right: 3px solid #b8b9b9;
+    height: 100%;
+    position: absolute;
+    top: 100px;
+    right: 550px;
+  }
+
+  .grid-container-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+  }
+
+.colorP0 {
+    background-color: #ff5757; 
+}
+
+.colorP1 {
+    background-color: #ffd357 
+}
+
+.colorP2 {
+    background-color: #95ff57; 
+}
+
+.colorC0 {
+    background-color: #97fcff
+}
+
+.colorC1 {
+    background-color: #6f69fe; 
+}
+
+.colorC2 {
+    background-color: #b969fe"; 
+}
+</style>
+
+<div style= "margin-top: 20px; margin-left: 20px;"> 
+    <h1 style= "font-weight: bold"> Home </h1>
+    <br>
+    <h4> Tareas pendientes <h4>
+    <div class="grid-container-wrapper">
+        <div class="grid-container" id="gridContainer">
+        <% @pending_tasks.each_with_index do |task, index| %>
+            <% color_class = "colorP#{index}"%> 
+            <div class="grid-item <%= color_class %>" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                    <div class="task-content">
+                        <div style= "margin-left: 20px;">
+                            <h3 style= "font-weight: bold"> Tarea <%= task.number %> </h3> 
+                            <h5> <%= task.complexity %> </h5>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    <br>
+    <h4> Tareas pasadas del módulo <h4>
+    <div class="grid-container" id="gridContainer2">
+    <% @completed_or_skipped_tasks.each_with_index do |task, index| %>
+        <% color_class = "colorC#{index}"%> 
+        <div class="grid-item <%= color_class %>" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+            <div class="task-content">
+                <div style= "margin-left: 20px; font-weight: bold">
+                    <h3 style= "font-weight: bold"> Tarea <%= task.number %> </h3> 
+                    <h5> <%= task.complexity %> </h5>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    <div class="vertical-line"></div>
+    <div style= "width: 350px; height: 420px; background-color: #d8d8d8; position: absolute; top: 120px; right: 100px; border: 2px solid #b8b9b9;"> 
+        <div style= "width: 346px; height: 150px; background-color: white; margin-top: 266px; border-top: 2px solid #b8b9b9;">
+            <h3 style= "font-weight: bold; margin-top: 10px; margin-left: 80px;"><%= current_user.name + " " + current_user.last_name%></h3>
+            <p style= "font-size: 17px; margin-left: 50px;">Email: <%= current_user.email%></p>
+        </div>
+        <div>
+            <h2 style= "margin-top: 50px; margin-left: 32px; font-weight: bold;"> Nivel del estudiante </h2>
+            <canvas id="progressChart" width="200" height="200"></canvas>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var gridItems = document.querySelectorAll('.grid-item');
+
+    gridItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+            var taskId = this.dataset.taskId;
+            var taskComplexity = this.dataset.taskComplexity;
+
+            var url;
+
+            if (taskComplexity === 'compleja') {
+                url = '/tasks/' + taskId + '/numerical_question/1';
+            } else {
+                url = '/tasks/' + taskId + '/alternative_questions/1';
+            }
+
+            window.location.href = url;
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  var ctx = document.getElementById('progressChart').getContext('2d');
+
+  var progressChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [50, 50], // Asegúrate de que la suma sea 100
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.2)', // Color del relleno
+          'rgba(255, 99, 132, 0.2)' // Color de fondo
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 99, 132, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      cutoutPercentage: 80, // Porcentaje de corte ajustado
+      rotation: 1 * Math.PI, // Empieza en la parte superior
+      circumference: 1 * Math.PI, // Circunferencia completa
+      tooltips: {
+        enabled: false
+      }
+    }
+  });
+
+  // Función para actualizar el progreso
+  function actualizarProgreso(nivel) {
+    progressChart.data.datasets[0].data[0] = nivel;
+    progressChart.data.datasets[0].data[1] = 100 - nivel;
+    progressChart.update();
+  }
+
+  // Ejemplo de uso (para actualizar el progreso a 75%)
+  var nivelEstudiante = 75;
+  actualizarProgreso(nivelEstudiante);
+});
+</script>

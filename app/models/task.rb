@@ -7,4 +7,9 @@ class Task < ApplicationRecord
         skipped: 1,
         pending: 0
     }
+
+    enum complexity: {
+        Compleja: 1,
+        Simple: 0
+    }
 end

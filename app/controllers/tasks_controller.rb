@@ -14,6 +14,9 @@ class TasksController < ApplicationController
     .pluck(:id)
     @buenas = ErrorCountAlternative.where(user_id: 1, alternative_question_id: @a1, error_count: [0, 1])
     @malas = ErrorCountAlternative.where(user_id: 1, alternative_question_id: @a1, error_count: 2)
+    if @buenas.count + @malas.count== @task.join_user_alternative_questions.count
+      @task.update(status: 2)
+    end
   end
 
   # GET /tasks/new
