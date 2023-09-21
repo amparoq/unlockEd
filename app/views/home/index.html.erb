@@ -1,30 +1,30 @@
 <style>
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(3, 370px); 
-    grid-gap: 70px; 
+    grid-template-columns: repeat(3, 270px); 
+    grid-gap: 27px; 
 }
 
 .grid-item {
-    width: 380px;
-    height: 270px;
+    width: 270px;
+    height: 190px;
     background-color: #ccc;
     border: 1px solid #000;
 }
 
 .task-content {
-    height: 100px;
-    width: 378px;
+    height: 58px;
+    width: 268px;
     background-color: white;
-    margin-top: 168px;
+    margin-top: 130px;
 }
 
   .vertical-line {
     border-right: 3px solid #b8b9b9;
-    height: 100%;
+    height: 650px;
     position: absolute;
     top: 100px;
-    right: 550px;
+    right: 480px;
   }
 
   .grid-container-wrapper {
@@ -69,8 +69,8 @@
             <div class="grid-item <%= color_class %>" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
                     <div class="task-content">
                         <div style= "margin-left: 20px;">
-                            <h3 style= "font-weight: bold"> Tarea <%= task.number %> </h3> 
-                            <h5> <%= task.complexity %> </h5>
+                            <h5 style= "font-weight: bold"> Tarea <%= task.number %> </h5> 
+                            <p style= "font-size: 14px;"> <%= task.complexity %> </p>
                         </div>
                     </div>
                 </div>
@@ -83,21 +83,21 @@
         <% color_class = "colorC#{index}"%> 
         <div class="grid-item <%= color_class %>" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
             <div class="task-content">
-                <div style= "margin-left: 20px; font-weight: bold">
-                    <h3 style= "font-weight: bold"> Tarea <%= task.number %> </h3> 
-                    <h5> <%= task.complexity %> </h5>
+                <div style= "margin-left: 20px;">
+                    <h5 style= "font-weight: bold"> Tarea <%= task.number %> </h5> 
+                    <p style= "font-size: 14px;"> <%= task.complexity %> </p>
                 </div>
             </div>
         </div>
     <% end %>
     <div class="vertical-line"></div>
-    <div style= "width: 350px; height: 420px; background-color: #d8d8d8; position: absolute; top: 120px; right: 100px; border: 2px solid #b8b9b9;"> 
-        <div style= "width: 346px; height: 150px; background-color: white; margin-top: 266px; border-top: 2px solid #b8b9b9;">
-            <h3 style= "font-weight: bold; margin-top: 10px; margin-left: 80px;"><%= current_user.name + " " + current_user.last_name%></h3>
-            <p style= "font-size: 17px; margin-left: 50px;">Email: <%= current_user.email%></p>
+    <div style= "width: 250px; height: 300px; background-color: #d8d8d8; position: absolute; top: 120px; right: 110px; border: 2px solid #b8b9b9;"> 
+        <div style= "width: 246px; height: 100px; background-color: white; margin-top: 196px; border-top: 2px solid #b8b9b9;">
+            <h3 style= "font-weight: bold; font-size: 14px; margin-top: 10px; margin-left: 73px;"><%= current_user.name + " " + current_user.last_name%></h3>
+            <p style= "font-size: 12px; margin-left: 37px;">Email: <%= current_user.email%></p>
         </div>
         <div>
-            <h2 style= "margin-top: 50px; margin-left: 32px; font-weight: bold;"> Nivel del estudiante </h2>
+            <h2 style= "margin-top: 10px; margin-left: 50px; font-weight: bold;"> Nivel del estudiante </h2>
             <canvas id="progressChart" width="200" height="200"></canvas>
         </div>
     </div>
