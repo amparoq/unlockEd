@@ -13,7 +13,6 @@
 ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
   create_table "alternative_questions", force: :cascade do |t|
     t.integer "difficulty"
-    t.integer "module"
     t.string "question"
     t.string "alternative_a"
     t.string "alternative_b"
@@ -74,7 +73,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
 
   create_table "numerical_questions", force: :cascade do |t|
     t.integer "difficulty"
-    t.integer "module"
     t.string "question"
     t.integer "template"
     t.integer "error_count"
@@ -89,6 +87,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
   create_table "tasks", force: :cascade do |t|
     t.integer "number"
     t.integer "status"
+    t.integer "module"
     t.integer "complexity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -132,6 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
     t.float "user_level"
     t.integer "streak"
     t.integer "module"
+    t.integer "role", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false

@@ -103,9 +103,3 @@ rails generate devise:install
 rails generate devise User
 
 
-
-TO DO sabado 9 de sept:
-
--Hacer un modelo template para poder calcular respuestas de las numerical questions segun el template (if numerical_question.id que sea if template id)
-
--Realizar la primera tarea numerica (casi igual que lo de alternativas)

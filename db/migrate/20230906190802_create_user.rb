@@ -6,6 +6,7 @@ class CreateUser < ActiveRecord::Migration[7.0]
       t.float :user_level
       t.integer :streak
       t.integer :module
+      t.integer :role, default: 0
 
       t.timestamps
     end

@@ -3,7 +3,11 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all
+    if current_user.student? 
+      @tasks = UserTask.where("user_id = ?", current_user.id).map(&:task)
+    else
+      @tasks = Task.all
+    end
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -33,11 +37,11 @@ class TasksController < ApplicationController
 
   # POST /tasks or /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = Task.new(module: task_params[:module].to_i, complexity: task_params[:complexity].to_i)
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to task_url(@task), notice: "Task was successfully created." }
+        format.html { redirect_to root_path, notice: "Task was successfully created." }
         format.json { render :show, status: :created, location: @task }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -77,6 +81,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.fetch(:task, {})
+      params.fetch(:task, {}).permit(:module, :complexity)
     end
 end

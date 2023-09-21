@@ -1,9 +1,11 @@
-<h1>New task</h1>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<%= render "form", task: @task %>
+<%= form_for @task do |f| %>
+  <%= f.label :module, "Tema" %>
+  <%= f.select :module, options_for_select([["Entalpía", 0], ["Tablas de Saturación", 1], ["Calor Latente", 2], ["Diagrama de fases", 3], ["Calidad de mezclas", 4]], selected: f.object.module), {}, class: "form-control", id: "exampleFormControlSelect1" %>
 
-<br>
+  <%= f.label :complexity, "Dificultad" %>
+  <%= f.select :complexity, options_for_select([["Baja", 0], ["Media", 1], ["Alta", 2]], selected: f.object.module), {}, class: "form-control", id: "exampleFormControlSelect1" %>
 
-<div>
-  <%= link_to "Back to tasks", tasks_path %>
-</div>
+  <%= f.submit 'Create Task', class: 'btn btn-success' %>
+<% end %>

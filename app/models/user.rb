@@ -9,6 +9,11 @@ class User < ApplicationRecord
   has_many :error_count_alternatives
   has_many :user_tasks
 
+  enum role: {
+    teacher: 1,
+    student: 0
+  }
+
   after_save :handle_assignment
 
   private
