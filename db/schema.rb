@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_20_195710) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_11_185310) do
   create_table "alternative_questions", force: :cascade do |t|
     t.integer "difficulty"
     t.integer "module"
@@ -89,9 +89,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_20_195710) do
   create_table "tasks", force: :cascade do |t|
     t.integer "number"
     t.integer "status"
+    t.integer "attempt", default: 0
+    t.integer "complexity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "complexity"
   end
 
   create_table "user_numeric_answers", force: :cascade do |t|
