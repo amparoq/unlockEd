@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :user_question_values
   has_many :error_count_numericals
   has_many :error_count_alternatives
+  has_many :user_tasks
 
   after_save :handle_assignment
 
@@ -14,6 +15,7 @@ class User < ApplicationRecord
 
   def handle_assignment 
     task_1 = Task.find_by(number: 1)
+    UserTask.create(user_id: self.id, task_id: task_1.id)
     alternatives_joined = task_1.join_user_alternative_questions
     alternatives = []
     alternatives_joined.each do |al|
@@ -28,6 +30,7 @@ class User < ApplicationRecord
     entry2 = ErrorCountNumerical.create(user_id: self.id, numerical_question_id: numerical_question.id)
     entry2.save
     task_3 = Task.find_by(number: 3)
+    UserTask.create(user_id: self.id, task_id: task_3.id)
     alternatives_joined = task_3.join_user_alternative_questions
     alternatives = []
     alternatives_joined.each do |al|

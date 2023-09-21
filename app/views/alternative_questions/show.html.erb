@@ -27,6 +27,30 @@
         "X-CSRF-Token": csrfToken
       }
     });
+    if("<%= @alternative_question.join_user_alternative_questions.first.order_number %>" != "<%= @total_questions%>"){
+      window.location.href = "<%= task_alternative_question_path(@task, @next_question) %>"
+    }
+    else{
+      document.getElementById('resultadoDiv').style.display = 'block';
+      document.getElementById('botonEnviar').style.display = 'none';
+    }
+  }
+
+  function handleVerResultados() {
+    var csrfToken = document.querySelector("meta[name=csrf-token]").content;
+    $.ajax({
+      type: "POST",
+      url: "/update_attempt",
+      data: { id: <%= @alternative_question.id %> },
+      headers: {
+        "X-CSRF-Token": csrfToken
+      }
+    });
+    window.location.href = "/tasks/" + "<%= @task.id %>"
+  }
+
+  function redirectToNextQuestion(url) {
+    window.location.href = url;
   }
 </script>
 
@@ -66,7 +90,7 @@
         <hr style="margin: 0; border: 1.5px solid #dbdbdb; margin-top: 10px; margin-left: 30px; margin-right: 40px;">
         <div style="margin-top: 20px; margin-left: 20px;">
           <label for="alternative_a">
-          <% if @answer_a_show %>
+          <% if @answer_a_show || @error_counter == 0 %>
           <input type="radio" id="alternative_a" name="alternative" value="A" disabled>
           A)
           <%= @alternative_question.alternative_a %>
@@ -85,7 +109,7 @@
         </div>
         <div style="margin-top: 20px; margin-left: 20px;">
           <label for="alternative_b">
-          <% if @answer_b_show %>
+          <% if @answer_b_show || @error_counter == 0 %>
           <input type="radio" id="alternative_b" name="alternative" value="B" disabled>
           B)
           <%= @alternative_question.alternative_b %>
@@ -104,7 +128,7 @@
         </div>
         <div style="margin-top: 20px; margin-left: 20px;">
           <label for="alternative_c">
-            <% if @answer_c_show %>
+            <% if @answer_c_show || @error_counter == 0 %>
               <input type="radio" id="alternative_c" name="alternative" value="C" disabled>
               C)
               <%= @alternative_question.alternative_c %>
@@ -122,18 +146,24 @@
           <% end %>
         </div>
         <meta name="csrf-token" content="<%= form_authenticity_token %>" />
-        <% if @error_counter == 1 || @error_counter == -1 %>
-          <div style="margin-top: 20px; margin-left: 20px;">
+        <% if (@attempt == 0 || @attempt == 1) && @error_counter != 0 %>
+          <div id="botonEnviar" style="margin-top: 20px; margin-left: 20px; display: block;">
             <button style="margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" data-correct-alternative="<%= @alternative_question.correct_alternative %>" data-alternative-id="<%= @alternative_question.id %>" onclick= "handleSend(this)" >Enviar</button>
           </div>
-        <% end %>
-        <% if @error_counter == 0 || @error_counter == 2 %>
-          <% if @alternative_question.join_user_alternative_questions.first.order_number == @total_questions%>
-            <a href="/tasks/<%= @task.id %>" style="margin-left: 450px; margin-bottom: 20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit">Ver resultados</a>
+        <% else %>
+          <% if @alternative_question.join_user_alternative_questions.first.order_number != @total_questions %>
+            <div id="botonEnviar" style="margin-top: 20px; margin-left: 20px; display: block;">
+              <button style="margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;"
+                onclick="redirectToNextQuestion('<%= task_alternative_question_path(@task, @next_question) %>')">Continuar
+              </button>
+            </div>
           <% else %>
-            <a href="<%= task_alternative_question_path(@task, @next_question) %>" style= "margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" >Continuar</a>
+            <button style="margin-left: 450px; margin-bottom: 20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" onclick="handleVerResultados()">Ver resultados</button>
           <% end %>
         <% end %>
+        <div id="resultadoDiv" style="display: none;">
+          <button style="margin-left: 450px; margin-bottom: 20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" onclick="handleVerResultados()">Ver resultados</button>
+        </div>
     </div>
   </div>
 </div>

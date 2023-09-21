@@ -16,7 +16,16 @@ class AlternativeQuestionsController < ApplicationController
     @answer_a_show = error_counter_table.answer_a_show
     @answer_b_show = error_counter_table.answer_b_show
     @answer_c_show = error_counter_table.answer_c_show
+    @attempt = UserTask.find_by(user_id: current_user.id, task_id: @task.id)[:attempt]
 
+  end
+
+  def update_attempt 
+    @alternative_question = AlternativeQuestion.find(params[:id])
+    @task= Task.find(@alternative_question.join_user_alternative_questions.first.task_id)
+    @user_task = UserTask.find_by(user_id: current_user.id, task_id: @task.id)
+    @user_task.attempt = @user_task.attempt + 1
+    @user_task.save
   end
 
   def update_error_counter
@@ -44,9 +53,6 @@ class AlternativeQuestionsController < ApplicationController
 
     error_counter_table.save
     
-    respond_to do |format|
-      format.js {render inline: "location.reload();" }
-    end
   end
 
   # GET /alternative_questions/new

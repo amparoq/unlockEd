@@ -10,13 +10,16 @@ class TasksController < ApplicationController
   def show
     @task = Task.find(params[:id])
     @a1 = alternative_question_ids = AlternativeQuestion.joins(:join_user_alternative_questions)
-    .where(join_user_alternative_questions: { task_id: 1 })
+    .where(join_user_alternative_questions: { task_id: @task.id })
     .pluck(:id)
-    @buenas = ErrorCountAlternative.where(user_id: 1, alternative_question_id: @a1, error_count: [0, 1])
-    @malas = ErrorCountAlternative.where(user_id: 1, alternative_question_id: @a1, error_count: 2)
-    if @buenas.count + @malas.count== @task.join_user_alternative_questions.count
-      @task.update(status: 2)
-    end
+    @usertask = UserTask.find_by(user_id: current_user.id, task_id: @task.id)
+    @buenas = ErrorCountAlternative.where(user_id: current_user.id, alternative_question_id: @a1, error_count: 0)
+    @malas = ErrorCountAlternative.where(user_id: current_user.id, alternative_question_id: @a1, error_count: [1, 2])
+    if !@malas.present?
+      @usertask.attempt = 2
+      @usertask.save
+    end 
+    @attempt = @usertask.attempt
   end
 
   # GET /tasks/new
