@@ -67,10 +67,11 @@ class AlternativeQuestionsController < ApplicationController
   # POST /alternative_questions or /alternative_questions.json
   def create
     @alternative_question = AlternativeQuestion.new(alternative_question_params)
+    @alternative_question.difficulty = alternative_question_params[:difficulty].to_i
 
     respond_to do |format|
       if @alternative_question.save
-        format.html { redirect_to alternative_question_url(@alternative_question), notice: "Alternative question was successfully created." }
+        format.html { redirect_to root_path, notice: "Alternative question was successfully created." }
         format.json { render :show, status: :created, location: @alternative_question }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -110,6 +111,6 @@ class AlternativeQuestionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def alternative_question_params
-      params.fetch(:alternative_question, {})
+      params.fetch(:alternative_question, {}).permit(:module, :difficulty, :question, :alternative_a, :alternative_a_answer, :alternative_b, :alternative_b_answer, :alternative_c, :alternative_c_answer, :correct_alternative)
     end
 end

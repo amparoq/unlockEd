@@ -6,12 +6,12 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-task1= Task.create(number: 1, status: 0, complexity: 0, module: 0)
-task2= Task.create(number: 2, status: 0, complexity: 1, module: 0)
-task3= Task.create(number: 3, status: 0, complexity: 0, module: 1)
-task4 = Task.create(number: 4, status: 0, complexity: 1, module: 1)
+task1= Task.create(number: 1, status: 0, complexity: 0)
+task2= Task.create(number: 2, status: 0, complexity: 1)
+task3= Task.create(number: 3, status: 0, complexity: 0)
+task4 = Task.create(number: 4, status: 0, complexity: 1)
 
-aq1= AlternativeQuestion.create(difficulty: 0, question: "En ausencia de tablas de líquido comprimido, ¿cómo se determina el
+aq1= AlternativeQuestion.create(difficulty: 0, module: 0, question: "En ausencia de tablas de líquido comprimido, ¿cómo se determina el
 volumen específico de un líquido comprimido a determinadas condiciones de
 P y T?", alternative_a: "Utilizando ecuaciones de estado y propiedades termodinámicas
 conocidas del líquido comprimido a esas condiciones de presión (P) y
@@ -22,12 +22,12 @@ utilizando un dispositivo apropiado, como un densímetro o un picnómetro,
 para determinar el volumen y calcular el volumen específico.", alternative_a_answer: "Se menciona el uso de ecuaciones de estado y propiedades termodinámicas conocidas del líquido comprimido, pero esto puede no ser suficientemente preciso, especialmente en condiciones extremas.", alternative_b_answer:"Se habla de correlaciones empíricas basadas en datos experimentales previos de líquidos similares, lo cual puede llevar a resultados imprecisos.",
 alternative_c_answer: "", correct_alternative: "C")
 
-aq2= AlternativeQuestion.create(difficulty: 0, question: "¿Cuál de los siguientes diagramas de fase representa la relación entre la
+aq2= AlternativeQuestion.create(difficulty: 0, module: 0, question: "¿Cuál de los siguientes diagramas de fase representa la relación entre la
 presión (P) y el volumen específico (v) de una sustancia mientras se mantiene
 constante la temperatura (T)?", alternative_a: "Diagrama P-T (Presión-Temperatura).", alternative_b: "Diagrama V-T (Volumen-Temperatura).", alternative_c: "Diagrama P-V (Presión-Volumen)", alternative_a_answer: "Se menciona el Diagrama P-T (Presión-Temperatura), pero este diagrama muestra la relación entre la presión y la temperatura, no el volumen específico.", alternative_b_answer: "Se habla del Diagrama V-T (Volumen-Temperatura), pero este diagrama muestra cómo cambia el volumen específico en función de la temperatura, sin tener en cuenta la presión.",
 alternative_c_answer: "", correct_alternative: "C")
 
-aq3= AlternativeQuestion.create(difficulty: 0, question: "En un diagrama de fase P-V-T (Presión-Volumen-Temperatura), ¿cómo se
+aq3= AlternativeQuestion.create(difficulty: 0, module: 0, question: "En un diagrama de fase P-V-T (Presión-Volumen-Temperatura), ¿cómo se
 representa el estado en el cual una sustancia coexiste en equilibrio entre su
 fase líquida y vapor?", alternative_a: "Punto crítico.", alternative_b: "Línea de saturación líquido-vapor.", alternative_c: "Isoterma.", alternative_a_answer: "El punto crítico es el límite en el cual las densidades del líquido y del vapor son iguales", alternative_b_answer:"",
 alternative_c_answer: "Una reacción isoterma es una reacción donde la temperatura es constante.", correct_alternative: "B")
@@ -36,7 +36,7 @@ j1= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 1, task_id: ta
 j2= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 2, task_id: task1.id, alternative_question_id: aq2.id)
 j3= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 3, task_id: task1.id, alternative_question_id: aq3.id)
 
-aq4= AlternativeQuestion.create(difficulty: 0, question: "¿Cuál de las siguientes afirmaciones describe mejor la entalpía (H) en
+aq4= AlternativeQuestion.create(difficulty: 0, module: 1, question: "¿Cuál de las siguientes afirmaciones describe mejor la entalpía (H) en
 termodinámica?", alternative_a: "La entalpía es una medida de la energía interna de un sistema
 termodinámico.", alternative_b: "La entalpía es una medida de la cantidad de calor que fluye hacia o
 desde un sistema a presión constante.", alternative_c: "La entalpía es la suma de la energía interna del sistema y el
@@ -44,7 +44,7 @@ producto de su presión y volumen. Se utiliza para describir los cambios en
 el contenido de energía durante procesos a presión constante.", alternative_a_answer: "Esta afirmación se refiere a la definición de energía interna, no a la entalpía (H).", alternative_b_answer:"Esta afirmación describe correctamente la entalpía en términos de flujo de calor a presión constante.",
 alternative_c_answer: "", correct_alternative: "C")
 
-aq5= AlternativeQuestion.create(difficulty: 0, question: "¿Qué representa el cambio en la entalpía (ΔH) en un proceso químico o
+aq5= AlternativeQuestion.create(difficulty: 0, module: 1, question: "¿Qué representa el cambio en la entalpía (ΔH) en un proceso químico o
 físico?", alternative_a: "El cambio en la entalpía representa la variación en la cantidad de
 sustancias presentes en un sistema.", alternative_b: "El cambio en la entalpía representa la variación en la energía
 interna del sistema y la cantidad de calor transferido a presión constante
@@ -52,7 +52,7 @@ durante un proceso químico o físico.", alternative_c: "El cambio en la entalp�
 sistema a presión constante.", alternative_a_answer: "Esta afirmación no describe correctamente lo que representa el cambio en la entalpía (ΔH) en un proceso químico o físico.", alternative_b_answer:"",
 alternative_c_answer: "Esta afirmación se refiere a la variación de temperatura, pero no es el único factor que representa el cambio en la entalpía (ΔH).", correct_alternative: "B")
 
-aq6= AlternativeQuestion.create(difficulty: 0, question: "¿Cuál de las siguientes afirmaciones es cierta acerca de la entalpía estándar
+aq6= AlternativeQuestion.create(difficulty: 0, module: 1, question: "¿Cuál de las siguientes afirmaciones es cierta acerca de la entalpía estándar
 de formación (ΔH∘f) de una sustancia química?", alternative_a: "La entalpía estándar de formación es la energía total absorbida o
 liberada por una sustancia durante su formación a partir de sus elementos
 constituyentes, medida a 298 K y 1 atm.", alternative_b: "La entalpía estándar de formación es la energía interna total de una
@@ -63,6 +63,7 @@ alternative_c_answer: "", correct_alternative: "C")
 
 aq7 = AlternativeQuestion.create(
   difficulty: 0,
+  module: 1,
   question: "¿Qué representa un cambio en la entalpía (ΔH) positivo en un proceso químico?",
   alternative_a: "Un cambio en la entalpía positivo indica que el proceso es exotérmico y que el sistema libera energía hacia el entorno.",
   alternative_b: "Un cambio en la entalpía positivo indica que el proceso es endotérmico y que el sistema absorbe energía del entorno.",

@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   resources :tasks do
-    resources :alternative_questions
+    resources :alternative_questions, :except => [:new, :create]
     resources :numerical_questions
   end
 
+  resources :alternative_questions, :only => [:new, :create]
 
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   

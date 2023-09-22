@@ -37,11 +37,12 @@ class TasksController < ApplicationController
 
   # POST /tasks or /tasks.json
   def create
+    cant_preguntas = task_params[:cant_preguntas].to_i
     @task = Task.new(module: task_params[:module].to_i, complexity: task_params[:complexity].to_i)
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to root_path, notice: "Task was successfully created." }
+        format.html { redirect_to new_task_alternative_question_path(@task, cant_preguntas: cant_preguntas), notice: "Task was successfully created." }
         format.json { render :show, status: :created, location: @task }
       else
         format.html { render :new, status: :unprocessable_entity }

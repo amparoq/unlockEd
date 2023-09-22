@@ -2,6 +2,7 @@ class CreateAlternativeQuestion < ActiveRecord::Migration[7.0]
   def change
     create_table :alternative_questions do |t|
       t.integer :difficulty
+      t.integer :module
       t.string :question
       t.string :alternative_a
       t.string :alternative_b
