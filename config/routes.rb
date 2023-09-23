@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "home#index"
+  get "main_excel", to: 'excel#main'
   post "/redirect_to_task", to: 'home#redirect_to_task'
   post "/update_error_counter", to: 'alternative_questions#update_error_counter'
   post "/update_error_counter_numerical", to: 'numerical_questions#update_error_counter'

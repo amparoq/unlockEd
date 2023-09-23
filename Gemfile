@@ -79,4 +79,4 @@ gem 'rails-ujs'
 
 gem 'chartkick', '~> 5.0', '>= 5.0.4'
 
-gem 'cocoon'
+gem 'roo', '~> 2.4'
