@@ -116,8 +116,31 @@ ne3 = "{{n}} moles de un gas ideal monoatómico ocupan un volumen de {{v1}} m³ 
 a) La variación de entalpía del sistema (ΔH) en J.
 b) La variación de energía interna del sistema (ΔU) en J."
 nume3 = NumericalQuestion.create(difficulty: 1, question: ne3, template: 4, hint: "Recuerda que la energía interna en procesos isotérmicos es 0", module: 1, alter_domain: false)
-#Calor Latente
 
+#Calor Latente
+ncl1 = "Un bloque de hielo de {{masa_g}} g a {{temp_hielo}} °C se calienta hasta convertirse completamente en agua a {{temp_agua}} °C. El calor latente de fusión del hielo es 334 J/g y el calor específico del agua es 4.18 J/g⋅°C. ¿Cuánto calor en J se ha agregado al sistema durante este proceso?"
+numcl1 = NumericalQuestion.create(
+  difficulty: 1, question: ncl1,
+  template: 7, hint: "Debes calcular el calor en cada cambio de fase y además en cada proceso de aumento de temperatura.",
+  module: 2, alter_domain: false
+)
+
+ncl2 = "Cual es el calor latente de fusión (en KJ/Kg) de una sustancia desconocida si se necesitaron {{Q}} kj de calor para fundir {{masa_kg}} kg de este."
+numcl2 = NumericalQuestion.create(
+  difficulty: 0, question: ncl2,
+  template: 8, hint: "El calor latente de fusión es la cantidad de calor necesaria para fundir 1 kg del material.",
+  module: 2, alter_domain: false
+)
+
+ncl3 = "Un bloque de hielo de {{masa_g}} g a {{temp_hielo}} °C se calienta hasta convertirse completamente en vapor a {{temp_vapor}} °C. El calor latente de fusión del hielo es 334 J/g, el calor específico del hielo es 2,05 J/g⋅°C, el calor específico del agua es 4.18 J/g⋅°C, el calor latente de vaporización del agua es 2260 J/g y el calor específico del vapor es de 2,08 J/g·C. Determina:
+a) El calor necesario para fundir el hielo en agua.
+b) El calor total necesario para todo el proceso.
+Calcula el calor en J."
+numcl3 = NumericalQuestion.create(
+  difficulty: 2, question: ncl3,
+  template: 9, hint: "Debes calcular el calor en cada cambio de fase y además en cada proceso de aumento de temperatura.",
+  module: 2, alter_domain: false
+)
 #Diagramas de fases
 
 #Calidad de mezclas
@@ -136,6 +159,8 @@ task5 = Task.create(number: 5, complexity: 1)
 task6 = Task.create(number: 6, complexity: 1)
 task7 = Task.create(number: 7, complexity: 1)
 task8 = Task.create(number: 8, complexity: 1)
+task9 = Task.create(number: 9, complexity: 1)
+task10 = Task.create(number: 10, complexity: 1)
 
 
 j1= JoinUserAlternativeQuestion.create(order_number: 1, task_id: task1.id, alternative_question_id: aq1.id)
@@ -150,12 +175,18 @@ j7= JoinUserAlternativeQuestion.create(order_number: 4, task_id: task3.id, alter
 j1_numerical = JoinUserNumericalQuestion.create(task_id: task2.id, numerical_question_id: numerical_1.id)
 j2_numerical = JoinUserNumericalQuestion.create(task_id: task4.id, numerical_question_id: nume1.id)
 
-JoinUserNumericalQuestion.create(task_id: task8.id, numerical_question_id: numts3.id)
+JoinUserNumericalQuestion.create(task_id: task8.id, numerical_question_id: numcl1.id)
+JoinUserNumericalQuestion.create(task_id: task9.id, numerical_question_id: numcl2.id)
+JoinUserNumericalQuestion.create(task_id: task10.id, numerical_question_id: numcl3.id)
 
 u1= User.create(name: "David", last_name: "Diepold", user_level: 0, streak: 0, module: 0, email: "daviddiepold@gmail.com", password: "123456")
 #Pruebas
-ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numts3.id, task_id: task8.id)
+ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcl1.id, task_id: task8.id)
 UserTask.create(user_id: u1.id, task_id: task8.id)
+ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcl2.id, task_id: task9.id)
+UserTask.create(user_id: u1.id, task_id: task9.id)
+ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcl3.id, task_id: task10.id)
+UserTask.create(user_id: u1.id, task_id: task10.id)
 
 u2= User.create(name: "Hola", last_name: "Chao", user_level: 0, streak: 0, module: 0, email: "hc@gmail.com", password: "123456")
 teacher = User.create(name: "Profesor", last_name: "Morales", email: "pmorales@admin.cl", password: "123456", role: 1)

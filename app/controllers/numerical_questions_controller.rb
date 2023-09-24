@@ -79,50 +79,60 @@ class NumericalQuestionsController < ApplicationController
           end
         end
       end
-    else
-      #variables para calcular respuesta
-      if @numerical_question.template == 1
-        @masa_kg_val = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-        @presion = UserQuestionValue.find_by(value_name: "presion_saturacion", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-      elsif @numerical_question.template == 2
-        @p1 = UserQuestionValue.find_by(value_name: "p1", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-        @v1 = UserQuestionValue.find_by(value_name: "v1", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-        @p2 = UserQuestionValue.find_by(value_name: "p2", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-        @v2 = UserQuestionValue.find_by(value_name: "v2", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-      elsif @numerical_question.template == 3
-        @masa_kg_val = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-        @t_agua_sat = UserQuestionValue.find_by(value_name: "t_agua_sat", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value].to_i
-        @entalpia_esp = entalpia_con_temp[@t_agua_sat]
-      elsif @numerical_question.template == 4
-        @t1 = UserQuestionValue.find_by(value_name: "t1", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-        @v1 = UserQuestionValue.find_by(value_name: "v1", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-        @v2 = UserQuestionValue.find_by(value_name: "v2", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-        @n = UserQuestionValue.find_by(value_name: "n", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-      elsif @numerical_question.template == 5
-        temp_cVap = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, task_id: @task.id)[:value]
-        @presion_sat_temp = presion_per_temp[temp_cVap]
-        @volumen_agua_saturada = result_hash[temp_cVap]
-        @volumen_vapor_saturado = result_vap[temp_cVap]
-        @masa_total = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, task_id: @task.id)[:value]
-        @masa_agua = UserQuestionValue.find_by(value_name: "masa_kg_men", user_id: current_user.id, task_id: @task.id)[:value]
-        @masa_vap = @masa_total - @masa_agua
-      elsif @numerical_question.template == 6
-        @presion_134a = UserQuestionValue.find_by(value_name: "presion_134a", user_id: current_user.id, task_id: @task.id)[:value]
-        if @presion_134a.to_i == @presion_134a
-          @temp_134 = temp_per_presion134[@presion_134a.to_i]
-        else
-          @temp_134 = temp_per_presion134[@presion_134a]
-        end
+    end
+    #variables para calcular respuesta
+    if @numerical_question.template == 1
+      @masa_kg_val = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @presion = UserQuestionValue.find_by(value_name: "presion_saturacion", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+    elsif @numerical_question.template == 2
+      @p1 = UserQuestionValue.find_by(value_name: "p1", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @v1 = UserQuestionValue.find_by(value_name: "v1", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @p2 = UserQuestionValue.find_by(value_name: "p2", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @v2 = UserQuestionValue.find_by(value_name: "v2", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+    elsif @numerical_question.template == 3
+      @masa_kg_val = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @t_agua_sat = UserQuestionValue.find_by(value_name: "t_agua_sat", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value].to_i
+      @entalpia_esp = entalpia_con_temp[@t_agua_sat]
+    elsif @numerical_question.template == 4
+      @t1 = UserQuestionValue.find_by(value_name: "t1", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @v1 = UserQuestionValue.find_by(value_name: "v1", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @v2 = UserQuestionValue.find_by(value_name: "v2", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @n = UserQuestionValue.find_by(value_name: "n", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+    elsif @numerical_question.template == 5
+      temp_cVap = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, task_id: @task.id)[:value]
+      @presion_sat_temp = presion_per_temp[temp_cVap]
+      @volumen_agua_saturada = result_hash[temp_cVap]
+      @volumen_vapor_saturado = result_vap[temp_cVap]
+      @masa_total = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, task_id: @task.id)[:value]
+      @masa_agua = UserQuestionValue.find_by(value_name: "masa_kg_men", user_id: current_user.id, task_id: @task.id)[:value]
+      @masa_vap = @masa_total - @masa_agua
+    elsif @numerical_question.template == 6
+      @presion_134a = UserQuestionValue.find_by(value_name: "presion_134a", user_id: current_user.id, task_id: @task.id)[:value]
+      if @presion_134a.to_i == @presion_134a
+        @temp_134 = temp_per_presion134[@presion_134a.to_i]
+      else
+        @temp_134 = temp_per_presion134[@presion_134a]
       end
-
-      if UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, task_id: @task.id).present?
-        @valor_temp = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, task_id: @task.id)[:value]
-        @volumen_agua_saturada = result_hash[@valor_temp]
-      end
-      @enunciado = UserQuestionValue.find_by(user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id).statement
+    elsif @numerical_question.template == 7
+      @masa_g = UserQuestionValue.find_by(value_name: "masa_g", user_id: current_user.id, task_id: @task.id)[:value]
+      @temp_hielo = UserQuestionValue.find_by(value_name: "temp_hielo", user_id: current_user.id, task_id: @task.id)[:value]
+      @temp_agua = UserQuestionValue.find_by(value_name: "temp_agua", user_id: current_user.id, task_id: @task.id)[:value]
+    elsif @numerical_question.template == 8
+      @masa_kg = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, task_id: @task.id)[:value]
+      @Q = UserQuestionValue.find_by(value_name: "Q", user_id: current_user.id, task_id: @task.id)[:value]
+    elsif @numerical_question.template == 9
+      @masa_g = UserQuestionValue.find_by(value_name: "masa_g", user_id: current_user.id, task_id: @task.id)[:value]
+      @temp_hielo = UserQuestionValue.find_by(value_name: "temp_hielo", user_id: current_user.id, task_id: @task.id)[:value]
+      @temp_vapor = UserQuestionValue.find_by(value_name: "temp_vapor", user_id: current_user.id, task_id: @task.id)[:value]
     end
 
+    if UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, task_id: @task.id).present?
+      @valor_temp = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, task_id: @task.id)[:value]
+      @volumen_agua_saturada = result_hash[@valor_temp]
+    end
+    @enunciado = UserQuestionValue.find_by(user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id).statement
 
+    #Respuestas
     if @numerical_question.template == 1
       @two_answer = false
       @respuesta = @volumen_agua_saturada*UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, task_id: @task.id)[:value]
@@ -157,6 +167,19 @@ class NumericalQuestionsController < ApplicationController
     if @numerical_question.template == 6
       @two_answer = false
       @respuesta = @temp_134
+    end
+    if @numerical_question.template == 7
+      @two_answer = false
+      @respuesta = @masa_g * 2.05 * (-(@temp_hielo)) + @masa_g * 334 + @masa_g * 4.18 * (@temp_agua)
+    end
+    if @numerical_question.template == 8
+      @two_answer = false
+      @respuesta = @Q/@masa_kg
+    end
+    if @numerical_question.template == 9
+      @two_answer = true
+      @respuesta1 = @masa_g * 334
+      @respuesta2 = @masa_g * 2.05 * (-(@temp_hielo)) + @respuesta1 + @masa_g * 4.18 * (100) + @masa_g * 2260 + @masa_g * 2.08 * (@temp_vapor - 100)
     end
 
     error_counter_table = ErrorCountNumerical.find_by(numerical_question_id: @numerical_question.id, user_id: current_user.id, task_id: @task.id)
