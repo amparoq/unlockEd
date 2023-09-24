@@ -174,7 +174,7 @@ function handleSendDouble() {
   $.ajax({
     type: "POST",
     url: "/update_error_counter_numerical",
-    data: { id: <%= @numerical_question.id %>, error_counter: errorCounterD, input_valueA: inputValueA, input_valueB: inputValueB, cantidad_respuestas: "two" },
+    data: { id: <%= @numerical_question.id %>, error_counter: errorCounterD, input_valueA: inputValueA, input_valueB: inputValueB, cantidad_respuestas: "two", task_id: <%= @task.id %> },
     headers: {
       "X-CSRF-Token": csrfToken
     }

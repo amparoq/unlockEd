@@ -25,6 +25,9 @@ class AlternativeQuestionsController < ApplicationController
     @task= Task.find(@alternative_question.join_user_alternative_questions.first.task_id)
     @user_task = UserTask.find_by(user_id: current_user.id, task_id: @task.id)
     @user_task.attempt = @user_task.attempt + 1
+    if @user_task.attempt == 2
+      @user_task.status = 2
+    end
     @user_task.save
   end
 
@@ -52,7 +55,7 @@ class AlternativeQuestionsController < ApplicationController
     end
 
     error_counter_table.save
-    
+
   end
 
   # GET /alternative_questions/new

@@ -49,5 +49,7 @@ class User < ApplicationRecord
     numerical_question = task_4.join_user_numerical_questions.first.numerical_question
     entry4 = ErrorCountNumerical.create(user_id: self.id, numerical_question_id: numerical_question.id)
     entry4.save
+    UserTask.create(user_id: self.id, task_id: task_2.id)
+    UserTask.create(user_id: self.id, task_id: task_4.id)
   end
 end

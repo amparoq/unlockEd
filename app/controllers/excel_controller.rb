@@ -11,26 +11,19 @@ class ExcelController < ApplicationController
         @data = []
         @data2 = []
 
+
         3.upto(xlsx_vc.last_row) do |row_num|
-            row = Hash[headers.zip(xlsx_vc.row(row_num))]
-            @data << row
+            info_all = Hash[headers.zip(xlsx_vc.row(row_num))]
+            if info_all["Variable"] == "V"
+                row = Hash[["tsat (°C)", "liq.sat."].zip(xlsx_vc.row(row_num))]
+                @data << row
+            end
         end
-
-        3.upto(xlsx_sc.last_row) do |row_num|
-            row = Hash[headers_sc.zip(xlsx_sc.row(row_num))]
-            @data2 << row
-        end
-
-        @temp_sat = Set.new
-        @data.each do |d|
-            @temp_sat.add(d["tsat (°C)"])
-        end
-        @temp_sat = @temp_sat.to_a
 
         @data2.each do |d2|
             if d2["P (kPa)"] == 1 && d2["Variable"] == "V"
                 @volumen = d2[75]
             end
-        end
+        end                                                             
     end
 end

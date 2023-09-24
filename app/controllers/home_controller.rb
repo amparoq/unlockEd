@@ -1,10 +1,8 @@
 class HomeController < ApplicationController
 
     def index
-        @tasks = UserTask.where("user_id = ?", current_user.id).map(&:task)
-        @pending_tasks = @tasks.select { |task| task.status == "pending" }
-
-        @completed_or_skipped_tasks = @tasks.select { |task| ["completed", "skipped"].include?(task.status) }
+        @pending_tasks = UserTask.where("user_id = ? and status = ? and attempt <= ?", current_user.id, 0, 1).map(&:task)
+        @completed_or_skipped_tasks = UserTask.where("user_id = ? and (status = ? or status = ? or attempt = ?)", current_user.id, 1, 2, 2).map(&:task)
 
         @colors= ["#ff5757", "#ffd357", "#95ff57", "#84feed", "#6f69fe", "#b969fe"]
       end

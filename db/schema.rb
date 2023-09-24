@@ -52,7 +52,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
   end
 
   create_table "join_user_alternative_questions", force: :cascade do |t|
-    t.integer "attempts"
     t.integer "order_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -63,7 +62,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
   end
 
   create_table "join_user_numerical_questions", force: :cascade do |t|
-    t.integer "attempts"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "task_id", null: false
@@ -88,7 +86,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
 
   create_table "tasks", force: :cascade do |t|
     t.integer "number"
-    t.integer "status"
     t.integer "complexity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -118,6 +115,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
 
   create_table "user_tasks", force: :cascade do |t|
     t.integer "attempt", default: 0
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false

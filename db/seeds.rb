@@ -6,10 +6,10 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-task1= Task.create(number: 1, status: 0, complexity: 0)
-task2= Task.create(number: 2, status: 0, complexity: 1)
-task3= Task.create(number: 3, status: 0, complexity: 0)
-task4 = Task.create(number: 4, status: 0, complexity: 1)
+task1= Task.create(number: 1, complexity: 0)
+task2= Task.create(number: 2, complexity: 1)
+task3= Task.create(number: 3, complexity: 0)
+task4 = Task.create(number: 4, complexity: 1)
 
 aq1= AlternativeQuestion.create(difficulty: 0, module: 0, question: "En ausencia de tablas de líquido comprimido, ¿cómo se determina el
 volumen específico de un líquido comprimido a determinadas condiciones de
@@ -32,9 +32,9 @@ representa el estado en el cual una sustancia coexiste en equilibrio entre su
 fase líquida y vapor?", alternative_a: "Punto crítico.", alternative_b: "Línea de saturación líquido-vapor.", alternative_c: "Isoterma.", alternative_a_answer: "El punto crítico es el límite en el cual las densidades del líquido y del vapor son iguales", alternative_b_answer:"",
 alternative_c_answer: "Una reacción isoterma es una reacción donde la temperatura es constante.", correct_alternative: "B")
 
-j1= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 1, task_id: task1.id, alternative_question_id: aq1.id)
-j2= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 2, task_id: task1.id, alternative_question_id: aq2.id)
-j3= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 3, task_id: task1.id, alternative_question_id: aq3.id)
+j1= JoinUserAlternativeQuestion.create(order_number: 1, task_id: task1.id, alternative_question_id: aq1.id)
+j2= JoinUserAlternativeQuestion.create(order_number: 2, task_id: task1.id, alternative_question_id: aq2.id)
+j3= JoinUserAlternativeQuestion.create(order_number: 3, task_id: task1.id, alternative_question_id: aq3.id)
 
 aq4= AlternativeQuestion.create(difficulty: 0, module: 1, question: "¿Cuál de las siguientes afirmaciones describe mejor la entalpía (H) en
 termodinámica?", alternative_a: "La entalpía es una medida de la energía interna de un sistema
@@ -74,15 +74,15 @@ aq7 = AlternativeQuestion.create(
   correct_alternative: "B"
 )
 
-j4= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 1, task_id: task3.id, alternative_question_id: aq4.id)
-j5= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 2, task_id: task3.id, alternative_question_id: aq5.id)
-j6= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 3, task_id: task3.id, alternative_question_id: aq6.id)
-j7= JoinUserAlternativeQuestion.create(attempts: 0, order_number: 4, task_id: task3.id, alternative_question_id: aq7.id)
+j4= JoinUserAlternativeQuestion.create(order_number: 1, task_id: task3.id, alternative_question_id: aq4.id)
+j5= JoinUserAlternativeQuestion.create(order_number: 2, task_id: task3.id, alternative_question_id: aq5.id)
+j6= JoinUserAlternativeQuestion.create(order_number: 3, task_id: task3.id, alternative_question_id: aq6.id)
+j7= JoinUserAlternativeQuestion.create(order_number: 4, task_id: task3.id, alternative_question_id: aq7.id)
 
 numerical_1 = NumericalQuestion.create(difficulty: 1, question: "Un recipiente rígido contiene {{masa_kg}} kg de agua líquida saturada a {{temperatura_C_vap}}°C. Puesto que en el recipiente existen condiciones de saturación, la presión debe ser la presión de saturación a {{temperatura_C_vap}}°C, esta se muestra en la imagen: {{presion_saturacion}} kPa. Determine el volumen del recipiente en metros cúbicos.", template: 1, 
 hint: "¡Recuerda fijarte en las unidades de médida!", domain: "Diagramas de fase", alter_domain: false)
 
-j1_numerical = JoinUserNumericalQuestion.create(attempts: 0, task_id: task2.id, numerical_question_id: numerical_1.id)
+j1_numerical = JoinUserNumericalQuestion.create(task_id: task2.id, numerical_question_id: numerical_1.id)
 
 n = "Se tiene un mol de un gas ideal monoatómico que experimenta un proceso adiabático en un sistema cerrado. Inicialmente, el sistema tiene una presión de {{p1}} kPa y un volumen de {{v1}} m³. Después de la expansión adiabática, la presión cambia a {{p2}} kPa y el volumen a {{v2}} m³. Si el proceso es reversible y no hay interacción de trabajo con el entorno, determine:
 a) La variación de entalpía del sistema (ΔH) en kJ.
@@ -91,16 +91,8 @@ b) La variación de energía interna del sistema (ΔU) en kJ."
 numerical_2 = NumericalQuestion.create(difficulty: 2, question: n, template: 2, 
 hint: "Recuerda que Cp en gases monoatómicos es (5/2)*R", domain: "Entalpía", alter_domain: false)
 
-j2_numerical = JoinUserNumericalQuestion.create(attempts: 0, task_id: task4.id, numerical_question_id: numerical_2.id)
+j2_numerical = JoinUserNumericalQuestion.create(task_id: task4.id, numerical_question_id: numerical_2.id)
 
 u1= User.create(name: "David", last_name: "Diepold", user_level: 0, streak: 0, module: 0, email: "daviddiepold@gmail.com", password: "123456")
 u2= User.create(name: "Hola", last_name: "Chao", user_level: 0, streak: 0, module: 0, email: "hc@gmail.com", password: "123456")
 teacher = User.create(name: "Profesor", last_name: "Morales", email: "pmorales@admin.cl", password: "123456", role: 1)
-
-
-# t.integer "attempts"
-#     t.datetime "created_at", null: false
-#     t.datetime "updated_at", null: false
-#     t.integer "user_id", null: false
-#     t.integer "task_id", null: false
-#     t.integer "alternative_question_id", null: false

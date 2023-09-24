@@ -8,36 +8,39 @@ class NumericalQuestion < ApplicationRecord
         low: 0
     }
 
-    PRESION_SAT = {
-      "80" => 47.412,
-      "81" => 49.364,
-      "82" => 51.384,
-      "83" => 53.473,
-      "84" => 55.633,
-      "85" => 57.865,
-      "86" => 60.171,
-      "87" => 62.554,
-      "88" => 65.015,
-      "89" => 67.556,
-      "90" => 70.18,
-      "91" => 72.888,
-      "92" => 75.683,
-      "93" => 78.566,
-      "94" => 81.541,
-      "95" => 84.608,
-      "96" => 87.77,
-      "97" => 91.03,
-      "98" => 94.39,
-      "99" => 97.852,
-      "100" => 101.419
-    }
+    def self.generate_sat_temp
+        xlsx_vc = Roo::Excelx.new(Rails.root.join('app', 'assets', 'tables', 'tablaVC_mine.xlsx'))
+        xlsx_vc.default_sheet = xlsx_vc.sheets[1]
+
+        headers = xlsx_vc.row(2)
+        @data = []
+
+        3.upto(xlsx_vc.last_row) do |row_num|
+            row = Hash[headers.zip(xlsx_vc.row(row_num))]
+            @data << row
+        end
+
+        @temp_sat_set = Set.new
+        @presion_first = {}
+        @data.each do |d|
+            if !@presion_first[d["tsat (°C)"]].present?
+                @presion_first[d["tsat (°C)"]] = d["P (kPa)"]
+            end
+            @temp_sat_set.add(d["tsat (°C)"])
+        end
+        temp_sat = @temp_sat_set.to_a
+        presion_sat = @presion_first
+
+        return temp_sat, presion_sat
+    end
 
     def self.generate_question(question)
+        temp_sat, presion_sat = generate_sat_temp
         temp_inicial = 0
         temp_C_vap = nil
         generated_question = {}
         shared_variables = {
-            temperatura_C_vap: -> { rand(80..100) },
+            temperatura_C_vap: -> { temp_sat.sample },
             masa_kg: -> { rand(40..60) },
             volumen_tanque: -> { (rand(1.0..3.0)).round(2) },
             temperatura_vapor: -> { rand(100..300) },
@@ -59,25 +62,14 @@ class NumericalQuestion < ApplicationRecord
             end
             
             if variable == "presion_saturacion"
-                variable_valor = PRESION_SAT[temp_C_vap.to_s]
+                variable_valor = presion_sat[temp_C_vap]
                 generated_question[variable] = variable_valor
             end
 
             if !generated_question[variable] && !variable_valor.is_a?(Integer) && !variable_valor.is_a?(Float)
                 generated_question[variable] = variable_valor&.call
             end
-            
-            
-            # if variable == "temperatura_inicial"
-            # temp_inicial = variable_valor
-            # generated_question[variable] = temp_inicial
-            # end
-            
-            # if variable == "temperatura_final"
-            # variable_valor = temp_inicial + rand(5..30)
-            # generated_question[variable] = variable_valor
-            # end
-            
+                        
             generated_question[variable] || match
             
         end

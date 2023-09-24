@@ -1,17 +1,6 @@
-LOS NUMEROS DE LAS TAREAS DEBEN SER DINAMICOS TAMBIEN PORQUE NO SE LE DARÁN a TODOS EN EL MISMO ORDEN
+-Al asignarle una nueva tarea a un usuario se le debe hacer espacio en las tablas correspondientes--> que el usuario tenga un "contador" que se reinicie cuando el modulo aumente y que aumente cada vez que se le asigne una tarea, así las tareas son de acuerdo al modulo (el atributo numero del task es para nosotros identificar la tarea y así poder saber su resultado y tal)
 
--Al asignarle una nueva tarea a un usuario se le debe hacer espacio en las tablas correspondientes
+-Que se pueda saltar una tarea
 
--Ver como manejar excels para las tablas 
 
-EL ESTADO DE UNA TAREA DEBE ESTAR EN UserTask PORQUE DEPENDE DE CADA USUARIO, NO DE LA TAREA EN SI.
 
-# <div id="alternative_questions">
-  #   <%= f.fields_for :alternative_questions do |a| %>
-  #     <%= render 'alternative_question_fields', f: a %>
-  #   <% end %>
-  # </div>
-
-  # <div class="links">
-  #   <%= link_to_add_association 'Agregar pregunta', f, :alternative_questions, class: 'btn btn-primary' %>
-  # </div>

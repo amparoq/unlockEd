@@ -22,7 +22,7 @@
     $.ajax({
       type: "POST",
       url: "/update_error_counter",
-      data: { id: <%= @alternative_question.id %>, error_counter: errorCounter, wrong_one: wrong_one },
+      data: { id: <%= @alternative_question.id %>, error_counter: errorCounter, wrong_one: wrong_one, task_id: <%= @task.id %>},
       headers: {
         "X-CSRF-Token": csrfToken
       }
