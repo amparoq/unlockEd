@@ -2,6 +2,7 @@
 
 -Que se pueda saltar una tarea
 
+-Arreglar el margen de error (hacerlo con porcentaje en vez de 0.5 siempre)
 
 Tablas de saturación-> 0
 Entalpía-> 1
