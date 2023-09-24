@@ -9,6 +9,7 @@ class CreateNumericalQuestion < ActiveRecord::Migration[7.0]
       t.string :hint
       t.string :domain
       t.boolean :alter_domain
+      t.boolean :usable
 
       t.timestamps
     end

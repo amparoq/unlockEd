@@ -32,7 +32,7 @@ class User < ApplicationRecord
     end
     task_2 = Task.find_by(number: 2)
     numerical_question = task_2.join_user_numerical_questions.first.numerical_question
-    entry2 = ErrorCountNumerical.create(user_id: self.id, numerical_question_id: numerical_question.id)
+    entry2 = ErrorCountNumerical.create(user_id: self.id, numerical_question_id: numerical_question.id, task_id: task_2.id)
     entry2.save
     task_3 = Task.find_by(number: 3)
     UserTask.create(user_id: self.id, task_id: task_3.id)
@@ -47,7 +47,7 @@ class User < ApplicationRecord
     end
     task_4 = Task.find_by(number: 4)
     numerical_question = task_4.join_user_numerical_questions.first.numerical_question
-    entry4 = ErrorCountNumerical.create(user_id: self.id, numerical_question_id: numerical_question.id)
+    entry4 = ErrorCountNumerical.create(user_id: self.id, numerical_question_id: numerical_question.id, task_id: task_4.id)
     entry4.save
     UserTask.create(user_id: self.id, task_id: task_2.id)
     UserTask.create(user_id: self.id, task_id: task_4.id)

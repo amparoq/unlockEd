@@ -8,17 +8,37 @@ class NumericalQuestion < ApplicationRecord
         low: 0
     }
 
-    def self.generate_sat_temp
+    def self.generate_info
         xlsx_vc = Roo::Excelx.new(Rails.root.join('app', 'assets', 'tables', 'tablaVC_mine.xlsx'))
         xlsx_vc.default_sheet = xlsx_vc.sheets[1]
 
+        xlsx_prop_agua_sat = Roo::Excelx.new(Rails.root.join('app', 'assets', 'tables', 'Propiedades_Agua_saturada.xlsx'))
+
+        xlsx_134 = Roo::Excelx.new(Rails.root.join('app', 'assets', 'tables', 'H134A_tsat.xlsx'))
+
         headers = xlsx_vc.row(2)
         @data = []
+
+        headers_agua = xlsx_prop_agua_sat.row(1)
+
+        headers_134 = xlsx_134.row(1)
+        @data_134 = []
 
         3.upto(xlsx_vc.last_row) do |row_num|
             row = Hash[headers.zip(xlsx_vc.row(row_num))]
             @data << row
         end
+
+        2.upto(xlsx_134.last_row) do |row_num|
+            row = Hash[headers_134.zip(xlsx_134.row(row_num))]
+            @data_134 << row
+        end
+
+        @presion_refrigerante = Set.new
+        @data_134.each do |d134|
+            @presion_refrigerante.add(d134["P (kPa)"])
+        end
+        presion_134 = @presion_refrigerante.to_a
 
         @temp_sat_set = Set.new
         @presion_first = {}
@@ -30,20 +50,28 @@ class NumericalQuestion < ApplicationRecord
         end
         temp_sat = @temp_sat_set.to_a
         presion_sat = @presion_first
+        @headers_agua = xlsx_prop_agua_sat.row(1)
+        temp_a_sat = @headers_agua.slice!(2,(@headers_agua.length-3))
 
-        return temp_sat, presion_sat
+        return temp_sat, presion_sat, temp_a_sat, presion_134
     end
 
     def self.generate_question(question)
-        temp_sat, presion_sat = generate_sat_temp
+        temp_sat, presion_sat, temp_a_sat, presion_134 = generate_info
         temp_inicial = 0
         temp_C_vap = nil
         generated_question = {}
         shared_variables = {
+            n: -> { rand(2..20) },
+            volumen_L: -> { rand(20..90) },
+            presion_134a: -> { presion_134.sample },
+            t_agua_sat: -> { temp_a_sat.sample },
             temperatura_C_vap: -> { temp_sat.sample },
             masa_kg: -> { rand(40..60) },
+            masa_kg_men: -> { rand(20..generated_question["masa_kg"] - 10) },
             volumen_tanque: -> { (rand(1.0..3.0)).round(2) },
             temperatura_vapor: -> { rand(100..300) },
+            t1: -> { rand(293.0..473.0).round(2) },
             p1:-> { rand(20..200) },
             p2:-> { rand(10..(generated_question["p1"]-10))},
             v1:-> { rand(0.01..0.1).round(2) },

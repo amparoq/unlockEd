@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_24_042812) do
   create_table "alternative_questions", force: :cascade do |t|
     t.integer "difficulty"
     t.integer "module"
@@ -46,8 +46,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.integer "task_id", null: false
     t.integer "numerical_question_id", null: false
     t.index ["numerical_question_id"], name: "index_error_count_numericals_on_numerical_question_id"
+    t.index ["task_id"], name: "index_error_count_numericals_on_task_id"
     t.index ["user_id"], name: "index_error_count_numericals_on_user_id"
   end
 
@@ -79,6 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
     t.string "hint"
     t.string "domain"
     t.boolean "alter_domain"
+    t.boolean "usable"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "answer"
@@ -109,7 +112,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
     t.datetime "updated_at", null: false
     t.integer "numerical_question_id", null: false
     t.integer "user_id", null: false
+    t.integer "task_id", null: false
     t.index ["numerical_question_id"], name: "index_user_question_values_on_numerical_question_id"
+    t.index ["task_id"], name: "index_user_question_values_on_task_id"
     t.index ["user_id"], name: "index_user_question_values_on_user_id"
   end
 
@@ -145,6 +150,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
   add_foreign_key "error_count_alternatives", "alternative_questions"
   add_foreign_key "error_count_alternatives", "users"
   add_foreign_key "error_count_numericals", "numerical_questions"
+  add_foreign_key "error_count_numericals", "tasks"
   add_foreign_key "error_count_numericals", "users"
   add_foreign_key "join_user_alternative_questions", "alternative_questions"
   add_foreign_key "join_user_alternative_questions", "tasks"
@@ -153,6 +159,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_052201) do
   add_foreign_key "user_numeric_answers", "numerical_questions"
   add_foreign_key "user_numeric_answers", "users"
   add_foreign_key "user_question_values", "numerical_questions"
+  add_foreign_key "user_question_values", "tasks"
   add_foreign_key "user_question_values", "users"
   add_foreign_key "user_tasks", "tasks"
   add_foreign_key "user_tasks", "users"

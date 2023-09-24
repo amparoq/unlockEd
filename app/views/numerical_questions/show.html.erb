@@ -144,7 +144,7 @@ function handleSendOne() {
   $.ajax({
     type: "POST",
     url: "/update_error_counter_numerical",
-    data: { id: <%= @numerical_question.id %>, error_counter: errorCounter, input_value: inputValue, cantidad_respuestas: "one" },
+    data: { id: <%= @numerical_question.id %>, error_counter: errorCounter, input_value: inputValue, cantidad_respuestas: "one", task_id: <%= @task.id %> },
     headers: {
       "X-CSRF-Token": csrfToken
     }

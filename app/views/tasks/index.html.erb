@@ -12,7 +12,7 @@
         <% if task.join_user_alternative_questions.present? %>
           <%= link_to "Go to", task_alternative_question_path(task, task.join_user_alternative_questions.first), class: "btn btn-info" %>
         <% elsif task.join_user_numerical_questions.present? %>
-          <%= link_to "Go to", task_numerical_question_path(task, task.join_user_numerical_questions.first), class: "btn btn-info" %>
+          <%= link_to "Go to", task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id), class: "btn btn-info" %>
         <% end %>
       </div>
     <% end %>
