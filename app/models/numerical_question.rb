@@ -64,6 +64,7 @@ class NumericalQuestion < ApplicationRecord
         shared_variables = {
             n: -> { rand(2..20) },
             volumen_L: -> { rand(20..90) },
+            volumen_m3: -> { rand(0.01..0.1).round(2) },
             presion_134a: -> { presion_134.sample },
             t_agua_sat: -> { temp_a_sat.sample },
             temperatura_C_vap: -> { temp_sat.sample },

@@ -141,12 +141,34 @@ numcl3 = NumericalQuestion.create(
   template: 9, hint: "Debes calcular el calor en cada cambio de fase y además en cada proceso de aumento de temperatura.",
   module: 2, alter_domain: false
 )
+
 #Diagramas de fases
 
+
+
 #Calidad de mezclas
+ncm1 = "Un recipiente de {{volumen_L}} L contiene {{masa_kg}} kg de refigerante 134a a una presión de {{presion_134a}} kPa. Determine la calidad de la mezcla."
+numcm1 = NumericalQuestion.create(
+  difficulty: 1, question: ncm1,
+  template: 10, hint: "Para calcular la calidad, necesitas los volumenes de liquido saturado y vapor saturado.",
+  module: 4, alter_domain: false
+)
 
+ncm2 = "Un tanque rígido de {{volumen_m3}} m3 contiene vapor a {{temp_vapor}} °C. Una tercera parte del volumen se encuentra en su fase líquida y el resto en forma de vapor. Determine el volumen del vapor y la calidad de la mezcla saturada."
+numcm2 = NumericalQuestion.create(
+  difficulty: 0, question: ncm2,
+  template: 11, hint: "La calidad tiene que ver con el volumen.",
+  module: 4, alter_domain: false
+)
 
-
+ncm3 = "Tienes una muestra de vapor de agua con volumen de {{volumen_L}} m3 a una temperatura desconocida. Inicialmente, la muestra consiste en {{masa_kg}} kg de vapor de agua. A medida que la muestra se enfría, parte del vapor se condensa en líquido. La mezcla llega a una temperatura de {{temperatura_C_vap}} ºC
+a) ¿Cuál es la calidad de la mezcla cuando alcanza la temperatura enunciada?
+b) ¿Cuánto líquido (en kg) está presente en la mezcla en la temperatura del enunciado?"
+numcm3 = NumericalQuestion.create(
+  difficulty: 2, question: ncm3,
+  template: 12, hint: "Debes usar la tabla de vapor saturado.",
+  module: 4, alter_domain: false
+)
 
 #extras
 
@@ -175,17 +197,17 @@ j7= JoinUserAlternativeQuestion.create(order_number: 4, task_id: task3.id, alter
 j1_numerical = JoinUserNumericalQuestion.create(task_id: task2.id, numerical_question_id: numerical_1.id)
 j2_numerical = JoinUserNumericalQuestion.create(task_id: task4.id, numerical_question_id: nume1.id)
 
-JoinUserNumericalQuestion.create(task_id: task8.id, numerical_question_id: numcl1.id)
-JoinUserNumericalQuestion.create(task_id: task9.id, numerical_question_id: numcl2.id)
-JoinUserNumericalQuestion.create(task_id: task10.id, numerical_question_id: numcl3.id)
+JoinUserNumericalQuestion.create(task_id: task8.id, numerical_question_id: numcm1.id)
+JoinUserNumericalQuestion.create(task_id: task9.id, numerical_question_id: numcm2.id)
+JoinUserNumericalQuestion.create(task_id: task10.id, numerical_question_id: numcm3.id)
 
 u1= User.create(name: "David", last_name: "Diepold", user_level: 0, streak: 0, module: 0, email: "daviddiepold@gmail.com", password: "123456")
 #Pruebas
-ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcl1.id, task_id: task8.id)
+ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcm1.id, task_id: task8.id)
 UserTask.create(user_id: u1.id, task_id: task8.id)
-ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcl2.id, task_id: task9.id)
+ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcm2.id, task_id: task9.id)
 UserTask.create(user_id: u1.id, task_id: task9.id)
-ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcl3.id, task_id: task10.id)
+ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcm3.id, task_id: task10.id)
 UserTask.create(user_id: u1.id, task_id: task10.id)
 
 u2= User.create(name: "Hola", last_name: "Chao", user_level: 0, streak: 0, module: 0, email: "hc@gmail.com", password: "123456")
