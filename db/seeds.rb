@@ -144,7 +144,35 @@ numcl3 = NumericalQuestion.create(
 
 #Diagramas de fases
 
+#PV
+ndf1 = "Un gas ideal que se encuentra en un contenedor sigue el proceso que puedes ver en el diagrama PV de abajo. Los volúmenes inicial y final del gas son Vi = {{v1}} m3 y Vf = {{v2}} m3, respectivamente y sus presiones inicial y final son Pi = {{p1pa}} Pa y Pf = {{p2pa}} Pa, respectivamente. ¿Cuál es el trabajo, en J, que se hizo sobre el gas durante el proceso?"
+numdf1 = NumericalQuestion.create(
+  difficulty: 0, question: ndf1,
+  template: 13, hint: "El trabajo es siempre P dV (área bajo la curva)",
+  module: 3, alter_domain: false
+)
 
+# https://es.khanacademy.org/science/physics/thermodynamics/laws-of-thermodynamics/a/what-are-pv-diagrams
+
+#VT
+ndf2 = "Supongamos que tienes {{n}} moles de gas ideal inicialmente a {{t1C}} °C y 1 atmósfera de presión en un recipiente de {{volumen_L}} litros. El gas se calienta a presión constante hasta alcanzar {{t2C}} °C. Calcula el cambio en el volumen durante este proceso en m3.
+Recuerde que 1 atm = 101.3 kPa."
+numdf2 = NumericalQuestion.create(
+  difficulty: 1, question: ndf2,
+  template: 14, hint: "Recuerda que PV = nRT",
+  module: 3, alter_domain: false
+)
+
+#PT
+ndf3 = "Imagina que tienes {{n}} moles de agua en un recipiente cerrado. Se comienza con el agua en estado líquido a {{temp_agua}} °C y {{p1pa}} Pa de presión. Luego, se calienta gradualmente el agua hasta que alcance el punto de ebullición a 100°C. Calcula:
+a) La cantidad de calor en J requerida para este proceso.
+b) El trabajo realizado en J por o sobre los moles para el proceso.
+Como el recipiente es cerrado, el proceso es isocórico. Además la masa molar del agua es 18.01 g/mol y su calor específico es 4.18 J/g·C"
+numdf3 = NumericalQuestion.create(
+  difficulty: 2, question: ndf3,
+  template: 15, hint: "Recuerda que en procesos isocóricos el volumen es constante.",
+  module: 3, alter_domain: false
+)
 
 #Calidad de mezclas
 ncm1 = "Un recipiente de {{volumen_L}} L contiene {{masa_kg}} kg de refigerante 134a a una presión de {{presion_134a}} kPa. Determine la calidad de la mezcla."
@@ -197,17 +225,17 @@ j7= JoinUserAlternativeQuestion.create(order_number: 4, task_id: task3.id, alter
 j1_numerical = JoinUserNumericalQuestion.create(task_id: task2.id, numerical_question_id: numerical_1.id)
 j2_numerical = JoinUserNumericalQuestion.create(task_id: task4.id, numerical_question_id: nume1.id)
 
-JoinUserNumericalQuestion.create(task_id: task8.id, numerical_question_id: numcm1.id)
-JoinUserNumericalQuestion.create(task_id: task9.id, numerical_question_id: numcm2.id)
-JoinUserNumericalQuestion.create(task_id: task10.id, numerical_question_id: numcm3.id)
+JoinUserNumericalQuestion.create(task_id: task8.id, numerical_question_id: numdf1.id)
+JoinUserNumericalQuestion.create(task_id: task9.id, numerical_question_id: numdf2.id)
+JoinUserNumericalQuestion.create(task_id: task10.id, numerical_question_id: numdf3.id)
 
 u1= User.create(name: "David", last_name: "Diepold", user_level: 0, streak: 0, module: 0, email: "daviddiepold@gmail.com", password: "123456")
 #Pruebas
-ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcm1.id, task_id: task8.id)
+ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numdf1.id, task_id: task8.id)
 UserTask.create(user_id: u1.id, task_id: task8.id)
-ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcm2.id, task_id: task9.id)
+ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numdf2.id, task_id: task9.id)
 UserTask.create(user_id: u1.id, task_id: task9.id)
-ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numcm3.id, task_id: task10.id)
+ErrorCountNumerical.create(user_id: u1.id, numerical_question_id: numdf3.id, task_id: task10.id)
 UserTask.create(user_id: u1.id, task_id: task10.id)
 
 u2= User.create(name: "Hola", last_name: "Chao", user_level: 0, streak: 0, module: 0, email: "hc@gmail.com", password: "123456")
