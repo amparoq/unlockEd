@@ -27,7 +27,7 @@
         "X-CSRF-Token": csrfToken
       }
     });
-    if("<%= @alternative_question.join_user_alternative_questions.first.order_number %>" != "<%= @total_questions%>"){
+    if("<%= @actual %>" != "<%= @total_questions%>"){
       window.location.href = "<%= task_alternative_question_path(@task, @next_question) %>"
     }
     else{
@@ -41,7 +41,7 @@
     $.ajax({
       type: "POST",
       url: "/update_attempt",
-      data: { id: <%= @alternative_question.id %> },
+      data: { id: <%= @alternative_question.id %>, task_id: <%= @task.id %> },
       headers: {
         "X-CSRF-Token": csrfToken
       }

@@ -26,13 +26,21 @@ class AlternativeQuestionsController < ApplicationController
 
   def update_attempt 
     @alternative_question = AlternativeQuestion.find(params[:id])
-    @task= Task.find(@alternative_question.join_user_alternative_questions.first.task_id)
+    @task= Task.find(params[:task_id])
     @user_task = UserTask.find_by(user_id: current_user.id, task_id: @task.id)
     @user_task.attempt = @user_task.attempt + 1
     if @user_task.attempt == 2
       @user_task.status = 2
+      @user_task.save
+      @alts = ErrorCountAlternative.where(user_id: current_user.id, task_id: @task.id)
+      @alts.each do |a|
+        if a.error_count != 2
+          valid_alt = ValidAlternativeQuestion.find_by(user_id: current_user.id, alternative_question_id: a.alternative_question_id)
+          valid_alt.usable = false
+          valid_alt.save
+        end
+      end
     end
-    @user_task.save
   end
 
   def update_error_counter
@@ -43,10 +51,6 @@ class AlternativeQuestionsController < ApplicationController
 
     alternative = AlternativeQuestion.find(params[:id])
     error_counter_table = ErrorCountAlternative.find_by(alternative_question_id: alternative.id, user_id: current_user.id, task_id: @task.id)
-
-    # if new_error_counter == 0
-    #   task.correct_count = task.correct_count + 1
-    # end
 
     error_counter_table.error_count = new_error_counter
 
