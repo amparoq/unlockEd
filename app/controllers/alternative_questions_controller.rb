@@ -8,16 +8,20 @@ class AlternativeQuestionsController < ApplicationController
 
   # GET /alternative_questions/1 or /alternative_questions/1.json
   def show
-    @task= Task.find(@alternative_question.join_user_alternative_questions.first.task_id)
+    @task= Task.find(params[:task_id])
     @total_questions = @task.join_user_alternative_questions.count
-    @next_question = @alternative_question.join_user_alternative_questions.first.id + 1
-    error_counter_table = ErrorCountAlternative.find_by(alternative_question_id: @alternative_question.id, user_id: current_user.id)
+    @actual = JoinUserAlternativeQuestion.find_by(alternative_question_id: @alternative_question.id, task_id: @task.id)[:order_number]
+    if @actual != 3
+      @next_question = JoinUserAlternativeQuestion.find_by(task_id: @task.id, order_number: @actual + 1)[:alternative_question_id]
+    else
+      @next_question = 1
+    end
+    error_counter_table = ErrorCountAlternative.find_by(alternative_question_id: @alternative_question.id, user_id: current_user.id, task_id: @task.id)
     @error_counter = error_counter_table.error_count
     @answer_a_show = error_counter_table.answer_a_show
     @answer_b_show = error_counter_table.answer_b_show
     @answer_c_show = error_counter_table.answer_c_show
     @attempt = UserTask.find_by(user_id: current_user.id, task_id: @task.id)[:attempt]
-
   end
 
   def update_attempt 
@@ -35,8 +39,10 @@ class AlternativeQuestionsController < ApplicationController
 
     new_error_counter = params[:error_counter].to_i
 
+    @task= Task.find(params[:task_id])
+
     alternative = AlternativeQuestion.find(params[:id])
-    error_counter_table = ErrorCountAlternative.find_by(alternative_question_id: alternative.id, user_id: current_user.id)
+    error_counter_table = ErrorCountAlternative.find_by(alternative_question_id: alternative.id, user_id: current_user.id, task_id: @task.id)
 
     # if new_error_counter == 0
     #   task.correct_count = task.correct_count + 1

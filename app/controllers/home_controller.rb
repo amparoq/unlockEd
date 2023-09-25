@@ -12,7 +12,8 @@ class HomeController < ApplicationController
       @complexity = params[:complexity]
       
       if @complexity == "Simple"
-        url = task_alternative_question_path(@task, @task.join_user_alternative_questions.first)
+        first_alt_quest = JoinUserAlternativeQuestion.find_by(task_id: @task.id, order_number: 1)[:alternative_question_id]
+        url = task_alternative_question_path(@task, first_alt_quest)
       else
         url = task_numerical_question_path(@task, @task.join_user_numerical_questions.first)
       end

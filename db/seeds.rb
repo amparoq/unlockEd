@@ -636,7 +636,7 @@ aqcm10 = AlternativeQuestion.create(
 
 #Tablas de saturación
 numerical_1 = NumericalQuestion.create(difficulty: 1, question: "Un recipiente rígido contiene {{masa_kg}} kg de agua líquida saturada a {{temperatura_C_vap}}°C. Puesto que en el recipiente existen condiciones de saturación, la presión debe ser la presión de saturación a {{temperatura_C_vap}}°C, esta se muestra en la imagen: {{presion_saturacion}} kPa. Determine el volumen del recipiente en metros cúbicos.", template: 1, 
-hint: "¡Recuerda fijarte en las unidades de médida!", module: 0, alter_domain: false)
+hint: "¡Recuerda fijarte en las unidades de médida!", module: 0)
 
 nts2 = "Un recipiente rígido contiene {{masa_kg}} kg de agua a {{temperatura_C_vap}} ºC. Si {{masa_kg_men}} kg del agua están en forma líquida y el resto como vapor, determine:
 a) La presión en el recipiente
@@ -645,7 +645,7 @@ numts2 = NumericalQuestion.create(
   difficulty: 2, question: nts2,
   template: 5,
   hint: "La presión está relacionada con la temperatura. El volumen del recipiente con los volumenes según la temperatura y además la masa.",
-  module: 0, alter_domain: false
+  module: 0
 )
 
 nts3 = "Un recipiente de {{volumen_L}} L contiene {{masa_kg}} kg de refigerante 134a a una presión de {{presion_134a}} kPa. Determine la temperatura."
@@ -653,7 +653,7 @@ numts3 = NumericalQuestion.create(
   difficulty: 0, question: nts3,
   template: 6,
   hint: "La tabla es la del refigerante, también llamado H134A.",
-  module: 0, alter_domain: false
+  module: 0
 )
 
 #Entalpía
@@ -662,29 +662,29 @@ a) La variación de entalpía del sistema (ΔH) en kJ.
 b) La variación de energía interna del sistema (ΔU) en kJ."
 
 nume1 = NumericalQuestion.create(difficulty: 2, question: ne1, template: 2, 
-hint: "Recuerda que Cp en gases monoatómicos es (5/2)*R", module: 1, alter_domain: false)
+hint: "Recuerda que Cp en gases monoatómicos es (5/2)*R", module: 1)
 
 ne2 = "Un sistema contiene {{masa_kg}} kg de agua líquida a {{t_agua_sat}} °C y 1 atm. Calcular la entalpía específica del agua en este estado, considerando que la entalpía de referencia es 200 kJ/kg a 0 °C." 
-nume2 = NumericalQuestion.create(difficulty: 0, question: ne2, template: 3, hint: "Para calcular la integral ∫(Cp dT), necesitarás conocer la variación de la capacidad calorífica a lo largo del rango de temperaturas desde 0 °C hasta la temperatura que te proporcionan. Puedes utilizar datos tabulados o ecuaciones específicas para el Cp del agua a diferentes temperaturas.", module: 1, alter_domain: false)
+nume2 = NumericalQuestion.create(difficulty: 0, question: ne2, template: 3, hint: "Para calcular la integral ∫(Cp dT), necesitarás conocer la variación de la capacidad calorífica a lo largo del rango de temperaturas desde 0 °C hasta la temperatura que te proporcionan. Puedes utilizar datos tabulados o ecuaciones específicas para el Cp del agua a diferentes temperaturas.", module: 1)
 
 ne3 = "{{n}} moles de un gas ideal monoatómico ocupan un volumen de {{v1}} m³ a una temperatura de {{t1}} K. Luego, se somete a un proceso isotérmico en un sistema cerrado, durante el cual su volumen cambia a {{v2}} m³. Si el proceso es reversible y no hay interacción de trabajo con el entorno, determina:
 a) La variación de entalpía del sistema (ΔH) en J.
 b) La variación de energía interna del sistema (ΔU) en J."
-nume3 = NumericalQuestion.create(difficulty: 1, question: ne3, template: 4, hint: "Recuerda que la energía interna en procesos isotérmicos es 0", module: 1, alter_domain: false)
+nume3 = NumericalQuestion.create(difficulty: 1, question: ne3, template: 4, hint: "Recuerda que la energía interna en procesos isotérmicos es 0", module: 1)
 
 #Calor Latente
 ncl1 = "Un bloque de hielo de {{masa_g}} g a {{temp_hielo}} °C se calienta hasta convertirse completamente en agua a {{temp_agua}} °C. El calor latente de fusión del hielo es 334 J/g y el calor específico del agua es 4.18 J/g⋅°C. ¿Cuánto calor en J se ha agregado al sistema durante este proceso?"
 numcl1 = NumericalQuestion.create(
   difficulty: 1, question: ncl1,
   template: 7, hint: "Debes calcular el calor en cada cambio de fase y además en cada proceso de aumento de temperatura.",
-  module: 2, alter_domain: false
+  module: 2
 )
 
 ncl2 = "Cual es el calor latente de fusión (en KJ/Kg) de una sustancia desconocida si se necesitaron {{Q}} kj de calor para fundir {{masa_kg}} kg de este."
 numcl2 = NumericalQuestion.create(
   difficulty: 0, question: ncl2,
   template: 8, hint: "El calor latente de fusión es la cantidad de calor necesaria para fundir 1 kg del material.",
-  module: 2, alter_domain: false
+  module: 2
 )
 
 ncl3 = "Un bloque de hielo de {{masa_g}} g a {{temp_hielo}} °C se calienta hasta convertirse completamente en vapor a {{temp_vapor}} °C. El calor latente de fusión del hielo es 334 J/g, el calor específico del hielo es 2,05 J/g⋅°C, el calor específico del agua es 4.18 J/g⋅°C, el calor latente de vaporización del agua es 2260 J/g y el calor específico del vapor es de 2,08 J/g·C. Determina:
@@ -694,7 +694,7 @@ Calcula el calor en J."
 numcl3 = NumericalQuestion.create(
   difficulty: 2, question: ncl3,
   template: 9, hint: "Debes calcular el calor en cada cambio de fase y además en cada proceso de aumento de temperatura.",
-  module: 2, alter_domain: false
+  module: 2
 )
 
 #Diagramas de fases
@@ -704,7 +704,7 @@ ndf1 = "Un gas ideal que se encuentra en un contenedor sigue el proceso que pued
 numdf1 = NumericalQuestion.create(
   difficulty: 0, question: ndf1,
   template: 13, hint: "El trabajo es siempre P dV (área bajo la curva)",
-  module: 3, alter_domain: false
+  module: 3
 )
 
 # https://es.khanacademy.org/science/physics/thermodynamics/laws-of-thermodynamics/a/what-are-pv-diagrams
@@ -715,7 +715,7 @@ Recuerde que 1 atm = 101.3 kPa."
 numdf2 = NumericalQuestion.create(
   difficulty: 1, question: ndf2,
   template: 14, hint: "Recuerda que PV = nRT",
-  module: 3, alter_domain: false
+  module: 3
 )
 
 #PT
@@ -726,7 +726,7 @@ Como el recipiente es cerrado, el proceso es isocórico. Además la masa molar d
 numdf3 = NumericalQuestion.create(
   difficulty: 2, question: ndf3,
   template: 15, hint: "Recuerda que en procesos isocóricos el volumen es constante.",
-  module: 3, alter_domain: false
+  module: 3
 )
 
 #Calidad de mezclas
@@ -734,14 +734,14 @@ ncm1 = "Un recipiente de {{volumen_L}} L contiene {{masa_kg}} kg de refigerante 
 numcm1 = NumericalQuestion.create(
   difficulty: 1, question: ncm1,
   template: 10, hint: "Para calcular la calidad, necesitas los volumenes de liquido saturado y vapor saturado.",
-  module: 4, alter_domain: false
+  module: 4
 )
 
 ncm2 = "Un tanque rígido de {{volumen_m3}} m3 contiene vapor a {{temp_vapor}} °C. Una tercera parte del volumen se encuentra en su fase líquida y el resto en forma de vapor. Determine el volumen del vapor y la calidad de la mezcla saturada."
 numcm2 = NumericalQuestion.create(
   difficulty: 0, question: ncm2,
   template: 11, hint: "La calidad tiene que ver con el volumen.",
-  module: 4, alter_domain: false
+  module: 4
 )
 
 ncm3 = "Tienes una muestra de vapor de agua con volumen de {{volumen_L}} m3 a una temperatura desconocida. Inicialmente, la muestra consiste en {{masa_kg}} kg de vapor de agua. A medida que la muestra se enfría, parte del vapor se condensa en líquido. La mezcla llega a una temperatura de {{temperatura_C_vap}} ºC
@@ -750,7 +750,7 @@ b) ¿Cuánto líquido (en kg) está presente en la mezcla en la temperatura del 
 numcm3 = NumericalQuestion.create(
   difficulty: 2, question: ncm3,
   template: 12, hint: "Debes usar la tabla de vapor saturado.",
-  module: 4, alter_domain: false
+  module: 4
 )
 
 #extras

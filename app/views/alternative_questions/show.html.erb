@@ -73,7 +73,7 @@
   <div>
     <div style= "display: flex; align-items: center; margin-bottom: 10px;"> 
       <h3 style="margin-right: 15px;"><b>Tarea</b></h3> 
-      <h3><b><%= @task.number %></b></h3>
+      <h3><b><%= current_user.task_number %></b></h3>
       <h5 style= "margin-top: 5px; margin-left: 20px;">Simple</h5> 
       <% if @error_counter == 2 %>
         <div class="alert alert-info" role="alert" style="position: absolute; right: 0; margin-right: 100px;">Respuesta correcta: <%= @alternative_question.correct_alternative  %></div>
@@ -81,8 +81,8 @@
     </div>
     <div style="background-color: white; width: 1050px; border: 2px solid #dbdbdb">
         <div class = "align-items-center" style="background-color: #dbdbdb; height: 40px; display: flex;">
-          <span style="margin-left: 10px; font-size: 19px;">Pregunta <%= @alternative_question.join_user_alternative_questions.first.order_number %></span>
-          <span style="font-size: 16px; margin-left: 895px; margin-right: 10px;">(<%= @alternative_question.join_user_alternative_questions.first.order_number %>/<%= @total_questions %>)</span>        
+          <span style="margin-left: 10px; font-size: 19px;">Pregunta <%= @actual %></span>
+          <span style="font-size: 16px; margin-left: 895px; margin-right: 10px;">(<%= @actual %>/<%= @total_questions %>)</span>        
         </div>
         <div style= "margin-top: 20px; margin-left: 20px; margin-right: 20px;">
           <span style="font-size: 21px;"><%= @alternative_question.question %></span>
@@ -151,7 +151,7 @@
             <button style="margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;" type="submit" data-correct-alternative="<%= @alternative_question.correct_alternative %>" data-alternative-id="<%= @alternative_question.id %>" onclick= "handleSend(this)" >Enviar</button>
           </div>
         <% else %>
-          <% if @alternative_question.join_user_alternative_questions.first.order_number != @total_questions %>
+          <% if @actual != @total_questions %>
             <div id="botonEnviar" style="margin-top: 20px; margin-left: 20px; display: block;">
               <button style="margin-left: 450px; margin-bottom:20px; margin-top: 10px; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px;"
                 onclick="redirectToNextQuestion('<%= task_alternative_question_path(@task, @next_question) %>')">Continuar

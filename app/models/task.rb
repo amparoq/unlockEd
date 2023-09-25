@@ -1,10 +1,12 @@
 class Task < ApplicationRecord
     has_many :join_user_alternative_questions
     has_many :alternative_questions, through: :join_user_alternative_questions
-    accepts_nested_attributes_for :alternative_questions, allow_destroy: true
-    
+
     has_many :join_user_numerical_questions
     has_many :user_tasks
+
+    has_many :error_count_alternatives
+    has_many :error_count_numericals
 
     enum complexity: {
         Compleja: 1,

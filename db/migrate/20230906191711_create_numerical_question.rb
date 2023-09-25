@@ -7,7 +7,6 @@ class CreateNumericalQuestion < ActiveRecord::Migration[7.0]
       t.integer :template
       t.integer :error_count
       t.string :hint
-      t.boolean :usable
 
       t.timestamps
     end

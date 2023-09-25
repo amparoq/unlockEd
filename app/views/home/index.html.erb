@@ -73,7 +73,7 @@
                 <div class="grid-item <%= color_class %>" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
                         <div class="task-content">
                             <div style= "margin-left: 20px;">
-                                <h5 style= "font-weight: bold"> Tarea <%= task.number %> </h5> 
+                                <h5 style= "font-weight: bold"> Tarea <%= current_user.task_number %> </h5> 
                                 <p style= "font-size: 14px;"> <%= task.complexity %> </p>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
             <div class="grid-item <%= color_class %>" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
                 <div class="task-content">
                     <div style= "margin-left: 20px;">
-                        <h5 style= "font-weight: bold"> Tarea <%= task.number %> </h5> 
+                        <h5 style= "font-weight: bold"> Tarea <%= current_user.task_number %> </h5> 
                         <p style= "font-size: 14px;"> <%= task.complexity %> </p>
                     </div>
                 </div>
