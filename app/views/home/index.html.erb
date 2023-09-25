@@ -97,12 +97,15 @@
         <div class="vertical-line"></div>
         <div style= "width: 250px; height: 300px; background-color: #d8d8d8; position: absolute; top: 120px; right: 110px; border: 2px solid #b8b9b9;"> 
             <div style= "width: 246px; height: 100px; background-color: white; margin-top: 196px; border-top: 2px solid #b8b9b9;">
-                <h3 style= "font-weight: bold; font-size: 14px; margin-top: 10px; margin-left: 73px;"><%= current_user.name + " " + current_user.last_name%></h3>
+                <h3 style= "font-weight: bold; font-size: 17px; margin-top: 7px; margin-left: 65px;"><%= current_user.name + " " + current_user.last_name%></h3>
                 <p style= "font-size: 12px; margin-left: 37px;">Email: <%= current_user.email%></p>
             </div>
             <div>
                 <h2 style= "margin-top: 10px; margin-left: 50px; font-weight: bold;"> Nivel del estudiante </h2>
-                <canvas id="progressChart" width="200" height="200"></canvas>
+                <div id="divEncimaDelChart" style="position: absolute; top: 460px; left: 64px; width: 117px; height: 117px; border-radius: 100px; background-color: rgba(255, 255, 255); z-index: 2; display: flex; align-items: center; justify-content: center;">
+                   <h1> <%= current_user.user_level %> </h1>
+                </div>
+                <canvas id="nivelEstudiante" style= "width: 100px; height: 100px;"></canvas>
             </div>
         </div>
     </div>
@@ -114,73 +117,38 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var gridItems = document.querySelectorAll('.grid-item');
+  document.addEventListener('DOMContentLoaded', function() {
+    var level = <%= current_user.user_level %>;
 
-    gridItems.forEach(function(item) {
-        item.addEventListener('click', function() {
-            var taskId = this.dataset.taskId;
-            var taskComplexity = this.dataset.taskComplexity;
+    var ctx = document.getElementById('nivelEstudiante').getContext('2d');
 
-            var url;
-
-            var csrfToken = document.querySelector("meta[name=csrf-token]").content;
-            $.ajax({
-            type: "POST",
-            url: "/redirect_to_task",
-            data: { complexity: taskComplexity, task: taskId },
-            headers: {
-                "X-CSRF-Token": csrfToken
-            },
-            success: function(response) {
-                var generatedUrl = response.url;
-                window.location.href = generatedUrl;
-            }
-            });
-        });
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-  var ctx = document.getElementById('progressChart').getContext('2d');
-
-  var progressChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
+    var data = {
       datasets: [{
-        data: [50, 50], // Asegúrate de que la suma sea 100
+        data: [level, 10 - level],
         backgroundColor: [
-          'rgba(75, 192, 192, 0.2)', // Color del relleno
-          'rgba(255, 99, 132, 0.2)' // Color de fondo
+          '#439cff', // Color para el nivel del estudiante
+          '#dbebff'  // Color para el espacio restante
         ],
-        borderColor: [
-          'rgba(75, 192, 192, 1)',
-          'rgba(255, 99, 132, 1)'
-        ],
-        borderWidth: 1
+        hoverBackgroundColor: [
+          '#439cff',
+          '#dbebff'
+        ]
       }]
-    },
-    options: {
-      responsive: true,
-      cutoutPercentage: 80, // Porcentaje de corte ajustado
-      rotation: 1 * Math.PI, // Empieza en la parte superior
-      circumference: 1 * Math.PI, // Circunferencia completa
-      tooltips: {
-        enabled: false
-      }
-    }
+    };
+
+    var options = {
+      cutoutPercentage: 80, // Controla qué tan grande es el agujero del donut
+      rotation: -Math.PI,  // Controla la rotación del gráfico (en este caso, gira 180 grados para que empiece en la parte superior)
+      circumference: 115*Math.PI, // Controla cuánto de la circunferencia se usa para el gráfico
+    };
+
+    var myDoughnutChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: data,
+      options: options
+    });
+    
   });
-
-  // Función para actualizar el progreso
-  function actualizarProgreso(nivel) {
-    progressChart.data.datasets[0].data[0] = nivel;
-    progressChart.data.datasets[0].data[1] = 100 - nivel;
-    progressChart.update();
-  }
-
-  // Ejemplo de uso (para actualizar el progreso a 75%)
-  var nivelEstudiante = 75;
-  actualizarProgreso(nivelEstudiante);
-});
 </script>
