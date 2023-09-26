@@ -137,7 +137,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_25_233525) do
     t.integer "task_number", default: 1
     t.float "experience", default: 5.0
     t.integer "streak", default: 1
-    t.integer "module"
+    t.integer "module", default: 0
     t.integer "role", default: 0
     t.integer "good_questions", default: 0
     t.datetime "created_at", null: false

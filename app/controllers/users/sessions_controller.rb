@@ -9,7 +9,7 @@ class Users::SessionsController < Devise::SessionsController
   # end
   def after_sign_in_path_for(resource)
     current_user.update(last_login: Time.now)
-    super
+    root_path
   end
 
   # POST /resource/sign_in

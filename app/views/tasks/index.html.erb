@@ -2,19 +2,119 @@
 
 <div style="margin-left: 50px;">
   <h1 style="font-weight: bold">Tasks</h1>
-
+  <hr>
   <div id="tasks">
-    <% @tasks.each do |task| %>
-      <div style="margin-top: 20px; display: flex; align-items: center;">
-        <div style="width: 10px; height: 10px; background-color: #000; border-radius: 50%; margin-right: 10px;"></div>
-        <h4 style="margin-right: 17px;">Tarea <%= task.number %></h4>
-        
-        <% if task.join_user_alternative_questions.present? %>
-          <%= link_to "Go to", task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) , class: "btn btn-info" %>
-        <% elsif task.join_user_numerical_questions.present? %>
-          <%= link_to "Go to", task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id), class: "btn btn-info" %>
-        <% end %>
-      </div>
+    <h2>Tablas de saturación<h2>
+    <div class="d-flex flex-wrap">
+      <% @theme1.each_with_index do |task, index| %>
+          <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+              <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+              <div class="card-body"> 
+                  <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5>
+                  <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                  <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                  <% if task.join_user_alternative_questions.present? %>
+                    <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                    Ver</a>
+                  <% elsif task.join_user_numerical_questions.present? %>
+                  <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                    Ver</a>
+                  <% end %>
+              </div>
+          </div>
+      <% end %>
+    </div>
+    <hr>
+  <% if current_user.module >= 1 %>
+  <h2>Entalpía<h2>
+  <div class="d-flex flex-wrap">
+    <% @theme2.each_with_index do |task, index| %>
+        <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+            <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+            <div class="card-body">
+                <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
+                <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                <% if task.join_user_alternative_questions.present? %>
+                <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                Ver</a>
+                <% elsif task.join_user_numerical_questions.present? %>
+                <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                  Ver</a>
+                <% end %>
+            </div>
+        </div>
     <% end %>
+  </div>
+  <hr>
+  <% end %>
+  <% if current_user.module >= 2 %>
+  <h2>Calor Latente<h2>
+  <div class="d-flex flex-wrap">
+    <% @theme3.each_with_index do |task, index| %>
+        <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+            <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+            <div class="card-body">
+                <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
+                <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                <% if task.join_user_alternative_questions.present? %>
+                  <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                  Ver</a>
+                <% elsif task.join_user_numerical_questions.present? %>
+                <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                  Ver</a>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+  </div>
+  <hr>
+  <% end %>
+  <% if current_user.module >= 3 %>
+  <h2>Diagramas de Fases<h2>
+  <div class="d-flex flex-wrap">
+    <% @theme4.each_with_index do |task, index| %>
+        <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+            <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+            <div class="card-body">
+                <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
+                <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                <% if task.join_user_alternative_questions.present? %>
+                  <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                  Ver</a>
+                <% elsif task.join_user_numerical_questions.present? %>
+                <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                  Ver</a>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+  </div>
+  <hr>
+  <% end %>
+  <% if current_user.module >= 4 %>
+  <h2>Calidad de Mezclas<h2>
+  <div class="d-flex flex-wrap">
+    <% @theme5.each_with_index do |task, index| %>
+        <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+            <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+            <div class="card-body">
+                <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
+                <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                <% if task.join_user_alternative_questions.present? %>
+                  <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                  Ver</a>
+                <% elsif task.join_user_numerical_questions.present? %>
+                <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                  Ver</a>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+  </div>
+  <% end %>
   </div>
 </div>

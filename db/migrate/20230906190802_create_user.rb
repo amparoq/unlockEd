@@ -7,7 +7,7 @@ class CreateUser < ActiveRecord::Migration[7.0]
       t.integer :task_number, default: 1
       t.float :experience, default: 5
       t.integer :streak, default: 1
-      t.integer :module
+      t.integer :module, default: 0
       t.integer :role, default: 0
       t.integer :good_questions, default: 0 
 

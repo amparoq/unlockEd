@@ -5,6 +5,33 @@ class TasksController < ApplicationController
   def index
     if current_user.student? 
       @tasks = UserTask.where("user_id = ?", current_user.id).map(&:task)
+      @theme1 = []
+      @theme2 = []
+      @theme3 = []
+      @theme4 = []
+      @theme5 = []
+
+      @themes = ["Tablas de saturación", "Entalpía", "Calor Latente", "Diagrama de fases", "Calidad de mezclas"]
+        
+      @backgrounds_al = ["back1.png", "back2.png", "back3.png", "back4.png"]
+      
+      @tasks.each do |h|
+        if h.module == 0
+          @theme1 << h
+        end
+        if h.module == 1
+          @theme2 << h
+        end
+        if h.module == 2
+          @theme3 << h
+        end
+        if h.module == 3
+          @theme4 << h
+        end
+        if h.module == 4
+          @theme5 << h
+        end
+      end
     else
       @tasks = Task.all
     end

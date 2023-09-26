@@ -80,18 +80,24 @@
     </div>
     <br>
     <h4> Tareas pasadas del módulo </h4>
-    <div class="d-flex flex-wrap">
-        <% @completed_or_skipped_tasks.each_with_index do |task, index| %>
-            <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
-                <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
-                <div class="card-body">
-                    <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
-                    <p style="font-size: 14px;"> <%= task.complexity %> </p>
-                    <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+    <% if @completed_or_skipped_tasks.present? %>
+        <div class="d-flex flex-wrap">
+            <% @completed_or_skipped_tasks.each_with_index do |task, index| %>
+                <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                    <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+                    <div class="card-body">
+                        <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
+                        <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                        <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                    </div>
                 </div>
-            </div>
-        <% end %>
-    </div>
+            <% end %>
+        </div>
+    <% else %>
+        <div class="alert alert-primary d-flex flex-wrap" role="alert" style="width: 800px;">
+            ¡Oops! Parece que todavía no terminas la primera tarea de <%= @themes[current_user.module] %> ¡Ve por ello!
+        </div>
+    <% end %>
         <div class="vertical-line"></div>
         <div style= "width: 250px; height: 300px; background-color: #d8d8d8; position: absolute; top: 120px; right: 110px; border: 2px solid #b8b9b9;"> 
             <div style= "width: 246px; height: 100px; background-color: white; margin-top: 196px; border-top: 2px solid #b8b9b9;">
@@ -102,7 +108,7 @@
             <div>
                 <h2 style= "margin-top: 10px; margin-left: 50px; font-weight: bold;"> Nivel del estudiante </h2>
                 <div id="divEncimaDelChart" style="position: absolute; top: 470px; left: 63px; width: 117px; height: 117px; border-radius: 100px; background-color: rgba(255, 255, 255); z-index: 2; display: flex; align-items: center; justify-content: center;">
-                   <h1> <%= current_user.user_level %> </h1>
+                   <h1> <%= current_user.user_level.round(2) %> </h1>
                 </div>
                 <canvas class="graficoDonut"  data-level="<%= current_user.user_level %>" style= "width: 100px; height: 100px;"></canvas>
             </div>
@@ -122,7 +128,7 @@
                         <div style="margin-left: 40px; margin-bottom: 120px; width: 400px; height: 100px; white-space: nowrap">
                             <h3 style= "font-weight: bold;"><%= user.name + " " + user.last_name %> </h3>
                             <p style= "font-size: 16px;"> Email: <%= user.email %> </p>
-                            <p style= "font-size: 16px;"> Nivel del estudiante: <%= user.user_level %> </p>
+                            <p style= "font-size: 16px;"> Nivel del estudiante: <%= user.user_level.round(2) %> </p>
                             <p style= "font-size: 16px;"> Tiempo de uso: <%= ((((Time.now - user.created_at)/60)/60)/24).round(1) %> Dias </p>
                             <p style= "font-size: 16px;"> Tarea mas dificil: <%= @task_with_max_c %>  </p>
                             <p style= "font-size: 16px;"> Tarea mas facil: <%= @task_with_min_c %>  </p>

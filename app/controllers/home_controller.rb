@@ -84,8 +84,7 @@ class HomeController < ApplicationController
 
     def index
         @pending_tasks = UserTask.where("user_id = ? and status = ?", current_user.id, 0).map(&:task)
-        @completed_or_skipped_tasks = UserTask.where("user_id = ? and (status = ? or status = ?)", current_user.id, 1, 2).map(&:task)
-
+        @completed_or_skipped_tasks = UserTask.joins(:task).where("user_id = ? and (status = ? or status = ?) and tasks.module = ?", current_user.id, 1, 2, current_user.module).map(&:task)
         # Tablas de saturación-> 0
         # Entalpía-> 1
         # Calor latente-> 2
