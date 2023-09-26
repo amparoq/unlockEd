@@ -3,8 +3,8 @@
 <style>
     .grid-container {
         display: grid;
-        grid-template-columns: repeat(3, 270px); 
-        grid-gap: 27px; 
+        grid-template-columns: repeat(2, 270px); 
+        grid-gap: 15px; 
     }
 
     .grid-item {
@@ -53,42 +53,45 @@
     .colorC2 {
         background-color: #b969fe"; 
     }
+
 </style>
 
 <% if current_user.student? %>
-    <div style= "margin-top: 20px; margin-left: 20px;"> 
-        <h1 style= "font-weight: bold"> Home </h1>
-        <br>
-        <meta name="csrf-token" content="<%= form_authenticity_token %>" />
-        <h4> Tareas pendientes <h4>
-        <div class="grid-container-wrapper">
-            <div class="grid-container" id="gridContainer">
+<div style="margin-top: 20px; margin-left: 20px;"> 
+    <h1 style="font-weight: bold"> Home </h1>
+    <br>
+    <meta name="csrf-token" content="<%= form_authenticity_token %>" />
+    <h4> Tareas pendientes </h4>
+    <div class="grid-container-wrapper">
+        <div class="row">
+            <div class="d-flex flex-wrap">
                 <% @pending_tasks.each_with_index do |task, index| %>
-                    <div class="card grid-item" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
-                        <div class="card-img-top" style = "background-color: green;">
+                    <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                        <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
                         <div class="card-body">
-                            <h5 style= "font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
-                            <p style= "font-size: 14px;"> <%= task.complexity %> </p>
-                            <p style= "font-size: 14px;" "card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                            <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
+                            <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                            <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
                         </div>
                     </div>
                 <% end %>
             </div>
-        <br>
-        <h4> Tareas pasadas del módulo <h4>
-        <div class="grid-container" id="gridContainer2">
+        </div>
+    </div>
+    <br>
+    <h4> Tareas pasadas del módulo </h4>
+    <div class="d-flex flex-wrap">
         <% @completed_or_skipped_tasks.each_with_index do |task, index| %>
-            <% color_class = "colorC#{index}"%> 
-            <div class="card grid-item" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
-                <img class="card-img-top">
+            <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
                 <div class="card-body">
-                    <h5 style= "font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
-                    <p style= "font-size: 14px;"> <%= task.complexity %> </p>
-                    <p style= "font-size: 14px;" "card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                    <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
+                    <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                    <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
                 </div>
             </div>
-            <% color_class = "colorP#{index}"%> 
         <% end %>
+    </div>
         <div class="vertical-line"></div>
         <div style= "width: 250px; height: 300px; background-color: #d8d8d8; position: absolute; top: 120px; right: 110px; border: 2px solid #b8b9b9;"> 
             <div style= "width: 246px; height: 100px; background-color: white; margin-top: 196px; border-top: 2px solid #b8b9b9;">

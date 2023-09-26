@@ -93,6 +93,7 @@ class HomeController < ApplicationController
         # Calidad de Mezclas-> 4
         @themes = ["Tablas de saturación", "Entalpía", "Calor Latente", "Diagrama de fases", "Calidad de mezclas"]
         
+        @backgrounds_al = ["back1.png", "back2.png", "back3.png", "back4.png"]
         @colors= ["#ff5757", "#ffd357", "#95ff57", "#84feed", "#6f69fe", "#b969fe"]
         # Inicializa el diccionario
         task_scores = {}
