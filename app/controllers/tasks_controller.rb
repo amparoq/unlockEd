@@ -13,6 +13,7 @@ class TasksController < ApplicationController
   # GET /tasks/1 or /tasks/1.json
   def show
     @task = Task.find(params[:id])
+    update_attempt(params[:id])
     @a1 = alternative_question_ids = AlternativeQuestion.joins(:join_user_alternative_questions)
     .where(join_user_alternative_questions: { task_id: @task.id })
     .pluck(:id)
@@ -24,6 +25,42 @@ class TasksController < ApplicationController
       @usertask.save
     end 
     @attempt = @usertask.attempt
+  end
+
+  def update_attempt(task_id)
+    @alternatives_error_counts = ErrorCountAlternative.where(task_id: task_id)
+    second_attempt = true
+    not_attempted = false
+    @alternatives_error_counts.each do |altec|
+      if altec.error_count == 1
+        second_attempt = false
+      end
+      if altec.error_count == -1
+        not_attempted = true
+      end
+    end
+    @user_task = UserTask.find_by(user_id: current_user.id, task_id: @task.id)
+    if !not_attempted
+      if second_attempt
+        @user_task.attempt = 2
+        @user_task.save
+      else
+        @user_task.attempt = 1
+        @user_task.save
+      end
+    end
+    if @user_task.attempt == 2
+      @user_task.status = 2
+      @user_task.save
+      @alts = ErrorCountAlternative.where(user_id: current_user.id, task_id: @task.id)
+      @alts.each do |a|
+        if a.error_count == 0
+          valid_alt = ValidAlternativeQuestion.find_by(user_id: current_user.id, alternative_question_id: a.alternative_question_id)
+          valid_alt.usable = false
+          valid_alt.save
+        end
+      end
+    end
   end
 
   # GET /tasks/new

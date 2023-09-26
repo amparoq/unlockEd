@@ -21,20 +21,38 @@ class AlternativeQuestionsController < ApplicationController
     @answer_a_show = error_counter_table.answer_a_show
     @answer_b_show = error_counter_table.answer_b_show
     @answer_c_show = error_counter_table.answer_c_show
+    update_attempt(@task.id)
     @attempt = UserTask.find_by(user_id: current_user.id, task_id: @task.id)[:attempt]
   end
 
-  def update_attempt 
-    @alternative_question = AlternativeQuestion.find(params[:id])
-    @task= Task.find(params[:task_id])
+  def update_attempt(task_id)
+    @alternatives_error_counts = ErrorCountAlternative.where(task_id: task_id)
+    second_attempt = true
+    not_attempted = false
+    @alternatives_error_counts.each do |altec|
+      if altec.error_count == 1
+        second_attempt = false
+      end
+      if altec.error_count == -1
+        not_attempted = true
+      end
+    end
     @user_task = UserTask.find_by(user_id: current_user.id, task_id: @task.id)
-    @user_task.attempt = @user_task.attempt + 1
+    if !not_attempted
+      if second_attempt
+        @user_task.attempt = 2
+        @user_task.save
+      else
+        @user_task.attempt = 1
+        @user_task.save
+      end
+    end
     if @user_task.attempt == 2
       @user_task.status = 2
       @user_task.save
       @alts = ErrorCountAlternative.where(user_id: current_user.id, task_id: @task.id)
       @alts.each do |a|
-        if a.error_count != 2
+        if a.error_count == 0
           valid_alt = ValidAlternativeQuestion.find_by(user_id: current_user.id, alternative_question_id: a.alternative_question_id)
           valid_alt.usable = false
           valid_alt.save
@@ -44,7 +62,6 @@ class AlternativeQuestionsController < ApplicationController
   end
 
   def update_error_counter
-
     new_error_counter = params[:error_counter].to_i
 
     @task= Task.find(params[:task_id])
@@ -65,7 +82,6 @@ class AlternativeQuestionsController < ApplicationController
     end
 
     error_counter_table.save
-
   end
 
   # GET /alternative_questions/new

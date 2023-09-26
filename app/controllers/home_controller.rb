@@ -83,9 +83,9 @@ class HomeController < ApplicationController
   end
 
     def index
-        @pending_tasks = UserTask.where("user_id = ? and status = ? and attempt <= ?", current_user.id, 0, 1).map(&:task)
-        @completed_or_skipped_tasks = UserTask.where("user_id = ? and (status = ? or status = ? or attempt = ?)", current_user.id, 1, 2, 2).map(&:task)
-
+        @pending_tasks = UserTask.where("user_id = ? and status = ?", current_user.id, 0).map(&:task)
+        @completed_or_skipped_tasks = UserTask.where("user_id = ? and (status = ? or status = ?)", current_user.id, 1, 2).map(&:task)
+        
         @colors= ["#ff5757", "#ffd357", "#95ff57", "#84feed", "#6f69fe", "#b969fe"]
         # Inicializa el diccionario
         task_scores = {}
