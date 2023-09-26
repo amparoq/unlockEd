@@ -61,7 +61,6 @@
 </style>
 
 <% if current_user.student? %>
-    <h3><%= current_user.experience %></h3>
     <div style= "margin-top: 20px; margin-left: 20px;"> 
         <h1 style= "font-weight: bold"> Home </h1>
         <br>
@@ -99,7 +98,8 @@
         <div style= "width: 250px; height: 300px; background-color: #d8d8d8; position: absolute; top: 120px; right: 110px; border: 2px solid #b8b9b9;"> 
             <div style= "width: 246px; height: 100px; background-color: white; margin-top: 196px; border-top: 2px solid #b8b9b9;">
                 <h3 style= "font-weight: bold; font-size: 17px; margin-top: 7px; margin-left: 65px;"><%= current_user.name + " " + current_user.last_name%></h3>
-                <p style= "font-size: 12px; margin-left: 37px;">Email: <%= current_user.email%></p>
+                <p style= "font-size: 12px; margin-left: 32px; margin-top: 0; margin-bottom: 5px;">Email: <%= current_user.email%></p>
+                <p style= "font-size: 12px; margin-left: 32px; margin-top: 0; margin-bottom: 5px;">XP: <%= number_with_precision(current_user.experience, precision: 2) %> / 20</p>
             </div>
             <div>
                 <h2 style= "margin-top: 10px; margin-left: 50px; font-weight: bold;"> Nivel del estudiante </h2>

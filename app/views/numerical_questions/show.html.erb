@@ -39,19 +39,42 @@
         <div style="margin-top: 20px; margin-left: 20px; margin-right: 20px; text-align: center;">
           <span style="font-size: 21px;"><%= @enunciado %></span>
           <br>
-          <% if @q == 1 %>
+          <% if @numerical_question.id == 1 %>
             <div style="position: relative; display: inline-block;">
               <img src="https://i.pinimg.com/564x/91/d7/a5/91d7a5033e09c0548228ed8614ac65f7.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
               <span style="font-size: 16px; font-weight: bold; position: absolute; top: 49%; left: 4px; transform: translate(0, -50%);"><%= @valor_temp %>ºC</span>
               <span style="font-size: 16px; font-weight: bold; font-style: italic; position: absolute; top: 15%; left: 90px; transform: translate(0, -50%);">P=<%= @presion %> kPa</span>
             </div>
-          <% elsif @q == 2 %>
+          <% elsif @numerical_question.id == 2 %>
             <div style="position: relative; display: inline-block;">
               <img src="https://i.pinimg.com/564x/d1/b8/47/d1b847f6dbf48f912e5e7d8b2d0b0b5e.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
               <span style="font-size: 15px; font-weight: bold; position: absolute; top: 25%; left: 10px; transform: translate(0, -50%);"><%= @p1 %></span>
               <span style="font-size: 15px; font-weight: bold; position: absolute; top: 74%; left: 10px; transform: translate(0, -50%);"><%= @p2 %></span>
               <span style="font-size: 15px; font-weight: bold; position: absolute; top: 95%; left: 90px; transform: translate(0, -50%);"><%= @v1 %></span>
               <span style="font-size: 15px; font-weight: bold; position: absolute; top: 95%; left: 170px; transform: translate(0, -50%);"><%= @v2 %></span>
+            </div>
+          <% elsif @numerical_question.template == 3 %>
+            <div style="position: relative; display: inline-block;">
+              <img src="https://i.pinimg.com/564x/f7/92/f2/f792f21f0b150675adf8a19e62b8b6be.jpg" alt="Image Description" width="170" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 18px; font-weight: bold; position: absolute; top: 30%; left: 50px; transform: translate(0, -50%);">1 atm</span>
+              <span style="font-size: 18px; font-weight: bold; position: absolute; top: 45%; left: 50px; transform: translate(0, -50%);"><%= @t_agua_sat %> °C</span>
+              <span style="font-size: 18px; font-weight: bold; position: absolute; top: 60%; left: 50px; transform: translate(0, -50%);"><%= @masa_kg_val %> kg</span>
+            </div>
+          <% elsif @numerical_question.template == 4 %>
+            <div style="position: relative; display: inline-block;">
+              <img src="https://i.pinimg.com/564x/ce/64/41/ce64413634e4a4c0be46d54b3e9eaf08.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 90%; left: 95px; transform: translate(0, -50%);"><%= @v1 %></span>
+              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 90%; left: 180px; transform: translate(0, -50%);"><%= @v2 %></span>
+              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 20%; left: 150px; transform: translate(0, -50%);">T= <%= @t1 %> K</span>
+              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 30%; left: 150px; transform: translate(0, -50%);"><%= @n %> moles</span>
+            </div>
+          <% elsif @numerical_question.template == 6 %>
+            <div style="position: relative; display: inline-block;">
+              <img src="https://i.pinimg.com/564x/4e/89/1d/4e891d898ba9ec1df1103bde53a13d67.jpg" alt="Image Description" width="170" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 18px; font-weight: bold; position: absolute; top: 25%; left: 40px; transform: translate(0, -50%);">R-134a</span>
+              <span style="font-size: 18px; font-weight: bold; position: absolute; top: 40%; left: 40px; transform: translate(0, -50%);"><%= @presion_134a %> kPa</span>
+              <span style="font-size: 18px; font-weight: bold; position: absolute; top: 55%; left: 40px; transform: translate(0, -50%);"><%= @volumen_L %> L</span>
+              <span style="font-size: 18px; font-weight: bold; position: absolute; top: 70%; left: 40px; transform: translate(0, -50%);"><%= @masa_kg %> kg</span>
             </div>
           <% end %>
         </div>

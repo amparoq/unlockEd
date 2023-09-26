@@ -121,6 +121,8 @@ class NumericalQuestionsController < ApplicationController
       else
         @temp_134 = temp_per_presion134[@presion_134a]
       end
+      @volumen_L = UserQuestionValue.find_by(value_name: "volumen_L", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @masa_kg = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
     elsif @numerical_question.template == 7
       @masa_g = UserQuestionValue.find_by(value_name: "masa_g", user_id: current_user.id, task_id: @task.id)[:value]
       @temp_hielo = UserQuestionValue.find_by(value_name: "temp_hielo", user_id: current_user.id, task_id: @task.id)[:value]
