@@ -669,7 +669,7 @@ nume2 = NumericalQuestion.create(difficulty: 0, question: ne2, template: 3, hint
 
 ne3 = "{{n}} moles de un gas ideal monoatómico ocupan un volumen de {{v1}} m³ a una temperatura de {{t1}} K. Luego, se somete a un proceso isotérmico en un sistema cerrado, durante el cual su volumen cambia a {{v2}} m³. Si el proceso es reversible y no hay interacción de trabajo con el entorno, determina:
 a) La variación de entalpía del sistema (ΔH) en J.
-b) La variación de energía interna del sistema (ΔU) en J."
+b) El trabajo realizado por o sobre el mol en J."
 nume3 = NumericalQuestion.create(difficulty: 1, question: ne3, template: 4, hint: "Recuerda que la energía interna en procesos isotérmicos es 0", module: 1)
 
 #Calor Latente
