@@ -8,14 +8,9 @@
     }
 
     .grid-item {
-        width: 270px;
-        height: 190px;
-        background-color: #ccc;
-        border: 1px solid #000;
     }
 
     .task-content {
-        height: 58px;
         width: 268px;
         background-color: white;
         margin-top: 130px;
@@ -68,14 +63,13 @@
         <h4> Tareas pendientes <h4>
         <div class="grid-container-wrapper">
             <div class="grid-container" id="gridContainer">
-            <% @pending_tasks.each_with_index do |task, index| %>
-                <% color_class = "colorP#{index}"%> 
-                <div class="grid-item <%= color_class %>" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
-                        <div class="task-content">
-                            <div style= "margin-left: 20px;">
-                                <h5 style= "font-weight: bold"> Tarea <%= task.number %> </h5> 
-                                <p style= "font-size: 14px;"> <%= task.complexity %> </p>
-                            </div>
+                <% @pending_tasks.each_with_index do |task, index| %>
+                    <div class="card grid-item" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                        <div class="card-img-top" style = "background-color: green;">
+                        <div class="card-body">
+                            <h5 style= "font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
+                            <p style= "font-size: 14px;"> <%= task.complexity %> </p>
+                            <p style= "font-size: 14px;" "card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
                         </div>
                     </div>
                 <% end %>
@@ -85,14 +79,15 @@
         <div class="grid-container" id="gridContainer2">
         <% @completed_or_skipped_tasks.each_with_index do |task, index| %>
             <% color_class = "colorC#{index}"%> 
-            <div class="grid-item <%= color_class %>" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
-                <div class="task-content">
-                    <div style= "margin-left: 20px;">
-                        <h5 style= "font-weight: bold"> Tarea <%= task.number %> </h5> 
-                        <p style= "font-size: 14px;"> <%= task.complexity %> </p>
-                    </div>
+            <div class="card grid-item" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                <img class="card-img-top">
+                <div class="card-body">
+                    <h5 style= "font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
+                    <p style= "font-size: 14px;"> <%= task.complexity %> </p>
+                    <p style= "font-size: 14px;" "card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
                 </div>
             </div>
+            <% color_class = "colorP#{index}"%> 
         <% end %>
         <div class="vertical-line"></div>
         <div style= "width: 250px; height: 300px; background-color: #d8d8d8; position: absolute; top: 120px; right: 110px; border: 2px solid #b8b9b9;"> 
