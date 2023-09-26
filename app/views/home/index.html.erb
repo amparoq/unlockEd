@@ -23,7 +23,7 @@
 
     .vertical-line {
         border-right: 3px solid #b8b9b9;
-        height: 650px;
+        height: 790px;
         position: absolute;
         top: 100px;
         right: 480px;
@@ -102,53 +102,137 @@
             </div>
             <div>
                 <h2 style= "margin-top: 10px; margin-left: 50px; font-weight: bold;"> Nivel del estudiante </h2>
-                <div id="divEncimaDelChart" style="position: absolute; top: 460px; left: 64px; width: 117px; height: 117px; border-radius: 100px; background-color: rgba(255, 255, 255); z-index: 2; display: flex; align-items: center; justify-content: center;">
+                <div id="divEncimaDelChart" style="position: absolute; top: 470px; left: 63px; width: 117px; height: 117px; border-radius: 100px; background-color: rgba(255, 255, 255); z-index: 2; display: flex; align-items: center; justify-content: center;">
                    <h1> <%= current_user.user_level %> </h1>
                 </div>
-                <canvas id="nivelEstudiante" style= "width: 100px; height: 100px;"></canvas>
+                <canvas class="graficoDonut"  data-level="<%= current_user.user_level %>" style= "width: 100px; height: 100px;"></canvas>
             </div>
         </div>
     </div>
     </div>
 <% else %>
-    <div>
+    <div style= "margin-top: 20px; margin-left: 20px;"> 
+    <h1 style= "font-weight: bold"> Home </h1>
+    <br>
+    <meta name="csrf-token" content="<%= form_authenticity_token %>" />
+    <h4> Estadisticas de todos los alumnos <h4>
+            <div style="margin-left: 80px; width: 800px; height: 315px; background-color: white; border: 2px solid #b8b9b9; overflow-x: auto; overflow-y: auto; display: flex; flex-wrap: wrap;">
+                <% User.where(role: 0).each do |user| %>
+                    <div style="margin-left: 50px; flex: 0 0 auto; display: flex; align-items: center; margin-right: 20px; width: 400px; height: 300px;">
+                        <canvas class="graficoDonut" data-level="<%= user.user_level %>" style="width: 10px; height: 10px; display: inline-block;"></canvas>
+                        <div style="margin-left: 40px; margin-bottom: 120px; width: 400px; height: 100px; white-space: nowrap">
+                            <h3 style= "font-weight: bold;"><%= user.name + " " + user.last_name %> </h3>
+                            <p style= "font-size: 16px;"> Email: <%= user.email %> </p>
+                            <p style= "font-size: 16px;"> Nivel del estudiante: <%= user.user_level %> </p>
+                            <p style= "font-size: 16px;"> Tiempo de uso: <%= ((((Time.now - user.created_at)/60)/60)/24).round(1) %> Dias </p>
+                            <p style= "font-size: 16px;"> Tarea mas dificil: <%= @task_with_max_c %>  </p>
+                            <p style= "font-size: 16px;"> Tarea mas facil: <%= @task_with_min_c %>  </p>
+                            <p style= "font-size: 16px;"> Tarea destacada: <%= @task_destacado %>  </p>
+
+                        </div>
+                    </div>
+                    <% end %>
+            </div>
+    <br>
+    <div style="display: flex; align-items: center;">
+        <h4 style="margin-right: 10px;">Estadisticas de cada alumno: </h4>
+        <select id="alumnosDropdown", style= "margin-bottom: 10px;", class= "btn btn-info dropdown-toggle">
+        <% User.where(role: 0).each do |user| %>
+            <option value="<%= user.id %>"><%= user.name + " " + user.last_name %></option>
+        <% end %>
+        </select>
+  </div>
+    <div id="estadisticasAlumno" style="margin-left: 80px; width: 800px; height: 315px; background-color: white; border: 2px solid #b8b9b9; overflow-x: auto; overflow-y: auto; display: flex; flex-wrap: wrap;"></div>
+    
+    <div class="vertical-line"></div>
+    <div style= "width: 250px; height: 300px; background-color: #d8d8d8; position: absolute; top: 120px; right: 110px; border: 2px solid #b8b9b9;"> 
+        <div style= "width: 246px; height: 100px; background-color: white; margin-top: 196px; border-top: 2px solid #b8b9b9;">
+            <h3 style= "font-weight: bold; font-size: 17px; margin-top: 7px; margin-left: 53px;"><%= current_user.name + " " + current_user.last_name%></h3>
+            <p style= "font-size: 12px; margin-left: 47px;">Email: <%= current_user.email%></p>
+        </div>
+        <div>
+    </div>
+    </div>
     </div>
 <% end %>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var level = <%= current_user.user_level %>;
+    var canvasElements = document.querySelectorAll('.graficoDonut');
 
-    var ctx = document.getElementById('nivelEstudiante').getContext('2d');
+    canvasElements.forEach(function(canvas) {
+      var level = canvas.dataset.level;
+      var ctx = canvas.getContext('2d');
 
-    var data = {
-      datasets: [{
-        data: [level, 10 - level],
-        backgroundColor: [
-          '#439cff', // Color para el nivel del estudiante
-          '#dbebff'  // Color para el espacio restante
-        ],
-        hoverBackgroundColor: [
-          '#439cff',
-          '#dbebff'
-        ]
-      }]
-    };
+      var data = {
+        labels: ["Progreso"],
+        datasets: [{
+          data: [level, 10 - level],
+          backgroundColor: [
+            '#439cff', // Color para el nivel del estudiante
+            '#dbebff'  // Color para el espacio restante
+          ],
+          hoverBackgroundColor: [
+            '#439cff',
+            '#dbebff'
+          ]
+        }]
+      };
 
-    var options = {
-      cutoutPercentage: 80, // Controla qué tan grande es el agujero del donut
-      rotation: -Math.PI,  // Controla la rotación del gráfico (en este caso, gira 180 grados para que empiece en la parte superior)
-      circumference: 115*Math.PI, // Controla cuánto de la circunferencia se usa para el gráfico
-    };
+      var options = {
+        cutoutPercentage: 80, // Controla qué tan grande es el agujero del donut
+        rotation: -Math.PI,  // Controla la rotación del gráfico (en este caso, gira 180 grados para que empiece en la parte superior)
+        circumference: 115*Math.PI, // Controla cuánto de la circunferencia se usa para el gráfico
+      };
 
-    var myDoughnutChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: data,
-      options: options
+      var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: options
+      });
+      
     });
-    
   });
+
+  var dropdown = document.getElementById('alumnosDropdown');
+  var estadisticasDiv = document.getElementById('estadisticasAlumno');
+
+  dropdown.addEventListener('change', function() {
+    var userId =  this.value; 
+    estadisticasDiv.innerHTML = '';
+
+    fetch(`/${userId}.json`)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      var selectedUser = data.name + ' ' + data.last_name;
+      estadisticasDiv.innerHTML = `
+      <h2 style= "font-weight: bold; margin-left: 300px;">${selectedUser}</h2>
+      <br>
+      <div class="estadisticas-container" style=  "margin-left: 160px; margin-top: 15px;">
+        <div>
+          <p>Tablas de saturación: ${data.modules_percentages[0]}%, ${data.modules[0]}/${data.modules_total[0]} tareas completadas</p>
+          <p>Entalpía: ${data.modules_percentages[1]}%, ${data.modules[1]}/${data.modules_total[1]} tareas completadas</p>
+          <p>Calor latente: ${data.modules_percentages[2]}%, ${data.modules[2]}/${data.modules_total[2]} tareas completadas</p>
+          <p>Diagramas de fases: ${data.modules_percentages[3]}%, ${data.modules[3]}/${data.modules_total[3]} tareas completadas</p>
+          <p>Calidad de Mezclas: ${data.modules_percentages[4]}%, ${data.modules[4]}/${data.modules_total[4]} tareas completadas</p>
+        </div>
+        <br>
+        <div>
+        <p>Último ingreso: Hace ${data.last_login} Dias</p>
+        <p>Última tarea y resultado: </p>
+        <p>Tiempo de uso: ${data.use_time} Dias </p>
+        <p>Velocidad de avance: ${data.speed} </p>
+      </div>
+      </div>
+    `;
+    })
+    .catch(error => console.error('Error:', error));
+  });
+        
+
 </script>

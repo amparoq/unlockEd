@@ -17,8 +17,8 @@ class TasksController < ApplicationController
     .where(join_user_alternative_questions: { task_id: @task.id })
     .pluck(:id)
     @usertask = UserTask.find_by(user_id: current_user.id, task_id: @task.id)
-    @buenas = ErrorCountAlternative.where(user_id: current_user.id, alternative_question_id: @a1, error_count: 0)
-    @malas = ErrorCountAlternative.where(user_id: current_user.id, alternative_question_id: @a1, error_count: [1, 2])
+    @buenas = ErrorCountAlternative.where(user_id: current_user.id, alternative_question_id: @a1, error_count: 0, task_id: @task.id)
+    @malas = ErrorCountAlternative.where(user_id: current_user.id, alternative_question_id: @a1, error_count: [1, 2], task_id: @task.id)
     if !@malas.present?
       @usertask.attempt = 2
       @usertask.save

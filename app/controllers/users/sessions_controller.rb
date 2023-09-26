@@ -7,6 +7,11 @@ class Users::SessionsController < Devise::SessionsController
   # def new
   #   super
   # end
+  def after_sign_in_path_for(resource)
+    puts("asdasd")
+    current_user.update(last_login: Time.now)
+    super
+  end
 
   # POST /resource/sign_in
   # def create

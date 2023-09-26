@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_25_042838) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_25_233525) do
   create_table "alternative_questions", force: :cascade do |t|
     t.integer "difficulty"
     t.integer "module"
@@ -143,6 +143,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_25_042838) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.datetime "last_login"
+    t.integer "last_task_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
