@@ -89,6 +89,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_25_233525) do
   create_table "tasks", force: :cascade do |t|
     t.integer "module"
     t.integer "complexity"
+    t.integer "difficulty"
+    t.integer "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -131,11 +133,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_25_233525) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "last_name"
-    t.float "user_level"
-    t.integer "task_number", default: 0
-    t.integer "streak"
+    t.float "user_level", default: 2.0
+    t.integer "task_number", default: 1
+    t.float "experience", default: 5.0
+    t.integer "streak", default: 1
     t.integer "module"
     t.integer "role", default: 0
+    t.integer "good_questions", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false

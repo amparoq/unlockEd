@@ -12,8 +12,11 @@ class ErrorCountAlternative < ApplicationRecord
             if old_error_counter == -1 and new_error_counter == 0
                 u_id = self.task.user_tasks.pluck(:user_id)
                 u = User.find(u_id)[0]
-                u.streak += 1
+                if u.streak != 4
+                    u.streak += 1
+                end
                 correctitud = 1
+                u.good_questions += 1
                 u.save
             end
             if old_error_counter == -1 and new_error_counter == 1

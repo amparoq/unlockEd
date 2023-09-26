@@ -8,7 +8,6 @@ class Users::SessionsController < Devise::SessionsController
   #   super
   # end
   def after_sign_in_path_for(resource)
-    puts("asdasd")
     current_user.update(last_login: Time.now)
     super
   end

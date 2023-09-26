@@ -61,6 +61,7 @@
 </style>
 
 <% if current_user.student? %>
+    <h3><%= current_user.experience %></h3>
     <div style= "margin-top: 20px; margin-left: 20px;"> 
         <h1 style= "font-weight: bold"> Home </h1>
         <br>
@@ -73,7 +74,7 @@
                 <div class="grid-item <%= color_class %>" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
                         <div class="task-content">
                             <div style= "margin-left: 20px;">
-                                <h5 style= "font-weight: bold"> Tarea <%= current_user.task_number %> </h5> 
+                                <h5 style= "font-weight: bold"> Tarea <%= task.number %> </h5> 
                                 <p style= "font-size: 14px;"> <%= task.complexity %> </p>
                             </div>
                         </div>
@@ -88,7 +89,7 @@
             <div class="grid-item <%= color_class %>" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
                 <div class="task-content">
                     <div style= "margin-left: 20px;">
-                        <h5 style= "font-weight: bold"> Tarea <%= current_user.task_number %> </h5> 
+                        <h5 style= "font-weight: bold"> Tarea <%= task.number %> </h5> 
                         <p style= "font-size: 14px;"> <%= task.complexity %> </p>
                     </div>
                 </div>
@@ -161,6 +162,33 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var gridItems = document.querySelectorAll('.grid-item');
+
+        gridItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                var taskId = this.dataset.taskId;
+                var taskComplexity = this.dataset.taskComplexity;
+
+                var url;
+
+                var csrfToken = document.querySelector("meta[name=csrf-token]").content;
+                $.ajax({
+                type: "POST",
+                url: "/redirect_to_task",
+                data: { complexity: taskComplexity, task: taskId },
+                headers: {
+                    "X-CSRF-Token": csrfToken
+                },
+                success: function(response) {
+                    var generatedUrl = response.url;
+                    window.location.href = generatedUrl;
+                }
+                });
+            });
+        });
+    });
+    
   document.addEventListener('DOMContentLoaded', function() {
     var canvasElements = document.querySelectorAll('.graficoDonut');
 

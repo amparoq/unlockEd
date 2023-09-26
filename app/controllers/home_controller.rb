@@ -160,7 +160,7 @@ class HomeController < ApplicationController
         first_alt_quest = JoinUserAlternativeQuestion.find_by(task_id: @task.id, order_number: 1)[:alternative_question_id]
         url = task_alternative_question_path(@task, first_alt_quest)
       else
-        url = task_numerical_question_path(@task, @task.join_user_numerical_questions.first)
+        url = task_numerical_question_path(@task, @task.join_user_numerical_questions.first.numerical_question_id)
       end
 
       render json: { url: url }

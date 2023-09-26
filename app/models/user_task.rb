@@ -12,9 +12,8 @@ class UserTask < ApplicationRecord
     after_create :sum_task_number
 
     def sum_task_number
-        @user = self.user
-        @user.task_number += 1
-        @user.save
+        self.user.task_number += 1
+        self.user.save
     end
 
     def assign_questions
@@ -36,6 +35,10 @@ class UserTask < ApplicationRecord
                 ErrorCountAlternative.create(task_id: self.task.id, alternative_question_id: altid, user_id: self.user.id)
                 ord_num += 1
             end
+        else
+            qNum = NumericalQuestion.find_by(module: self.task.module, difficulty: self.task.difficulty)
+            JoinUserNumericalQuestion.create(task_id: self.task.id, numerical_question_id: qNum.id )
+            ErrorCountNumerical.create(numerical_question_id: qNum.id, task_id: self.task.id, user_id: self.user.id)
         end
     end
 end

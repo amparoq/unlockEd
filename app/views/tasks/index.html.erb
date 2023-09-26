@@ -7,7 +7,7 @@
     <% @tasks.each do |task| %>
       <div style="margin-top: 20px; display: flex; align-items: center;">
         <div style="width: 10px; height: 10px; background-color: #000; border-radius: 50%; margin-right: 10px;"></div>
-        <h4 style="margin-right: 17px;">Tarea <%= current_user.task_number %></h4>
+        <h4 style="margin-right: 17px;">Tarea <%= task.number %></h4>
         
         <% if task.join_user_alternative_questions.present? %>
           <%= link_to "Go to", task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) , class: "btn btn-info" %>
