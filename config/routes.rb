@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   post "/update_error_counter_numerical", to: 'numerical_questions#update_error_counter'
   post '/update_last_answer', to: 'numeric_questions#update_last_answer'
   post "/update_attempt", to: 'alternative_questions#update_attempt'
+  post "/update_state_skip", to: 'user_task#update_state_skip'
   get "/:id", to: "home#info_user"
 
 

@@ -17,10 +17,15 @@ class ErrorCountNumerical < ApplicationRecord
                 end
                 correctitud = 1
                 u.good_questions += 1
+                ut = UserTask.find_by(task_id: self.task.id)
+                ut.attempt = 2
                 u.save
+                ut.save
             end
             if old_error_counter == -1 and new_error_counter == 1
                 u_id = self.task.user_tasks.pluck(:user_id)
+                ut = UserTask.find_by(task_id: self.task.id)
+                ut.attempt = 1
                 u = User.find(u_id)[0]
                 u.streak = 1
                 correctitud = -2

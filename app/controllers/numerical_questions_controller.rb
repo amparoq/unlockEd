@@ -253,6 +253,7 @@ class NumericalQuestionsController < ApplicationController
 
     error_counter_table = ErrorCountNumerical.find_by(numerical_question_id: @numerical_question.id, user_id: current_user.id, task_id: @task.id)
     @show_hint = error_counter_table.hint_show
+    update_attempt(@task.id)
     @error_count = error_counter_table.error_count
     if @error_count == 0 || @error_count == 2
       if !@two_answer
@@ -300,18 +301,41 @@ class NumericalQuestionsController < ApplicationController
     user_task = UserTask.find_by(user_id: current_user.id, task_id: @task.id)
     user_task.attempt = user_task.attempt + 1
 
-    if user_task.attempt == 2
-      user_task.status = 2
-    end
-
     user_task.save
 
     respond_to do |format|
       format.js {render inline: "location.reload();" }
     end
   end
-  
 
+  def update_attempt(task_id)
+    @alternatives_error_counts = ErrorCountNumerical.where(task_id: task_id)
+    second_attempt = true
+    not_attempted = false
+    @alternatives_error_counts.each do |altec|
+      if altec.error_count == 1
+        second_attempt = false
+      end
+      if altec.error_count == -1
+        not_attempted = true
+      end
+    end
+    @user_task = UserTask.find_by(user_id: current_user.id, task_id: task_id)
+    if !not_attempted
+      if second_attempt
+        @user_task.attempt = 2
+        @user_task.save
+      else
+        @user_task.attempt = 1
+        @user_task.save
+      end
+    end
+    if @user_task.attempt == 2
+      @user_task.status = "completed"
+      @user_task.save
+    end
+  end
+  
   # GET /numerical_questions/new
   def new
     @numerical_question = NumericalQuestion.new

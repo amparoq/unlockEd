@@ -22,7 +22,7 @@ class User < ApplicationRecord
   private
 
   def handle_assignment 
-    t = Task.create(complexity: 0, module: 0, number: self.task_number)
+    t = Task.create(complexity: 0, module: 0, number: self.task_number, difficulty: 0)
     UserTask.create(user_id: self.id, task_id: t.id)
   end
 
@@ -37,7 +37,11 @@ class User < ApplicationRecord
     total = self.error_count_alternatives.where(error_count: [0,1,2
     ]).count + self.error_count_numericals.where(error_count: [0,1,2
     ]).count
-    self.user_level = ((self.good_questions.to_f / total.to_f) * 9.0 + 1.0).round(2)
+    if total == 0
+      self.user_level = 2
+    else
+      self.user_level = ((self.good_questions.to_f / total.to_f) * 9.0 + 1.0).round(2)
+    end
   end
 
 end

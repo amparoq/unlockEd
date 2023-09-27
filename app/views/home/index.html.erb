@@ -60,18 +60,50 @@
 <div style="margin-top: 20px; margin-left: 20px;"> 
     <h1 style="font-weight: bold"> Home </h1>
     <br>
-    <meta name="csrf-token" content="<%= form_authenticity_token %>" />
     <h4> Tareas pendientes </h4>
     <div class="grid-container-wrapper">
         <div class="row">
-            <div class="d-flex flex-wrap">
+            <div class="d-flex flex-wrap" style="width: 1000px;">
+                <meta name="csrf-token" content="<%= form_authenticity_token %>" />
                 <% @pending_tasks.each_with_index do |task, index| %>
-                    <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                    <div class="card grid-item m-2" id="<%= task.id %>" style="width: 18rem; opacity: 1;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
                         <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
                         <div class="card-body">
-                            <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
+                            <div style="display: flex; align-items: center;">
+                                <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5>
+                                <% if task.user_tasks.first.status == "completed" %>
+                                <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                <% end %>
+                                <% if task.user_tasks.first.status == "pending" %>
+                                <span class="badge rounded-pill text-bg-info" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                <% end %>
+                                <% if task.user_tasks.first.status == "skipped" %>
+                                <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                <% end %>
+                                <% if task.difficulty == 0 %>
+                                <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px;">Dificultad baja</span>
+                                <% end %>
+                                <% if task.difficulty == 1 %>
+                                <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px;">Dificultad media</span>
+                                <% end %>
+                                <% if task.difficulty == 2 %>
+                                <span class="badge rounded-pill text-bg-danger" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px;">Dificultad alta</span>
+                                <% end %>
+                            </div>
                             <p style="font-size: 14px;"> <%= task.complexity %> </p>
                             <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                            <div style="display: flex;">
+                            <% if task.join_user_alternative_questions.present? %>
+                            <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                            Hacer</a>
+                            <% elsif task.join_user_numerical_questions.present? %>
+                            <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                            Hacer</a>
+                            <% end %>
+                            <% if task.user_tasks.first.attempt == 0 %>
+                                <div type="button" class="btn btn-danger" style="margin-left: 10px;" onclick="handle_skip(this)" data-task-id = "<%= task.id %>" >Saltar</div>
+                            <% end %>
+                            </div>
                         </div>
                     </div>
                 <% end %>
@@ -81,16 +113,86 @@
     <br>
     <h4> Tareas pasadas del módulo </h4>
     <% if @completed_or_skipped_tasks.present? %>
-        <div class="d-flex flex-wrap">
+        <div class="d-flex flex-wrap" style="width: 1000px;">
             <% @completed_or_skipped_tasks.each_with_index do |task, index| %>
-                <div class="card grid-item m-2" style="width: 18rem;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
-                    <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
-                    <div class="card-body">
-                        <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5> 
-                        <p style="font-size: 14px;"> <%= task.complexity %> </p>
-                        <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                <% if task.user_tasks.first.status == "completed" %>
+                    <div class="card grid-item m-2" id="<%= task.id %>" style="width: 18rem; opacity: 1;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                        <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+                        <div class="card-body">
+                            <div style="display: flex; align-items: center;">
+                                <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5>
+                                <% if task.user_tasks.first.status == "completed" %>
+                                    <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                    <% end %>
+                                    <% if task.user_tasks.first.status == "pending" %>
+                                    <span class="badge rounded-pill text-bg-info" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                    <% end %>
+                                    <% if task.user_tasks.first.status == "skipped" %>
+                                    <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                    <% end %>
+                                    <% if task.difficulty == 0 %>
+                                    <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad baja</span>
+                                    <% end %>
+                                    <% if task.difficulty == 1 %>
+                                    <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad media</span>
+                                    <% end %>
+                                    <% if task.difficulty == 2 %>
+                                    <span class="badge rounded-pill text-bg-danger" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad alta</span>
+                                    <% end %>
+                            </div>
+                            <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                            <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                            <% if task.user_tasks.first.status != "skipped" %>
+                                <% if task.join_user_alternative_questions.present? %>
+                                    <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                                    Ver</a>
+                                <% elsif task.join_user_numerical_questions.present? %>
+                                    <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                                    Ver</a>
+                                <% end %>
+                            <% end %>
+                        </div>
                     </div>
-                </div>
+                <% end %>
+                <% if task.user_tasks.first.status == "skipped" %>
+                    <div class="card grid-item m-2" id="<%= task.id %>" style="width: 18rem; opacity: 0.7;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                        <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+                        <div class="card-body">
+                            <div style="display: flex; align-items: center;">
+                                <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5>
+                                <% if task.user_tasks.first.status == "completed" %>
+                                    <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                    <% end %>
+                                    <% if task.user_tasks.first.status == "pending" %>
+                                    <span class="badge rounded-pill text-bg-info" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                    <% end %>
+                                    <% if task.user_tasks.first.status == "skipped" %>
+                                    <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                    <% end %>
+                                    <% if task.difficulty == 0 %>
+                                    <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad baja</span>
+                                    <% end %>
+                                    <% if task.difficulty == 1 %>
+                                    <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad media</span>
+                                    <% end %>
+                                    <% if task.difficulty == 2 %>
+                                    <span class="badge rounded-pill text-bg-danger" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad alta</span>
+                                    <% end %>
+                            </div>
+                            <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                            <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                            <% if task.user_tasks.first.status != "skipped" %>
+                                <% if task.join_user_alternative_questions.present? %>
+                                    <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                                    Ver</a>
+                                <% elsif task.join_user_numerical_questions.present? %>
+                                    <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                                    Ver</a>
+                                <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                <% end %>
             <% end %>
         </div>
     <% else %>
@@ -166,32 +268,19 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var gridItems = document.querySelectorAll('.grid-item');
-
-        gridItems.forEach(function(item) {
-            item.addEventListener('click', function() {
-                var taskId = this.dataset.taskId;
-                var taskComplexity = this.dataset.taskComplexity;
-
-                var url;
-
-                var csrfToken = document.querySelector("meta[name=csrf-token]").content;
-                $.ajax({
-                type: "POST",
-                url: "/redirect_to_task",
-                data: { complexity: taskComplexity, task: taskId },
-                headers: {
-                    "X-CSRF-Token": csrfToken
-                },
-                success: function(response) {
-                    var generatedUrl = response.url;
-                    window.location.href = generatedUrl;
-                }
-                });
-            });
+    function handle_skip(button) {
+        var taskId = button.dataset.taskId;
+        var csrfToken = document.querySelector("meta[name=csrf-token]").content;
+        $.ajax({
+            type: "POST",
+            url: "/update_state_skip",
+            data: { task_id: taskId },
+            headers: {
+                "X-CSRF-Token": csrfToken
+            }
         });
-    });
+        location.reload()
+    }
     
   document.addEventListener('DOMContentLoaded', function() {
     var canvasElements = document.querySelectorAll('.graficoDonut');

@@ -13,11 +13,14 @@
       </div>
 
       <a href="/" style="margin: 0 auto; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px; display: inline-block;">Volver a Tareas</a>
-    </div>
-    <% if @attempt == 1 %>
-      <div style="text-align: center;">
-        <a href="<%= task_alternative_question_path(@task, @task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" style="margin: 0 auto; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px; display: inline-block;">Realizar de nuevo</a>
+
       </div>
-    <% end %>
-  </div>
+        <% if @attempt == 1 %>
+          <div style="margin-top: 10px;">
+            <a href="<%= task_alternative_question_path(@task, @task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" style="margin: 0 auto; text-decoration: none; color: white; border: 2px solid #c73dff; background-color: #c73dff; border-radius: 8px; font-size: 18px; padding: 10px 20px; display: inline-block;">Realizar de nuevo</a>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <div>
 </div>

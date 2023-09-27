@@ -8,17 +8,21 @@
         <li class="nav-item p-2">
           <%= link_to 'Tasks', tasks_path, class: 'nav-link active' %>
         </li>
-        <li class="nav-item ml-auto p-2">
+        <li class="nav-item p-2">
           <%= button_to 'Log Out', destroy_user_session_path, method: :delete, class: 'nav-link' %>
         </li>
+        <div class = "card" style="margin-left: 450px; height: 60px; width: 350px; align-items: center;">
+          <div class ="card-body">
+            <div style="display: flex;">
+              <p style="margin-right: 10px;"><b>Tema Actual: </b><%= @themes[current_user.module] %></p>
+            </div>
+          </div>
+        </div>
       </ul>
     <% else %>
       <ul class="navbar-nav d-flex">
         <li class="nav-item p-2">
           <%= link_to 'Dashboard', root_path, class: 'nav-link active' %>
-        </li>
-        <li class="nav-item p-2">
-          <%= link_to 'All tasks', tasks_path, class: 'nav-link active' %>
         </li>
         <li class="nav-item p-2">
           <%= link_to 'Crear Pregunta de Alternativa', new_alternative_question_path, class: 'nav-link active' %>

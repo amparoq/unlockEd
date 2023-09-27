@@ -97,9 +97,13 @@ class AlternativeQuestionsController < ApplicationController
   def create
     @alternative_question = AlternativeQuestion.new(alternative_question_params)
     @alternative_question.difficulty = alternative_question_params[:difficulty].to_i
+    @users_s = User.student
 
     respond_to do |format|
       if @alternative_question.save
+        @users_s.each do |valid|
+          ValidAlternativeQuestion.create(user_id: valid.id, alternative_question_id: @alternative_question.id)
+        end
         format.html { redirect_to root_path, notice: "Alternative question was successfully created." }
         format.json { render :show, status: :created, location: @alternative_question }
       else

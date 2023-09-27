@@ -784,7 +784,7 @@ numcm3 = NumericalQuestion.create(
 # JoinUserNumericalQuestion.create(task_id: task9.id, numerical_question_id: numdf2.id)
 # JoinUserNumericalQuestion.create(task_id: task10.id, numerical_question_id: numdf3.id)
 
-u1= User.create(name: "David", last_name: "Diepold", module: 0, email: "daviddiepold@gmail.com", password: "123456")
+u1= User.create(name: "David", last_name: "Diepold", email: "daviddiepold@gmail.com", password: "123456")
 
-u2= User.create(name: "Hola", last_name: "Chao", module: 0, email: "hc@gmail.com", password: "123456")
+u2= User.create(name: "Hola", last_name: "Chao", email: "hc@gmail.com", password: "123456")
 teacher = User.create(name: "Profesor", last_name: "Morales", email: "pmorales@admin.cl", password: "123456", role: 1)

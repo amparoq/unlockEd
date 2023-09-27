@@ -37,6 +37,15 @@ class UserTask < ApplicationRecord
                 ord_num += 1
             end
         else
+            if self.task.difficulty == 0
+                diff = "low"
+            end
+            if self.task.difficulty == 1
+                diff = "medium"
+            end
+            if self.task.difficulty == 2
+                diff = "high"
+            end
             qNum = NumericalQuestion.find_by(module: self.task.module, difficulty: self.task.difficulty)
             JoinUserNumericalQuestion.create(task_id: self.task.id, numerical_question_id: qNum.id )
             ErrorCountNumerical.create(numerical_question_id: qNum.id, task_id: self.task.id, user_id: self.user.id)
@@ -46,9 +55,14 @@ class UserTask < ApplicationRecord
     def assign_next_task
         if self.previous_changes.include?(:status)
             new_status = self.previous_changes[:status][1]
-            if new_status == "completed"
+            if new_status == "completed" || new_status == "skipped"
+                if new_status == "skipped"
+                    self.user.experience = 0.9*self.user.experience
+                    self.user.save
+                end
                 #primero determino si pasa de modulo, retrocede, o se queda en el mismo:
                 if self.user.experience > 20 
+                    puts "ACAAAAAAAAAAAAAAAA1"
                     if self.user.module <= 4
                         self.user.module += 1
                         self.user.streak = 2
@@ -56,12 +70,13 @@ class UserTask < ApplicationRecord
                         self.user.save
                     end
                 elsif self.user.experience < -5
+                    puts "ACAAAAAAAAAAAAAAAA2"
                     if self.user.module > 0
                         self.user.module -= 1
                         self.user.streak = 1
                         self.user.experience = 5
                         self.user.save
-                        all_alternatives = self.valid_alternative_questions
+                        all_alternatives = self.user.valid_alternative_questions
                         all_alternatives.each do |al|
                             if al.alternative_question.module == self.user.module
                                 al.usable = true
