@@ -18,37 +18,39 @@ class UserTask < ApplicationRecord
     end
 
     def assign_questions
-        if self.task.complexity == "Simple"
-            opciones = ValidAlternativeQuestion.joins(:alternative_question)
-            .where(user_id: self.user.id, usable: true, alternative_questions: { module: self.task.module })
-            .pluck(:alternative_question_id)
-            a_usar = []
-            3.times do
-                break if opciones.empty?
-              
-                aleatorio = opciones.sample
-                a_usar << aleatorio
-                opciones.delete(aleatorio)
+        if self.user.module != 5
+            if self.task.complexity == "Simple"
+                opciones = ValidAlternativeQuestion.joins(:alternative_question)
+                .where(user_id: self.user.id, usable: true, alternative_questions: { module: self.task.module })
+                .pluck(:alternative_question_id)
+                a_usar = []
+                3.times do
+                    break if opciones.empty?
+                
+                    aleatorio = opciones.sample
+                    a_usar << aleatorio
+                    opciones.delete(aleatorio)
+                end
+                ord_num = 1
+                a_usar.each do |altid|
+                    JoinUserAlternativeQuestion.create(task_id: self.task.id, alternative_question_id: altid, order_number: ord_num)
+                    ErrorCountAlternative.create(task_id: self.task.id, alternative_question_id: altid, user_id: self.user.id)
+                    ord_num += 1
+                end
+            else
+                if self.task.difficulty == 0
+                    diff = "low"
+                end
+                if self.task.difficulty == 1
+                    diff = "medium"
+                end
+                if self.task.difficulty == 2
+                    diff = "high"
+                end
+                qNum = NumericalQuestion.find_by(module: self.task.module, difficulty: self.task.difficulty)
+                JoinUserNumericalQuestion.create(task_id: self.task.id, numerical_question_id: qNum.id )
+                ErrorCountNumerical.create(numerical_question_id: qNum.id, task_id: self.task.id, user_id: self.user.id)
             end
-            ord_num = 1
-            a_usar.each do |altid|
-                JoinUserAlternativeQuestion.create(task_id: self.task.id, alternative_question_id: altid, order_number: ord_num)
-                ErrorCountAlternative.create(task_id: self.task.id, alternative_question_id: altid, user_id: self.user.id)
-                ord_num += 1
-            end
-        else
-            if self.task.difficulty == 0
-                diff = "low"
-            end
-            if self.task.difficulty == 1
-                diff = "medium"
-            end
-            if self.task.difficulty == 2
-                diff = "high"
-            end
-            qNum = NumericalQuestion.find_by(module: self.task.module, difficulty: self.task.difficulty)
-            JoinUserNumericalQuestion.create(task_id: self.task.id, numerical_question_id: qNum.id )
-            ErrorCountNumerical.create(numerical_question_id: qNum.id, task_id: self.task.id, user_id: self.user.id)
         end
     end
 
@@ -63,7 +65,7 @@ class UserTask < ApplicationRecord
                 #primero determino si pasa de modulo, retrocede, o se queda en el mismo:
                 if self.user.experience > 20 
                     puts "ACAAAAAAAAAAAAAAAA1"
-                    if self.user.module <= 4
+                    if self.user.module <= 5
                         self.user.module += 1
                         self.user.streak = 2
                         self.user.experience = 5
@@ -114,8 +116,10 @@ class UserTask < ApplicationRecord
                 end
 
                 #creo la tarea
-                t = Task.create(module: self.user.module, complexity: new_complexity, difficulty: new_difficulty, number: self.user.task_number)
-                UserTask.create(user_id: self.user.id, task_id: t.id)
+                if self.user.module <= 4
+                    t = Task.create(module: self.user.module, complexity: new_complexity, difficulty: new_difficulty, number: self.user.task_number)
+                    UserTask.create(user_id: self.user.id, task_id: t.id)
+                end
             end
         end
     end

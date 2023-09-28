@@ -56,168 +56,181 @@
 
 </style>
 
-<% if current_user.student? %>
-<div style="margin-top: 20px; margin-left: 20px;"> 
-    <h1 style="font-weight: bold"> Home </h1>
-    <br>
-    <h4> Tareas pendientes </h4>
-    <div class="grid-container-wrapper">
-        <div class="row">
-            <div class="d-flex flex-wrap" style="width: 1000px;">
-                <meta name="csrf-token" content="<%= form_authenticity_token %>" />
-                <% @pending_tasks.each_with_index do |task, index| %>
-                    <div class="card grid-item m-2" id="<%= task.id %>" style="width: 18rem; opacity: 1;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
-                        <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
-                        <div class="card-body">
-                            <div style="display: flex; align-items: center;">
-                                <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5>
-                                <% if task.user_tasks.first.status == "completed" %>
-                                <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
-                                <% end %>
-                                <% if task.user_tasks.first.status == "pending" %>
-                                <span class="badge rounded-pill text-bg-info" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
-                                <% end %>
-                                <% if task.user_tasks.first.status == "skipped" %>
-                                <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
-                                <% end %>
-                                <% if task.difficulty == 0 %>
-                                <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px;">Dificultad baja</span>
-                                <% end %>
-                                <% if task.difficulty == 1 %>
-                                <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px;">Dificultad media</span>
-                                <% end %>
-                                <% if task.difficulty == 2 %>
-                                <span class="badge rounded-pill text-bg-danger" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px;">Dificultad alta</span>
-                                <% end %>
-                            </div>
-                            <p style="font-size: 14px;"> <%= task.complexity %> </p>
-                            <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
-                            <div style="display: flex;">
-                            <% if task.join_user_alternative_questions.present? %>
-                            <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
-                            Hacer</a>
-                            <% elsif task.join_user_numerical_questions.present? %>
-                            <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
-                            Hacer</a>
-                            <% end %>
-                            <% if task.user_tasks.first.attempt == 0 %>
-                                <div type="button" class="btn btn-danger" style="margin-left: 10px;" onclick="handle_skip(this)" data-task-id = "<%= task.id %>" >Saltar</div>
-                            <% end %>
-                            </div>
-                        </div>
+    <% if current_user.student? %>
+        <div style="margin-top: 20px; margin-left: 20px;"> 
+        <h1 style="font-weight: bold"> Home </h1>
+        <br>
+        <% if current_user.module == 5 %>
+            <div style="
+            display: flex;
+            height: 15vh;">
+                <div class="card m-2">
+                    <div class="card-body">
+                        <h5 class="card-title">¡Felicidades!</h5>
+                        <p class="card-text">Has terminado de estudiar los temas de termodinámica. ¡Eres un experto!</p>
                     </div>
-                <% end %>
+                </div>
+            </div>
+        <% else %>
+            <h4> Tareas pendientes </h4>
+            <div class="grid-container-wrapper">
+                <div class="row">
+                    <div class="d-flex flex-wrap" style="width: 1000px;">
+                        <meta name="csrf-token" content="<%= form_authenticity_token %>" />
+                        <% @pending_tasks.each_with_index do |task, index| %>
+                            <div class="card grid-item m-2" id="<%= task.id %>" style="width: 18rem; opacity: 1;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                                <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+                                <div class="card-body">
+                                    <div style="display: flex; align-items: center;">
+                                        <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5>
+                                        <% if task.user_tasks.first.status == "completed" %>
+                                        <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                        <% end %>
+                                        <% if task.user_tasks.first.status == "pending" %>
+                                        <span class="badge rounded-pill text-bg-info" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                        <% end %>
+                                        <% if task.user_tasks.first.status == "skipped" %>
+                                        <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                        <% end %>
+                                        <% if task.difficulty == 0 %>
+                                        <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px;">Dificultad baja</span>
+                                        <% end %>
+                                        <% if task.difficulty == 1 %>
+                                        <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px;">Dificultad media</span>
+                                        <% end %>
+                                        <% if task.difficulty == 2 %>
+                                        <span class="badge rounded-pill text-bg-danger" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px;">Dificultad alta</span>
+                                        <% end %>
+                                    </div>
+                                    <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                                    <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                                    <div style="display: flex;">
+                                    <% if task.join_user_alternative_questions.present? %>
+                                    <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                                    Hacer</a>
+                                    <% elsif task.join_user_numerical_questions.present? %>
+                                    <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                                    Hacer</a>
+                                    <% end %>
+                                    <% if task.user_tasks.first.attempt == 0 %>
+                                        <div type="button" class="btn btn-danger" style="margin-left: 10px;" onclick="handle_skip(this)" data-task-id = "<%= task.id %>" >Saltar</div>
+                                    <% end %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h4> Tareas pasadas del módulo </h4>
+            <% if @completed_or_skipped_tasks.present? %>
+                <div class="d-flex flex-wrap" style="width: 1000px;">
+                    <% @completed_or_skipped_tasks.each_with_index do |task, index| %>
+                        <% if task.user_tasks.first.status == "completed" %>
+                            <div class="card grid-item m-2" id="<%= task.id %>" style="width: 18rem; opacity: 1;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                                <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+                                <div class="card-body">
+                                    <div style="display: flex; align-items: center;">
+                                        <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5>
+                                        <% if task.user_tasks.first.status == "completed" %>
+                                            <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                            <% end %>
+                                            <% if task.user_tasks.first.status == "pending" %>
+                                            <span class="badge rounded-pill text-bg-info" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                            <% end %>
+                                            <% if task.user_tasks.first.status == "skipped" %>
+                                            <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                            <% end %>
+                                            <% if task.difficulty == 0 %>
+                                            <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad baja</span>
+                                            <% end %>
+                                            <% if task.difficulty == 1 %>
+                                            <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad media</span>
+                                            <% end %>
+                                            <% if task.difficulty == 2 %>
+                                            <span class="badge rounded-pill text-bg-danger" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad alta</span>
+                                            <% end %>
+                                    </div>
+                                    <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                                    <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                                    <% if task.user_tasks.first.status != "skipped" %>
+                                        <% if task.join_user_alternative_questions.present? %>
+                                            <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                                            Ver</a>
+                                        <% elsif task.join_user_numerical_questions.present? %>
+                                            <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                                            Ver</a>
+                                        <% end %>
+                                    <% end %>
+                                </div>
+                            </div>
+                        <% end %>
+                        <% if task.user_tasks.first.status == "skipped" %>
+                            <div class="card grid-item m-2" id="<%= task.id %>" style="width: 18rem; opacity: 0.7;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
+                                <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
+                                <div class="card-body">
+                                    <div style="display: flex; align-items: center;">
+                                        <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5>
+                                        <% if task.user_tasks.first.status == "completed" %>
+                                            <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                            <% end %>
+                                            <% if task.user_tasks.first.status == "pending" %>
+                                            <span class="badge rounded-pill text-bg-info" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                            <% end %>
+                                            <% if task.user_tasks.first.status == "skipped" %>
+                                            <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
+                                            <% end %>
+                                            <% if task.difficulty == 0 %>
+                                            <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad baja</span>
+                                            <% end %>
+                                            <% if task.difficulty == 1 %>
+                                            <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad media</span>
+                                            <% end %>
+                                            <% if task.difficulty == 2 %>
+                                            <span class="badge rounded-pill text-bg-danger" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad alta</span>
+                                            <% end %>
+                                    </div>
+                                    <p style="font-size: 14px;"> <%= task.complexity %> </p>
+                                    <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
+                                    <% if task.user_tasks.first.status != "skipped" %>
+                                        <% if task.join_user_alternative_questions.present? %>
+                                            <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
+                                            Ver</a>
+                                        <% elsif task.join_user_numerical_questions.present? %>
+                                            <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
+                                            Ver</a>
+                                        <% end %>
+                                    <% end %>
+                                </div>
+                            </div>
+                        <% end %>
+                    <% end %>
+                </div>
+            <% else %>
+                <div class="alert alert-primary d-flex flex-wrap" role="alert" style="width: 800px;">
+                    ¡Oops! Parece que todavía no terminas la primera tarea de <%= @themes[current_user.module] %> ¡Ve por ello!
+                </div>
+            <% end %>
+        <% end %>
+            <div class="vertical-line"></div>
+            <div style= "width: 250px; height: 300px; background-color: #d8d8d8; position: absolute; top: 120px; right: 110px; border: 2px solid #b8b9b9;"> 
+                <div style= "width: 246px; height: 100px; background-color: white; margin-top: 196px; border-top: 2px solid #b8b9b9;">
+                    <h3 style= "font-weight: bold; font-size: 17px; margin-top: 7px; margin-left: 65px;"><%= current_user.name + " " + current_user.last_name%></h3>
+                    <p style= "font-size: 12px; margin-left: 32px; margin-top: 0; margin-bottom: 5px;">Email: <%= current_user.email%></p>
+                    <p style= "font-size: 12px; margin-left: 32px; margin-top: 0; margin-bottom: 5px;">XP: <%= number_with_precision(current_user.experience, precision: 2) %> / 20</p>
+                </div>
+                <div>
+                    <h2 style= "margin-top: 10px; margin-left: 50px; font-weight: bold;"> Nivel del estudiante </h2>
+                    <div id="divEncimaDelChart" style="position: absolute; top: 470px; left: 63px; width: 117px; height: 117px; border-radius: 100px; background-color: rgba(255, 255, 255); z-index: 2; display: flex; align-items: center; justify-content: center;">
+                    <h1> <%= current_user.user_level.round(2) %> </h1>
+                    </div>
+                    <canvas class="graficoDonut"  data-level="<%= current_user.user_level %>" style= "width: 100px; height: 100px;"></canvas>
+                </div>
             </div>
         </div>
-    </div>
-    <br>
-    <h4> Tareas pasadas del módulo </h4>
-    <% if @completed_or_skipped_tasks.present? %>
-        <div class="d-flex flex-wrap" style="width: 1000px;">
-            <% @completed_or_skipped_tasks.each_with_index do |task, index| %>
-                <% if task.user_tasks.first.status == "completed" %>
-                    <div class="card grid-item m-2" id="<%= task.id %>" style="width: 18rem; opacity: 1;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
-                        <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
-                        <div class="card-body">
-                            <div style="display: flex; align-items: center;">
-                                <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5>
-                                <% if task.user_tasks.first.status == "completed" %>
-                                    <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
-                                    <% end %>
-                                    <% if task.user_tasks.first.status == "pending" %>
-                                    <span class="badge rounded-pill text-bg-info" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
-                                    <% end %>
-                                    <% if task.user_tasks.first.status == "skipped" %>
-                                    <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
-                                    <% end %>
-                                    <% if task.difficulty == 0 %>
-                                    <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad baja</span>
-                                    <% end %>
-                                    <% if task.difficulty == 1 %>
-                                    <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad media</span>
-                                    <% end %>
-                                    <% if task.difficulty == 2 %>
-                                    <span class="badge rounded-pill text-bg-danger" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad alta</span>
-                                    <% end %>
-                            </div>
-                            <p style="font-size: 14px;"> <%= task.complexity %> </p>
-                            <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
-                            <% if task.user_tasks.first.status != "skipped" %>
-                                <% if task.join_user_alternative_questions.present? %>
-                                    <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
-                                    Ver</a>
-                                <% elsif task.join_user_numerical_questions.present? %>
-                                    <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
-                                    Ver</a>
-                                <% end %>
-                            <% end %>
-                        </div>
-                    </div>
-                <% end %>
-                <% if task.user_tasks.first.status == "skipped" %>
-                    <div class="card grid-item m-2" id="<%= task.id %>" style="width: 18rem; opacity: 0.7;" data-task-id="<%= task.id %>" data-task-complexity="<%= task.complexity %>">
-                        <img class="card-img-top" src="<%= asset_path(@backgrounds_al.sample) %>" alt="imagen">
-                        <div class="card-body">
-                            <div style="display: flex; align-items: center;">
-                                <h5 style="font-weight: bold" class="card-title"> Tarea <%= task.number %> </h5>
-                                <% if task.user_tasks.first.status == "completed" %>
-                                    <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
-                                    <% end %>
-                                    <% if task.user_tasks.first.status == "pending" %>
-                                    <span class="badge rounded-pill text-bg-info" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
-                                    <% end %>
-                                    <% if task.user_tasks.first.status == "skipped" %>
-                                    <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 60px;"><%= task.user_tasks.first.status %></span>
-                                    <% end %>
-                                    <% if task.difficulty == 0 %>
-                                    <span class="badge rounded-pill text-bg-success" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad baja</span>
-                                    <% end %>
-                                    <% if task.difficulty == 1 %>
-                                    <span class="badge rounded-pill text-bg-secondary" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad media</span>
-                                    <% end %>
-                                    <% if task.difficulty == 2 %>
-                                    <span class="badge rounded-pill text-bg-danger" style="font-size: 0.6rem; margin-bottom: 5px; margin-left: 10px; margin-right: 10px;">Dificultad alta</span>
-                                    <% end %>
-                            </div>
-                            <p style="font-size: 14px;"> <%= task.complexity %> </p>
-                            <p style="font-size: 14px;" class="card-text"><b> <%= @themes[task.module.to_i] %> </b></p>
-                            <% if task.user_tasks.first.status != "skipped" %>
-                                <% if task.join_user_alternative_questions.present? %>
-                                    <a href="<%= task_alternative_question_path(task, task.join_user_alternative_questions.order(:order_number).first&.alternative_question) %>" class="btn btn-info">
-                                    Ver</a>
-                                <% elsif task.join_user_numerical_questions.present? %>
-                                    <a href="<%= task_numerical_question_path(task, task.join_user_numerical_questions.first.numerical_question_id) %>" class="btn btn-info">
-                                    Ver</a>
-                                <% end %>
-                            <% end %>
-                        </div>
-                    </div>
-                <% end %>
-            <% end %>
         </div>
     <% else %>
-        <div class="alert alert-primary d-flex flex-wrap" role="alert" style="width: 800px;">
-            ¡Oops! Parece que todavía no terminas la primera tarea de <%= @themes[current_user.module] %> ¡Ve por ello!
-        </div>
-    <% end %>
-        <div class="vertical-line"></div>
-        <div style= "width: 250px; height: 300px; background-color: #d8d8d8; position: absolute; top: 120px; right: 110px; border: 2px solid #b8b9b9;"> 
-            <div style= "width: 246px; height: 100px; background-color: white; margin-top: 196px; border-top: 2px solid #b8b9b9;">
-                <h3 style= "font-weight: bold; font-size: 17px; margin-top: 7px; margin-left: 65px;"><%= current_user.name + " " + current_user.last_name%></h3>
-                <p style= "font-size: 12px; margin-left: 32px; margin-top: 0; margin-bottom: 5px;">Email: <%= current_user.email%></p>
-                <p style= "font-size: 12px; margin-left: 32px; margin-top: 0; margin-bottom: 5px;">XP: <%= number_with_precision(current_user.experience, precision: 2) %> / 20</p>
-            </div>
-            <div>
-                <h2 style= "margin-top: 10px; margin-left: 50px; font-weight: bold;"> Nivel del estudiante </h2>
-                <div id="divEncimaDelChart" style="position: absolute; top: 470px; left: 63px; width: 117px; height: 117px; border-radius: 100px; background-color: rgba(255, 255, 255); z-index: 2; display: flex; align-items: center; justify-content: center;">
-                   <h1> <%= current_user.user_level.round(2) %> </h1>
-                </div>
-                <canvas class="graficoDonut"  data-level="<%= current_user.user_level %>" style= "width: 100px; height: 100px;"></canvas>
-            </div>
-        </div>
-    </div>
-    </div>
-<% else %>
     <div style= "margin-top: 20px; margin-left: 20px;"> 
     <h1 style= "font-weight: bold"> Home </h1>
     <br>
@@ -290,7 +303,7 @@
       var ctx = canvas.getContext('2d');
 
       var data = {
-        labels: ["Progreso"],
+        labels: ["Nivel de usuario"],
         datasets: [{
           data: [level, 10 - level],
           backgroundColor: [

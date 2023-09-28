@@ -18,6 +18,12 @@
 
 <div style="display: flex; flex-direction: column; margin-top: 50px; margin-left: 200px;">
   <div>
+    <% if @respuesta.present? %>
+      <%= @respuesta %>
+    <% else %>
+      <%= @respuesta1 %>
+      <%= @respuesta2 %>
+    <% end %>
     <div style= "display: flex; align-items: center; margin-bottom: 24px;"> 
       <h3 style="margin-right: 15px;"><b>Tarea</b></h3> 
       <h3><b><%= @task.number%></b></h3>
@@ -208,7 +214,9 @@ function handleSendOne() {
   var inputValue = parseFloat(document.getElementById("myAnswer").value);
   var realAnswer = parseFloat("<%= @respuesta %>")
   var errorCounter = parseInt("<%= @error_count %>")
-  if (inputValue >= realAnswer - 0.5 && inputValue <= realAnswer + 0.5) {
+  var realAbs = Math.abs(realAnswer)
+  var inputAbs = Math.abs(inputValue)
+  if ((inputAbs >= realAbs*0.90 && inputAbs <= realAbs*1.10) && (realAnswer/realAbs === inputValue/inputAbs)) {
     errorCounter = 0;
   } else {
     if (errorCounter === -1) {
@@ -233,10 +241,15 @@ function handleSendDouble() {
   var inputValueB = parseFloat(document.getElementById("myAnswerB").value);
   var realAnswerA = parseFloat("<%= @respuesta1 %>")
   var realAnswerB = parseFloat("<%= @respuesta2 %>")
-  console.log(realAnswerA)
-  console.log(realAnswerB)
+  var realAbsA = Math.abs(realAnswerA)
+  var inputAbsA = Math.abs(inputValueA)
+  var realAbsB = Math.abs(realAnswerB)
+  var inputAbsB = Math.abs(inputValueB)
   var errorCounterD = parseInt("<%= @error_count %>")
-  if ((inputValueA >= realAnswerA*0.90 && inputValueA <= realAnswerA*1.10) && (inputValueB >= realAnswerB - 0.5 && inputValueB <= realAnswerB + 0.5)) {
+  if ((inputAbsA >= realAbsA*0.90 && inputAbsA <= realAbsA*1.10) && 
+    (inputAbsB >= realAbsB*0.90 && inputAbsB <= realAbsB*1.10) && 
+    (Math.sign(realAnswerA) === Math.sign(inputValueA)) && 
+    (Math.sign(realAnswerB) === Math.sign(inputValueB))) {
     errorCounterD = 0;
   }
   else{
