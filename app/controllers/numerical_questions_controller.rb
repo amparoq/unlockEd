@@ -107,15 +107,15 @@ class NumericalQuestionsController < ApplicationController
       @v2 = UserQuestionValue.find_by(value_name: "v2", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
       @n = UserQuestionValue.find_by(value_name: "n", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
     elsif @numerical_question.template == 5
-      temp_cVap = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, task_id: @task.id)[:value]
-      @presion_sat_temp = presion_per_temp[temp_cVap]
-      @volumen_agua_saturada = result_hash[temp_cVap]
-      @volumen_vapor_saturado = result_vap[temp_cVap]
-      @masa_total = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, task_id: @task.id)[:value]
-      @masa_agua = UserQuestionValue.find_by(value_name: "masa_kg_men", user_id: current_user.id, task_id: @task.id)[:value]
+      @temp_cVap = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @presion_sat_temp = presion_per_temp[@temp_cVap]
+      @volumen_agua_saturada = result_hash[@temp_cVap]
+      @volumen_vapor_saturado = result_vap[@temp_cVap]
+      @masa_total = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @masa_agua = UserQuestionValue.find_by(value_name: "masa_kg_men", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
       @masa_vap = @masa_total - @masa_agua
     elsif @numerical_question.template == 6
-      @presion_134a = UserQuestionValue.find_by(value_name: "presion_134a", user_id: current_user.id, task_id: @task.id)[:value]
+      @presion_134a = UserQuestionValue.find_by(value_name: "presion_134a", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
       if @presion_134a.to_i == @presion_134a
         @temp_134 = temp_per_presion134[@presion_134a.to_i]
       else
@@ -124,20 +124,20 @@ class NumericalQuestionsController < ApplicationController
       @volumen_L = UserQuestionValue.find_by(value_name: "volumen_L", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
       @masa_kg = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
     elsif @numerical_question.template == 7
-      @masa_g = UserQuestionValue.find_by(value_name: "masa_g", user_id: current_user.id, task_id: @task.id)[:value]
-      @temp_hielo = UserQuestionValue.find_by(value_name: "temp_hielo", user_id: current_user.id, task_id: @task.id)[:value]
-      @temp_agua = UserQuestionValue.find_by(value_name: "temp_agua", user_id: current_user.id, task_id: @task.id)[:value]
+      @masa_g = UserQuestionValue.find_by(value_name: "masa_g", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @temp_hielo = UserQuestionValue.find_by(value_name: "temp_hielo", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @temp_agua = UserQuestionValue.find_by(value_name: "temp_agua", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
     elsif @numerical_question.template == 8
-      @masa_kg = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, task_id: @task.id)[:value]
-      @Q = UserQuestionValue.find_by(value_name: "Q", user_id: current_user.id, task_id: @task.id)[:value]
+      @masa_kg = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @Q = UserQuestionValue.find_by(value_name: "Q", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
     elsif @numerical_question.template == 9
-      @masa_g = UserQuestionValue.find_by(value_name: "masa_g", user_id: current_user.id, task_id: @task.id)[:value]
-      @temp_hielo = UserQuestionValue.find_by(value_name: "temp_hielo", user_id: current_user.id, task_id: @task.id)[:value]
-      @temp_vapor = UserQuestionValue.find_by(value_name: "temp_vapor", user_id: current_user.id, task_id: @task.id)[:value]
+      @masa_g = UserQuestionValue.find_by(value_name: "masa_g", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @temp_hielo = UserQuestionValue.find_by(value_name: "temp_hielo", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @temp_vapor = UserQuestionValue.find_by(value_name: "temp_vapor", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
     elsif @numerical_question.template == 10
-      @volumen_L = UserQuestionValue.find_by(value_name: "volumen_L", user_id: current_user.id, task_id: @task.id)[:value]
-      @masa_kg = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, task_id: @task.id)[:value]
-      @presion_134a = UserQuestionValue.find_by(value_name: "presion_134a", user_id: current_user.id, task_id: @task.id)[:value]
+      @volumen_L = UserQuestionValue.find_by(value_name: "volumen_L", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @masa_kg = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @presion_134a = UserQuestionValue.find_by(value_name: "presion_134a", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
       volumenes_134.each do |v134|
         if v134["p"] == @presion_134a
           @vol_liq134 = v134["v_liq"]
@@ -146,9 +146,9 @@ class NumericalQuestionsController < ApplicationController
       end
       @v = @volumen_L/@masa_kg
     elsif @numerical_question.template == 12
-      @volumen_L = UserQuestionValue.find_by(value_name: "volumen_L", user_id: current_user.id, task_id: @task.id)[:value]
-      @masa_kg = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, task_id: @task.id)[:value]
-      temp_cVap = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, task_id: @task.id)[:value]
+      @volumen_L = UserQuestionValue.find_by(value_name: "volumen_L", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @masa_kg = UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      temp_cVap = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
       @volumen_agua_saturada = result_hash[temp_cVap]
       @volumen_vapor_saturado = result_vap[temp_cVap]
       @v = @volumen_L/@masa_kg
@@ -160,14 +160,14 @@ class NumericalQuestionsController < ApplicationController
     elsif @numerical_question.template == 14
       @volumen_L = UserQuestionValue.find_by(value_name: "volumen_L", user_id: current_user.id, task_id: @task.id)[:value]
       @t1C = UserQuestionValue.find_by(value_name: "t1C", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-      @t2C = UserQuestionValue.find_by(value_name: "t1C", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @t2C = UserQuestionValue.find_by(value_name: "t2C", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
     elsif @numerical_question.template == 15
       @n = UserQuestionValue.find_by(value_name: "n", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
-      @temp_agua = UserQuestionValue.find_by(value_name: "temp_agua", user_id: current_user.id, task_id: @task.id)[:value]
+      @temp_agua = UserQuestionValue.find_by(value_name: "temp_agua", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
     end
 
-    if UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, task_id: @task.id).present?
-      @valor_temp = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, task_id: @task.id)[:value]
+    if UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id).present?
+      @valor_temp = UserQuestionValue.find_by(value_name: "temperatura_C_vap", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
       @volumen_agua_saturada = result_hash[@valor_temp]
     end
     @enunciado = UserQuestionValue.find_by(user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id).statement
@@ -175,13 +175,13 @@ class NumericalQuestionsController < ApplicationController
     #Respuestas
     if @numerical_question.template == 1
       @two_answer = false
-      @respuesta = @volumen_agua_saturada*UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, task_id: @task.id)[:value]
+      @respuesta = @volumen_agua_saturada*UserQuestionValue.find_by(value_name: "masa_kg", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
     end
     if @numerical_question.template == 2
-      @p1 = UserQuestionValue.find_by(value_name: "p1", user_id: current_user.id, task_id: @task.id)[:value]
-      @p2 = UserQuestionValue.find_by(value_name: "p2", user_id: current_user.id, task_id: @task.id)[:value]
-      @v1 = UserQuestionValue.find_by(value_name: "v1", user_id: current_user.id, task_id: @task.id)[:value]
-      @v2 = UserQuestionValue.find_by(value_name: "v2", user_id: current_user.id, task_id: @task.id)[:value]
+      @p1 = UserQuestionValue.find_by(value_name: "p1", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @p2 = UserQuestionValue.find_by(value_name: "p2", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @v1 = UserQuestionValue.find_by(value_name: "v1", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
+      @v2 = UserQuestionValue.find_by(value_name: "v2", user_id: current_user.id, numerical_question_id: @numerical_question.id, task_id: @task.id)[:value]
       if @p2 && @v2 && @p1 && @v1
         @respuesta1 = 2.5 * (@p2 * @v2 - @p1 * @v1)
       else

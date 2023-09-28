@@ -39,28 +39,29 @@
         <div style="margin-top: 20px; margin-left: 20px; margin-right: 20px; text-align: center;">
           <span style="font-size: 21px;"><%= @enunciado %></span>
           <br>
-          <% if @numerical_question.id == 1 %>
+          <% if @numerical_question.template == 1 %> <!-- (m0-d1) -->
             <div style="position: relative; display: inline-block;">
               <img src="https://i.pinimg.com/564x/91/d7/a5/91d7a5033e09c0548228ed8614ac65f7.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
-              <span style="font-size: 16px; font-weight: bold; position: absolute; top: 49%; left: 4px; transform: translate(0, -50%);"><%= @valor_temp %>ºC</span>
+              <span style="font-size: 16px; font-weight: bold; position: absolute; top: 56%; left: 0px; transform: translate(0, -50%);"><%= @valor_temp %></span>
               <span style="font-size: 16px; font-weight: bold; font-style: italic; position: absolute; top: 15%; left: 90px; transform: translate(0, -50%);">P=<%= @presion %> kPa</span>
             </div>
-          <% elsif @numerical_question.id == 2 %>
+          <% elsif @numerical_question.template == 2 %>  <!-- (m1-d2) -->
+            <br>
             <div style="position: relative; display: inline-block;">
-              <img src="https://i.pinimg.com/564x/d1/b8/47/d1b847f6dbf48f912e5e7d8b2d0b0b5e.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
-              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 25%; left: 10px; transform: translate(0, -50%);"><%= @p1 %></span>
-              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 74%; left: 10px; transform: translate(0, -50%);"><%= @p2 %></span>
-              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 95%; left: 90px; transform: translate(0, -50%);"><%= @v1 %></span>
-              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 95%; left: 170px; transform: translate(0, -50%);"><%= @v2 %></span>
+              <img src="https://i.pinimg.com/564x/d1/b8/47/d1b847f6dbf48f912e5e7d8b2d0b0b5e.jpg" alt="Image Description" width="270" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 25%; left: 10px; transform: translate(0, -50%);"><%= @p1 %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 74%; left: 10px; transform: translate(0, -50%);"><%= @p2 %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 95%; left: 80px; transform: translate(0, -50%);"><%= @v1 %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 95%; left: 155px; transform: translate(0, -50%);"><%= @v2 %></span>
             </div>
-          <% elsif @numerical_question.template == 3 %>
+          <% elsif @numerical_question.template == 3 %>  <!-- (m1-d0) -->
             <div style="position: relative; display: inline-block;">
               <img src="https://i.pinimg.com/564x/f7/92/f2/f792f21f0b150675adf8a19e62b8b6be.jpg" alt="Image Description" width="170" height="200" style="display: block; margin: 0 auto;">
               <span style="font-size: 18px; font-weight: bold; position: absolute; top: 30%; left: 50px; transform: translate(0, -50%);">1 atm</span>
               <span style="font-size: 18px; font-weight: bold; position: absolute; top: 45%; left: 50px; transform: translate(0, -50%);"><%= @t_agua_sat %> °C</span>
               <span style="font-size: 18px; font-weight: bold; position: absolute; top: 60%; left: 50px; transform: translate(0, -50%);"><%= @masa_kg_val %> kg</span>
             </div>
-          <% elsif @numerical_question.template == 4 %>
+          <% elsif @numerical_question.template == 4 %>  <!-- (m1-d1) -->
             <div style="position: relative; display: inline-block;">
               <img src="https://i.pinimg.com/564x/ce/64/41/ce64413634e4a4c0be46d54b3e9eaf08.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
               <span style="font-size: 15px; font-weight: bold; position: absolute; top: 90%; left: 95px; transform: translate(0, -50%);"><%= @v1 %></span>
@@ -68,13 +69,66 @@
               <span style="font-size: 15px; font-weight: bold; position: absolute; top: 20%; left: 150px; transform: translate(0, -50%);">T= <%= @t1 %> K</span>
               <span style="font-size: 15px; font-weight: bold; position: absolute; top: 30%; left: 150px; transform: translate(0, -50%);"><%= @n %> moles</span>
             </div>
-          <% elsif @numerical_question.template == 6 %>
+          <% elsif @numerical_question.template == 5 %> <!-- (m0-d2) -->
+            <div style="position: relative; display: inline-block;">
+              <img src="https://i.pinimg.com/564x/7f/8b/bd/7f8bbd1e7e4a6aead601a6a9535911f5.jpg" alt="Image Description" width="400" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 18px; font-weight: bold; position: absolute; top: 35%; left: 300px; transform: translate(0, -50%);"><%= @temp_cVap %> ºC</span>
+              <span style="font-size: 18px; font-weight: bold; position: absolute; top: 50%; left: 300px; transform: translate(0, -50%);"><%= @masa_total %> kg</span>
+              <span style="font-size: 30px; font-weight: bold; position: absolute; top: 65%; left: 150px; transform: translate(0, -50%);"><%= @masa_agua %> kg</span>
+            </div>
+          <% elsif @numerical_question.template == 6 %>  <!-- (m0-d0) -->
             <div style="position: relative; display: inline-block;">
               <img src="https://i.pinimg.com/564x/4e/89/1d/4e891d898ba9ec1df1103bde53a13d67.jpg" alt="Image Description" width="170" height="200" style="display: block; margin: 0 auto;">
               <span style="font-size: 18px; font-weight: bold; position: absolute; top: 25%; left: 40px; transform: translate(0, -50%);">R-134a</span>
               <span style="font-size: 18px; font-weight: bold; position: absolute; top: 40%; left: 40px; transform: translate(0, -50%);"><%= @presion_134a %> kPa</span>
               <span style="font-size: 18px; font-weight: bold; position: absolute; top: 55%; left: 40px; transform: translate(0, -50%);"><%= @volumen_L %> L</span>
               <span style="font-size: 18px; font-weight: bold; position: absolute; top: 70%; left: 40px; transform: translate(0, -50%);"><%= @masa_kg %> kg</span>
+            </div>
+          <% elsif @numerical_question.template == 7 %>  <!-- (m2-d1) -->
+          <br>
+            <div style="position: relative; display: inline-block;">
+              <img src="https://i.pinimg.com/564x/3f/46/78/3f46789f0847fa1deb4aebb0447e9a23.jpg" alt="Image Description" width="400" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 50%; left: 80px; transform: translate(0, -50%);"><%= @masa_g %> g</span>
+              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 60%; left: 80px; transform: translate(0, -50%);"><%= @temp_hielo %> ºC</span>
+              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 35%; left: 280px; transform: translate(0, -50%);"><%= @temp_agua %> ºC</span>
+            </div>
+          <% elsif @numerical_question.template == 8 %>  <!-- (m2-d0) -->
+          <% elsif @numerical_question.template == 9 %>  <!-- (m2-d2) -->
+          <br>
+            <div style="position: relative; display: inline-block;">
+              <img src="https://i.pinimg.com/564x/6e/39/15/6e3915cbb0438846da1e5bbd1cd2221c.jpg" alt="Image Description" width="400" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 50%; left: 90px; transform: translate(0, -50%);"><%= @masa_g %> g</span>
+              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 60%; left: 90px; transform: translate(0, -50%);"><%= @temp_hielo %> ºC</span>
+              <span style="font-size: 15px; font-weight: bold; position: absolute; top: 25%; left: 280px; transform: translate(0, -50%);"><%= @temp_vapor %> ºC</span>
+            </div>
+          <% elsif @numerical_question.template == 11 %>  <!-- (m4-d0) Tanque -->
+          <% elsif @numerical_question.template == 13 %>  <!-- (m3-d0) -->
+          <br>
+            <div style="position: relative; display: inline-block;">
+              <img src="https://i.pinimg.com/564x/f8/ca/3a/f8ca3a2357478db086a0acf6da3d28a4.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 24%; left: 0px; transform: translate(0, -50%);"><%= @p2pa %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 70%; left: 0px; transform: translate(0, -50%);"><%= @p1pa %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 95%; left: 90px; transform: translate(0, -50%);"><%= @v1 %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 95%; left: 170px; transform: translate(0, -50%);"><%= @v2 %></span>
+            </div>
+          <% elsif @numerical_question.template == 14 %>  <!-- (m3-d1) -->
+          <br>
+            <div style="position: relative; display: inline-block;">
+              <img src="https://i.pinimg.com/564x/0f/42/cd/0f42cd30f20d38f2937e21786bd6083f.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 25%; left: 28px; transform: translate(0, -50%);"><%= @t2C %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 70%; left: 28px; transform: translate(0, -50%);"><%= @t1C %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 95%; left: 90px; transform: translate(0, -50%);"><%= @volumen_L %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 95%; left: 177px; transform: translate(0, -50%);"> ? </span>
+            </div>
+          <% elsif @numerical_question.template == 15 %>  <!-- (m3-d2) -->
+          <br>
+            <div style="position: relative; display: inline-block;">
+              <img src="https://i.pinimg.com/564x/9b/12/c7/9b12c737d125f5b386c9a1969169acb5.jpg" alt="Image Description" width="300" height="200" style="display: block; margin: 0 auto;">
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 25%; left: 25px; transform: translate(0, -50%);">100</span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 68%; left: 25px; transform: translate(0, -50%);"><%= @temp_agua %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 93%; left: 90px; transform: translate(0, -50%);"><%= @p1pa %></span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 95%; left: 177px; transform: translate(0, -50%);">?</span>
+              <span style="font-size: 13px; font-weight: bold; position: absolute; top: 25%; left: 210px; transform: translate(0, -50%);"><%= @n %> moles</span>
             </div>
           <% end %>
         </div>
